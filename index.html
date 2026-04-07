@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Adventure Scout — Live Conditions</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d1117; --card: #161b22; --border: rgba(255,255,255,0.06);
+    --t1: #e6edf3; --t2: #7d8590; --t3: #444;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--t1); font-family: 'IBM Plex Sans', -apple-system, sans-serif; min-height: 100vh; padding: 16px; }
+  .wrap { max-width: 700px; margin: 0 auto; }
+  header { text-align: center; margin-bottom: 24px; }
+  header h1 { font: 700 24px/1.2 'Space Mono', monospace; }
+  header p { font-size: 13px; color: var(--t2); margin-top: 4px; }
+  .controls { margin-top: 12px; display: flex; justify-content: center; align-items: center; gap: 10px; }
+  .btn { padding: 7px 18px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.04); color: var(--t1); font: 600 13px 'IBM Plex Sans', sans-serif; cursor: pointer; transition: .2s; }
+  .btn:hover { background: rgba(255,255,255,0.08); }
+  .btn:disabled { color: #555; cursor: not-allowed; }
+  .timestamp { font: 11px 'JetBrains Mono', monospace; color: var(--t3); }
+
+  .profile { background: var(--card); border-radius: 14px; padding: 18px 16px; margin-bottom: 14px; border: 1px solid var(--border); }
+  .profile.has-alerts { border-color: var(--profile-accent, #4da8da)33; }
+  .profile-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+  .profile-emoji { font-size: 26px; }
+  .profile-info { flex: 1; }
+  .profile-info h2 { font: 700 16px 'Space Mono', monospace; color: var(--t1); }
+  .profile-info p { font-size: 11px; color: var(--t2); margin-top: 2px; }
+  .profile-best { text-align: center; }
+  .profile-best .label { font: 9px 'JetBrains Mono', monospace; color: var(--t3); letter-spacing: 1px; margin-top: 1px; }
+
+  .loc { border-radius: 10px; padding: 10px 12px; margin-bottom: 6px; cursor: pointer; transition: .2s; border: 1px solid var(--border); background: rgba(255,255,255,0.02); }
+  .loc.top { border-color: var(--grade-color, #555)33; }
+  .loc-row { display: flex; align-items: center; gap: 8px; }
+  .loc-rank { font: 700 12px 'JetBrains Mono', monospace; width: 20px; text-align: center; flex-shrink: 0; }
+  .loc-info { flex: 1; min-width: 0; }
+  .loc-name { font-weight: 600; font-size: 13px; }
+  .loc-meta { font-size: 11px; color: var(--t2); }
+  .loc-links { display: flex; gap: 4px; flex-shrink: 0; }
+  .loc-links a { font-size: 10px; padding: 3px 7px; border-radius: 4px; text-decoration: none; font-weight: 600; border: 1px solid; background: rgba(255,255,255,0.06); white-space: nowrap; }
+  .loc-expand { font-size: 13px; color: #555; flex-shrink: 0; transition: transform .2s; }
+  .loc-expand.open { transform: rotate(180deg); }
+
+  .criteria { margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--border); display: none; }
+  .criteria.open { display: block; }
+  .crit-row { display: flex; align-items: center; gap: 6px; font-size: 12px; margin-bottom: 5px; }
+  .crit-label { width: 120px; color: var(--t2); flex-shrink: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .crit-bar-bg { flex: 1; height: 5px; background: var(--border); border-radius: 3px; overflow: hidden; }
+  .crit-bar { height: 100%; border-radius: 3px; transition: width .6s ease-out; }
+  .crit-val { width: 36px; text-align: right; font: 11px 'JetBrains Mono', monospace; color: var(--t2); }
+  .crit-req { width: 14px; text-align: center; font-size: 10px; }
+
+  .status-box { text-align: center; padding: 36px; color: var(--t2); }
+  .status-box .icon { font-size: 28px; margin-bottom: 10px; }
+  .status-box .msg { font-size: 13px; font-weight: 500; }
+  .status-box .sub { font-size: 11px; color: var(--t3); margin-top: 4px; }
+  .error-box { padding: 16px; background: rgba(232,93,74,0.08); border-radius: 10px; border: 1px solid rgba(232,93,74,0.2); margin-bottom: 14px; }
+  .error-box h3 { color: #e85d4a; font-size: 13px; margin-bottom: 4px; }
+  .error-box p { color: var(--t2); font-size: 11px; word-break: break-word; line-height: 1.4; }
+  .error-box button { margin-top: 8px; padding: 5px 12px; border-radius: 5px; border: 1px solid rgba(232,93,74,0.3); background: rgba(232,93,74,0.1); color: #e85d4a; font-size: 11px; cursor: pointer; font-weight: 600; }
+
+  footer { text-align: center; padding: 12px 0 6px; font-size: 10px; color: #333; }
+
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: .4; } }
+  .pulse { animation: pulse 1.5s ease-in-out infinite; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+  .fade-up { animation: fadeUp .4s ease-out; }
+
+  svg.ring text { fill: var(--t1); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>🏔 Adventure Scout</h1>
+    <p>Live NOAA/NWS condition scoring · Washington adventures</p>
+    <div class="controls">
+      <button class="btn" id="refreshBtn" onclick="runScout()">↻ Refresh</button>
+      <span class="timestamp" id="lastRun"></span>
+    </div>
+  </header>
+  <div id="statusArea"></div>
+  <div id="resultsArea"></div>
+  <footer id="footerEl" style="display:none">
+    Data from NOAA/NWS api.weather.gov · Top 3 get forecast links · Click rows to expand criteria
+  </footer>
+</div>
+
+<script>
+// ── Profile Definitions ──────────────────────────────────────────────────────
+const PROFILES = [
+  {
+    name: "Bluebird Powder Day", emoji: "🏔", accent: "#4da8da",
+    description: "Fresh powder + clear skies on WA ski mountains",
+    locations: [
+      { name: "Crystal Mountain", lat: 46.9354, lon: -121.5045, elevation: 6872 },
+      { name: "Stevens Pass", lat: 47.7448, lon: -121.0890, elevation: 4061 },
+      { name: "Mt. Baker", lat: 48.8566, lon: -121.6644, elevation: 5089 },
+      { name: "Snoqualmie Pass", lat: 47.4281, lon: -121.4138, elevation: 3022 },
+    ],
+    criteria: [
+      { field: "cloud_cover_pct",           label: "Clear skies",         op: "<=", threshold: 20, required: true,  weight: 20, ideal: 0,  curve: "linear", failLabel: "Too cloudy" },
+      { field: "temperature_f",             label: "Cold for powder",     op: "<=", threshold: 32, required: true,  weight: 15, ideal: 22, curve: "linear", failLabel: "Too warm for powder" },
+      { field: "overnight_snowfall_in",     label: "Fresh snow",          op: ">=", threshold: 8,  required: true,  weight: 40, ideal: 18, curve: "linear", failLabel: "No fresh snow" },
+      { field: "overnight_low_f",           label: "Overnight freeze",    op: "<=", threshold: 26, required: true,  weight: 15, ideal: 15, curve: "linear", failLabel: "Didn't freeze overnight" },
+      { field: "wind_speed_mph",            label: "Manageable wind",     op: "<=", threshold: 25, required: false, weight: 10, ideal: 5,  curve: "linear" },
+    ],
+    scoring: { pass: 60, highlight: 85 },
+  },
+  {
+    name: "Corn Harvest", emoji: "🌽", accent: "#e8a838",
+    description: "Backcountry corn snow — freeze-thaw perfection on WA ski tours over 7k ft",
+    locations: [
+      // Coordinates placed in the actual ski zone (~7,000–9,000 ft) for accurate
+      // freeze-thaw temperature scoring. Extreme summits (Adams, Rainier) use
+      // upper-mountain points below the NWS gridpoint ceiling.
+      { name: "Mt. Adams (SW Chutes)",          lat: 46.1860, lon: -121.4920, elevation: 12281 },  // SW Chutes ski zone ~8,000 ft
+      { name: "Mt. Rainier (Muir Snowfield)",   lat: 46.8030, lon: -121.7370, elevation: 14411 },  // Muir Snowfield ~8,500 ft
+      { name: "Mt. Baker (Park Glacier)",       lat: 48.7520, lon: -121.8135, elevation: 10781 },  // Upper Coleman/Park Glacier ~7,500 ft
+      { name: "Black Peak",                     lat: 48.5175, lon: -120.6790, elevation: 8970  },  // South face ~8,500 ft
+      { name: "Mt. Shuksan (Sulphide Glacier)", lat: 48.8210, lon: -121.6010, elevation: 9131  },  // Sulphide Glacier ~7,500 ft
+      { name: "Sahale Peak",                    lat: 48.4980, lon: -121.0640, elevation: 8680  },  // Upper Sahale Arm ~7,200 ft
+      { name: "Glacier Peak",                   lat: 48.1270, lon: -121.1790, elevation: 10525 },  // Kennedy Glacier ~7,500 ft
+      { name: "Mt. Stuart",                     lat: 47.4600, lon: -120.8940, elevation: 9415  },  // Upper Cascadian Couloir ~8,000 ft
+      { name: "Mt. Daniel",                     lat: 47.4274, lon: -121.0269, elevation: 7960  },  // Summit plateau ~7,800 ft
+      { name: "Mt. St. Helens",                 lat: 46.1840, lon: -122.1970, elevation: 8365  },  // Monitor Ridge ~6,500 ft
+    ],
+    criteria: [
+      { field: "overnight_low_f",            label: "Hard overnight freeze",          op: "<=", threshold: 28, required: true,  weight: 30, ideal: 20, curve: "linear", failLabel: "No overnight freeze" },
+      { field: "temperature_f",              label: "Warm enough to soften",          op: ">=", threshold: 36, required: true,  weight: 25, ideal: 45, curve: "linear", failLabel: "Too cold to soften" },
+      { field: "cloud_cover_pct",            label: "Sunny (solar heat drives corn)", op: "<=", threshold: 25, required: true,  weight: 25, ideal: 5,  curve: "linear", failLabel: "Too cloudy" },
+      { field: "wind_speed_mph",             label: "Low wind",                       op: "<=", threshold: 15, required: false, weight: 10, ideal: 3,  curve: "linear" },
+      { field: "precipitation_probability_pct", label: "No new precipitation",        op: "<=", threshold: 10, required: false, weight: 10, ideal: 0,  curve: "step" },
+    ],
+    scoring: { pass: 60, highlight: 85 },
+  },
+  {
+    name: "Nightsky Backpacking", emoji: "🌌", accent: "#7b68ee",
+    description: "Clear dark skies for stargazing overnights",
+    locations: [
+      { name: "Enchantments", lat: 47.5282, lon: -120.8253, elevation: 4400 },
+      { name: "Goat Rocks", lat: 46.4675, lon: -121.5025, elevation: 5600 },
+      { name: "Mt. Rainier Sunrise", lat: 46.9145, lon: -121.6415, elevation: 6400 },
+      { name: "North Cascades", lat: 48.4748, lon: -121.0750, elevation: 5400 },
+    ],
+    criteria: [
+      { field: "cloud_cover_pct",            label: "Clear sky for stargazing",       op: "<=",      threshold: 15, required: true,  weight: 35, ideal: 0,  curve: "linear", failLabel: "Too cloudy for stars" },
+      { field: "humidity_pct",               label: "Low humidity (transparency)",    op: "<=",      threshold: 55, required: false, weight: 20, ideal: 25, curve: "linear" },
+      { field: "precipitation_probability_pct", label: "Dry conditions",             op: "<=",      threshold: 15, required: true,  weight: 15, ideal: 0,  curve: "linear", failLabel: "Rain expected" },
+      { field: "wind_speed_mph",             label: "Calm wind at camp",              op: "<=",      threshold: 15, required: false, weight: 15, ideal: 3,  curve: "linear" },
+      { field: "overnight_low_f",            label: "Comfortable overnight temp",     op: "between", threshold: 30, upper: 60, required: false, weight: 15, ideal: 42, curve: "bell" },
+    ],
+    scoring: { pass: 55, highlight: 80 },
+  },
+  {
+    name: "Sunset Sunrise Backpacking", emoji: "🌅", accent: "#e85d4a",
+    description: "Dramatic golden hour light for ridge camps",
+    locations: [
+      { name: "Spray Park", lat: 46.9200, lon: -121.8050, elevation: 5800 },
+      { name: "Goat Rocks Old Snowy", lat: 46.4580, lon: -121.4420, elevation: 7000 },
+      { name: "Sahale Arm", lat: 48.4830, lon: -121.0530, elevation: 7600 },
+      { name: "Enchantments Aasgard", lat: 47.5150, lon: -120.8100, elevation: 7800 },
+    ],
+    criteria: [
+      { field: "cloud_cover_pct",            label: "Cloud texture for dramatic light", op: "between", threshold: 15, upper: 65, required: false, weight: 30, ideal: 38, curve: "bell" },
+      { field: "precipitation_probability_pct", label: "Dry conditions",              op: "<=",      threshold: 20,            required: true,  weight: 20, ideal: 5,  curve: "linear", failLabel: "Rain expected" },
+      { field: "visibility_mi",              label: "Long-range visibility",           op: ">=",      threshold: 8,             required: false, weight: 20, ideal: 30, curve: "linear" },
+      { field: "wind_speed_mph",             label: "Calm enough for camp",            op: "<=",      threshold: 20,            required: false, weight: 10, ideal: 5,  curve: "linear" },
+      { field: "temperature_f",              label: "Comfortable temperature",         op: "between", threshold: 40, upper: 75, required: false, weight: 10, ideal: 55, curve: "bell" },
+      { field: "humidity_pct",               label: "Clean light (low humidity)",      op: "<=",      threshold: 65,            required: false, weight: 10, ideal: 35, curve: "linear" },
+    ],
+    scoring: { pass: 50, highlight: 80 },
+  },
+];
+
+// ── Scoring Engine ───────────────────────────────────────────────────────────
+function passesThreshold(v, op, t, u) {
+  if (op === "<=") return v <= t;
+  if (op === ">=") return v >= t;
+  if (op === "between") return v >= t && v <= (u ?? t);
+  return false;
+}
+
+function scoreLinear(v, t, ideal, op) {
+  if (ideal === t) return passesThreshold(v, op, t) ? 1 : 0;
+  if (op === "<=" || op === "<") { if (v > t) return 0; if (v <= ideal) return 1; return (t - v) / (t - ideal); }
+  if (op === ">=" || op === ">") { if (v < t) return 0; if (v >= ideal) return 1; return (v - t) / (ideal - t); }
+  return passesThreshold(v, op, t) ? 1 : 0;
+}
+
+function scoreBell(v, t, ideal) {
+  if (ideal == null) return 0;
+  const w = Math.abs(t - ideal) || 10;
+  return Math.max(0, Math.min(1, Math.exp(-Math.pow(Math.abs(v - ideal), 2) / (2 * Math.pow(w / 2, 2)))));
+}
+
+function scoreCriterion(c, weather) {
+  const v = weather[c.field];
+  // null means NWS didn't provide this field — "no data", not a failed condition
+  if (v == null) return { ...c, actual: null, noData: true, passed: false, rawScore: 0, weighted: 0 };
+  const passed = passesThreshold(v, c.op, c.threshold, c.upper);
+  let raw = 0;
+  if (passed) {
+    const ideal = c.ideal ?? c.threshold;
+    if (c.curve === "bell") raw = scoreBell(v, c.threshold, ideal);
+    else if (c.curve === "step") raw = 1;
+    else raw = scoreLinear(v, c.threshold, ideal, c.op);
+  }
+  return { ...c, actual: v, noData: false, passed, rawScore: raw, weighted: raw * c.weight };
+}
+
+function scoreLocation(profile, weather) {
+  const results = profile.criteria.map(c => scoreCriterion(c, weather));
+  // Only count a required criterion as a hard failure if we actually have data showing it failed.
+  // Missing data (noData) is excluded from scoring rather than treated as a failure.
+  const reqFail = results.some(r => r.required && !r.noData && !r.passed);
+
+  // Build a human-readable reason from the top-weighted failing required criteria
+  let failReason = null;
+  if (reqFail) {
+    const failing = results
+      .filter(r => r.required && !r.noData && !r.passed)
+      .sort((a, b) => b.weight - a.weight);
+    const label = r => r.failLabel || r.label;
+    if (failing.length === 1) {
+      failReason = label(failing[0]);
+    } else {
+      // Show top two reasons, second in lowercase
+      failReason = label(failing[0]) + " · " + label(failing[1]).toLowerCase();
+    }
+  }
+
+  let total = 0;
+  if (!reqFail) {
+    const scorable = results.filter(r => !r.noData);
+    const tw = scorable.reduce((s, r) => s + r.weight, 0);
+    total = tw > 0 ? (scorable.reduce((s, r) => s + r.weighted, 0) / tw) * 100 : 0;
+  }
+  total = Math.round(total * 10) / 10;
+  return {
+    criteria: results, total, reqFail, failReason,
+    grade: reqFail ? "FAIL" : total >= profile.scoring.highlight ? "EXCEPTIONAL" : total >= profile.scoring.pass ? "GOOD" : "MARGINAL",
+  };
+}
+
+// ── NWS API Fetching ─────────────────────────────────────────────────────────
+// Two-step: /points → get grid, then /gridpoints for raw data.
+// Corn Harvest coords are placed in the actual ski zone (~7,000–9,000 ft) for
+// accurate freeze-thaw scoring rather than at trailheads or extreme summits.
+
+async function fetchNWS(url) {
+  const res = await fetch(url, {
+    headers: { "User-Agent": "AdventureScout/1.0 (adventure-scout-app)", "Accept": "application/geo+json" },
+    cache: "no-store",   // never serve stale NWS data from browser cache
+  });
+  if (!res.ok) throw new Error(`NWS ${res.status} for ${url}`);
+  return res.json();
+}
+
+async function getGridInfo(lat, lon) {
+  const data = await fetchNWS(`https://api.weather.gov/points/${lat},${lon}`);
+  const p = data.properties;
+  return {
+    gridId: p.gridId, gridX: p.gridX, gridY: p.gridY,
+    forecastUrl: p.forecast, hourlyUrl: p.forecastHourly,
+  };
+}
+
+// Convert ISO 8601 duration (e.g. PT6H) to hours
+function parseDurationHours(dur) {
+  const m = dur.match(/PT?(\d+)H/);
+  return m ? parseInt(m[1]) : 1;
+}
+
+// Parse NWS gridpoint time series into daily values
+function parseGridTimeSeries(values, aggregation = "avg") {
+  if (!values || !values.length) return {};
+  const byDate = {};
+  for (const entry of values) {
+    const [timeStr] = entry.validTime.split("/");
+    const date = timeStr.slice(0, 10);
+    if (!byDate[date]) byDate[date] = [];
+    byDate[date].push(entry.value);
+  }
+  const result = {};
+  for (const [date, vals] of Object.entries(byDate)) {
+    const clean = vals.filter(v => v != null);
+    if (!clean.length) continue;
+    if (aggregation === "avg") result[date] = clean.reduce((a, b) => a + b, 0) / clean.length;
+    else if (aggregation === "max") result[date] = Math.max(...clean);
+    else if (aggregation === "min") result[date] = Math.min(...clean);
+    else if (aggregation === "sum") result[date] = clean.reduce((a, b) => a + b, 0);
+  }
+  return result;
+}
+
+function celsiusToF(c) { return c != null ? c * 9 / 5 + 32 : null; }
+function mmToInches(mm) { return mm != null ? mm / 25.4 : null; }
+function mphFromKmh(kmh) { return kmh != null ? kmh * 0.621371 : null; }
+function metersToMiles(m) { return m != null ? m / 1609.34 : null; }
+
+async function fetchNWSWeather(lat, lon) {
+  // Step 1: Grid lookup
+  const grid = await getGridInfo(lat, lon);
+  console.log(`[NWS] (${lat},${lon}) → grid ${grid.gridId}/${grid.gridX},${grid.gridY}`);
+
+  // Step 2: Fetch raw gridpoint data
+  const gridData = await fetchNWS(
+    `https://api.weather.gov/gridpoints/${grid.gridId}/${grid.gridX},${grid.gridY}`
+  );
+  const gp = gridData.properties;
+
+  // Log which fields NWS actually provided
+  const nwsFields = {
+    maxTemperature: !!gp.maxTemperature?.values?.length,
+    minTemperature: !!gp.minTemperature?.values?.length,
+    skyCover:       !!gp.skyCover?.values?.length,
+    windSpeed:      !!gp.windSpeed?.values?.length,
+    windGust:       !!gp.windGust?.values?.length,
+    snowfallAmount: !!gp.snowfallAmount?.values?.length,
+    relativeHumidity: !!gp.relativeHumidity?.values?.length,
+    quantitativePrecipitation: !!gp.quantitativePrecipitation?.values?.length,
+    visibility:     !!gp.visibility?.values?.length,
+    probabilityOfPrecipitation: !!gp.probabilityOfPrecipitation?.values?.length,
+  };
+  console.log(`[NWS] (${lat},${lon}) fields:`, nwsFields);
+
+  // Parse grid data into daily values
+  const tempMax   = parseGridTimeSeries(gp.maxTemperature?.values             || [], "max");
+  const tempMin   = parseGridTimeSeries(gp.minTemperature?.values             || [], "min");
+  const skyCover  = parseGridTimeSeries(gp.skyCover?.values                   || [], "avg");
+  const windSpeed = parseGridTimeSeries(gp.windSpeed?.values                  || [], "avg");
+  const windGust  = parseGridTimeSeries(gp.windGust?.values                   || [], "max");
+  const snowfall  = parseGridTimeSeries(gp.snowfallAmount?.values             || [], "sum");
+  const humidity  = parseGridTimeSeries(gp.relativeHumidity?.values           || [], "avg");
+  const precipAmt = parseGridTimeSeries(gp.quantitativePrecipitation?.values  || [], "sum");
+  const visibility= parseGridTimeSeries(gp.visibility?.values                 || [], "avg");
+  const probPrecip= parseGridTimeSeries(gp.probabilityOfPrecipitation?.values || [], "max");
+
+  const allDates = new Set([
+    ...Object.keys(tempMax), ...Object.keys(tempMin), ...Object.keys(skyCover)
+  ]);
+  const today = new Date().toISOString().slice(0, 10);
+  const dates = [...allDates].filter(d => d >= today).sort().slice(0, 7);
+
+  if (dates.length === 0) throw new Error("NWS returned no usable dates");
+
+  const weatherByDay = {};
+  for (const date of dates) {
+    const hi = tempMax[date];
+    const lo = tempMin[date];
+    // If NWS can't give us temperature at all for this grid cell, bail out so
+    // Open-Meteo fallback can provide accurate elevation-adjusted data.
+    if (hi == null && lo == null) continue;
+    weatherByDay[date] = {
+      // temperature_f = daily HIGH — used for "warm enough to soften" criterion.
+      // Using the average would mix in the overnight freeze and make the soften
+      // check fail even on days that genuinely warm up during the scoring window.
+      temperature_f:                 celsiusToF(hi ?? lo),
+      cloud_cover_pct:               skyCover[date]          ?? null,
+      wind_speed_mph:                mphFromKmh(windSpeed[date]),
+      wind_gust_mph:                 mphFromKmh(windGust[date]),
+      overnight_snowfall_in:         mmToInches(snowfall[date]),
+      overnight_low_f:               celsiusToF(lo),
+      humidity_pct:                  humidity[date]          ?? null,
+      precipitation_in:              mmToInches(precipAmt[date]),
+      visibility_mi:                 metersToMiles(visibility[date]),
+      precipitation_probability_pct: probPrecip[date]        ?? null,
+    };
+  }
+
+  if (Object.keys(weatherByDay).length === 0) throw new Error("NWS grid has no temperature data");
+  console.log(`[NWS] (${lat},${lon}) OK — ${Object.keys(weatherByDay).length} days`);
+  return { weatherByDay, forecastUrl: grid.forecastUrl, source: "NWS" };
+}
+
+async function fetchOpenMeteoWeather(lat, lon) {
+  // Open-Meteo: global coverage, no grid-cell gaps. Used as fallback when NWS
+  // returns 404 or empty temperature data for remote high-elevation grid cells.
+  const vars = [
+    "temperature_2m_max","temperature_2m_min",
+    "precipitation_sum","precipitation_probability_max",
+    "cloud_cover_mean","wind_speed_10m_max","wind_gusts_10m_max",
+    "snowfall_sum","relative_humidity_2m_max","visibility_mean",
+  ].join(",");
+  const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}` +
+    `&daily=${vars}&timezone=America%2FLos_Angeles&forecast_days=7` +
+    `&wind_speed_unit=mph&temperature_unit=fahrenheit`;
+
+  const res = await fetch(url, { cache: "no-store" });
+  if (!res.ok) throw new Error(`Open-Meteo ${res.status}`);
+  const data = await res.json();
+  const d = data.daily;
+
+  const today = new Date().toISOString().slice(0, 10);
+  const weatherByDay = {};
+  for (let i = 0; i < d.time.length; i++) {
+    const date = d.time[i];
+    if (date < today) continue;
+    const hi = d.temperature_2m_max[i];
+    const lo = d.temperature_2m_min[i];
+    // Open-Meteo snowfall is in cm — convert to inches
+    const snowCm = d.snowfall_sum?.[i];
+    // visibility_mean is in metres if available
+    const visMi = d.visibility_mean?.[i] != null ? d.visibility_mean[i] / 1609.34 : null;
+    weatherByDay[date] = {
+      temperature_f:                 hi ?? lo,  // daily HIGH — see NWS note above
+      overnight_low_f:               lo,
+      cloud_cover_pct:               d.cloud_cover_mean?.[i]              ?? null,
+      wind_speed_mph:                d.wind_speed_10m_max?.[i]            ?? null,
+      wind_gust_mph:                 d.wind_gusts_10m_max?.[i]            ?? null,
+      overnight_snowfall_in:         snowCm != null ? snowCm / 2.54 : null,
+      precipitation_in:              d.precipitation_sum?.[i]             ?? null,
+      precipitation_probability_pct: d.precipitation_probability_max?.[i] ?? null,
+      humidity_pct:                  d.relative_humidity_2m_max?.[i]      ?? null,
+      visibility_mi:                 visMi,
+    };
+  }
+
+  const forecastUrl = `https://forecast.weather.gov/MapClick.php?lat=${lat}&lon=${lon}`;
+  console.log(`[Open-Meteo] (${lat},${lon}) OK — ${Object.keys(weatherByDay).length} days`);
+  return { weatherByDay, forecastUrl, source: "Open-Meteo" };
+}
+
+async function fetchLocationWeather(lat, lon) {
+  try {
+    return await fetchNWSWeather(lat, lon);
+  } catch (nwsErr) {
+    console.warn(`[NWS] (${lat},${lon}) failed: ${nwsErr.message} — trying Open-Meteo fallback`);
+    return await fetchOpenMeteoWeather(lat, lon);
+  }
+}
+
+// ── Rendering ────────────────────────────────────────────────────────────────
+
+function ringSVG(score, grade, size = 62) {
+  const r = (size - 8) / 2, circ = 2 * Math.PI * r;
+  const offset = circ - (Math.max(0, score) / 100) * circ;
+  const colors = { EXCEPTIONAL: "#f0b429", GOOD: "#38b764", MARGINAL: "#e8a838", FAIL: "#e85d4a" };
+  const c = colors[grade] || colors.FAIL;
+  return `<svg width="${size}" height="${size}" class="ring">
+    <circle cx="${size/2}" cy="${size/2}" r="${r}" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="5"/>
+    <circle cx="${size/2}" cy="${size/2}" r="${r}" fill="none" stroke="${c}" stroke-width="5"
+      stroke-dasharray="${circ}" stroke-dashoffset="${offset}" stroke-linecap="round"
+      transform="rotate(-90 ${size/2} ${size/2})" style="transition:stroke-dashoffset .8s ease-out"/>
+    <text x="${size/2}" y="${size/2+1}" text-anchor="middle" dominant-baseline="central"
+      font-size="${size>50?'16':'12'}" font-weight="700" font-family="'JetBrains Mono',monospace">
+      ${score > 0 ? Math.round(score) : "—"}</text>
+  </svg>`;
+}
+
+function renderCriteria(criteria) {
+  return criteria.map(c => {
+    const pct = Math.round((c.rawScore || 0) * 100);
+    const color = c.noData ? "#444" : !c.passed && c.required ? "#e85d4a" : !c.passed ? "#e8a838" : pct >= 80 ? "#38b764" : "#4da8da";
+    const fmt = v => v == null ? "—" : Number.isInteger(v) ? v : v.toFixed(1);
+    const reqColor = c.noData ? "#555" : c.required ? (c.passed ? "#38b764" : "#e85d4a") : "#444";
+    const reqChar = c.noData ? "?" : c.required ? (c.passed ? "✓" : "✗") : "·";
+    return `<div class="crit-row">
+      <div class="crit-label">${c.label}</div>
+      <div class="crit-bar-bg"><div class="crit-bar" style="width:${pct}%;background:${color}"></div></div>
+      <div class="crit-val">${fmt(c.actual)}</div>
+      <div class="crit-req" style="color:${reqColor}">${reqChar}</div>
+    </div>`;
+  }).join("");
+}
+
+function renderLocationCard(loc, result, rank, accent) {
+  const colors = { EXCEPTIONAL: "#f0b429", GOOD: "#38b764", MARGINAL: "#e8a838", FAIL: "#e85d4a" };
+  const gc = colors[result.grade] || colors.FAIL;
+  const isTop = rank <= 3;
+  const id = `loc-${loc.name.replace(/\s/g, "-")}-${rank}`;
+  const nwsUrl = `https://forecast.weather.gov/MapClick.php?lat=${loc.lat}&lon=${loc.lon}`;
+  const omUrl  = `https://open-meteo.com/en/docs#latitude=${loc.lat}&longitude=${loc.lon}&hourly=temperature_2m,precipitation,cloud_cover,wind_speed_10m,snowfall,precipitation_probability`;
+
+  const bgStyle = isTop ? `background:${gc}18` : "";
+  const borderStyle = isTop ? `border-color:${gc}33` : "";
+  const links = isTop ? `<div class="loc-links">
+    <a href="${nwsUrl}" target="_blank" style="color:${accent};border-color:${accent}44" onclick="event.stopPropagation()">NWS ↗</a>
+    <a href="${omUrl}" target="_blank" style="color:#8bc34a;border-color:rgba(139,195,74,0.25)" onclick="event.stopPropagation()">Forecast ↗</a>
+  </div>` : "";
+
+  return `<div class="loc ${isTop ? 'top' : ''}" style="${bgStyle};${borderStyle}" onclick="toggleCriteria('${id}')">
+    <div class="loc-row">
+      <div class="loc-rank" style="color:${isTop ? gc : '#444'}">${isTop ? '#'+rank : rank}</div>
+      ${ringSVG(result.total, result.grade, 44)}
+      <div class="loc-info">
+        <div class="loc-name">${loc.name}</div>
+        <div class="loc-meta">${result.bestDate} · ${result.failReason ? `<span style="color:#e85d4a">${result.failReason}</span>` : result.grade}${loc.elevation ? ' · '+loc.elevation.toLocaleString()+'ft' : ''}${result.source === 'Open-Meteo' ? ' · <span style="color:#8bc34a">OM</span>' : ''}</div>
+      </div>
+      ${links}
+      <div class="loc-expand" id="${id}-arrow">▾</div>
+    </div>
+    <div class="criteria" id="${id}">${renderCriteria(result.criteria)}</div>
+  </div>`;
+}
+
+function renderProfile(profile, locResults) {
+  const sorted = [...locResults].sort((a, b) => b.result.total - a.result.total);
+  const best = sorted[0];
+  const hasAlerts = sorted.some(r => r.result.grade === "GOOD" || r.result.grade === "EXCEPTIONAL");
+
+  const cardsHtml = sorted.map((r, i) =>
+    renderLocationCard(r.location, r.result, i + 1, profile.accent)
+  ).join("");
+
+  return `<div class="profile fade-up ${hasAlerts ? 'has-alerts' : ''}" style="--profile-accent:${profile.accent}">
+    <div class="profile-header">
+      <div class="profile-emoji">${profile.emoji}</div>
+      <div class="profile-info">
+        <h2>${profile.name}</h2>
+        <p>${profile.description}</p>
+      </div>
+      ${best ? `<div class="profile-best">${ringSVG(best.result.total, best.result.grade, 62)}<div class="label">BEST</div></div>` : ""}
+    </div>
+    ${cardsHtml}
+  </div>`;
+}
+
+function toggleCriteria(id) {
+  const el = document.getElementById(id);
+  const arrow = document.getElementById(id + "-arrow");
+  if (el) { el.classList.toggle("open"); }
+  if (arrow) { arrow.classList.toggle("open"); }
+}
+
+// ── Orchestrator ─────────────────────────────────────────────────────────────
+
+let isRunning = false;
+
+async function runScout() {
+  if (isRunning) return;
+  isRunning = true;
+
+  const btn = document.getElementById("refreshBtn");
+  const statusArea = document.getElementById("statusArea");
+  const resultsArea = document.getElementById("resultsArea");
+  const footerEl = document.getElementById("footerEl");
+
+  btn.disabled = true;
+  btn.textContent = "Scanning...";
+  resultsArea.innerHTML = "";
+  footerEl.style.display = "none";
+
+  // Deduplicate locations across profiles
+  const locMap = new Map();
+  for (const p of PROFILES) {
+    for (const l of p.locations) {
+      const key = `${l.lat},${l.lon}`;
+      if (!locMap.has(key)) locMap.set(key, l);
+    }
+  }
+  const uniqueLocs = [...locMap.values()];
+
+  statusArea.innerHTML = `<div class="status-box"><div class="icon pulse">📡</div>
+    <div class="msg">Fetching forecasts (NWS → Open-Meteo fallback)...</div>
+    <div class="sub">0 / ${uniqueLocs.length} locations</div></div>`;
+
+  // Fetch weather for each unique location
+  const weatherCache = {};
+  let fetched = 0;
+  let errors = [];
+
+  for (const loc of uniqueLocs) {
+    try {
+      const data = await fetchLocationWeather(loc.lat, loc.lon);
+      weatherCache[`${loc.lat},${loc.lon}`] = data;
+    } catch (err) {
+      errors.push({ name: loc.name, error: err.message });
+    }
+    fetched++;
+    statusArea.querySelector(".sub").textContent = `${fetched} / ${uniqueLocs.length} locations`;
+  }
+
+  if (fetched === 0 || Object.keys(weatherCache).length === 0) {
+    statusArea.innerHTML = `<div class="error-box">
+      <h3>Failed to fetch weather data</h3>
+      <p>${errors.map(e => `${e.name}: ${e.error}`).join("<br>")}</p>
+      <button onclick="runScout()">Try Again</button>
+    </div>`;
+    btn.disabled = false;
+    btn.textContent = "↻ Refresh";
+    isRunning = false;
+    return;
+  }
+
+  statusArea.innerHTML = "";
+
+  // Score each profile
+  const allHtml = [];
+  for (const profile of PROFILES) {
+    const locResults = [];
+    for (const loc of profile.locations) {
+      const cached = weatherCache[`${loc.lat},${loc.lon}`];
+      if (!cached) continue;
+
+      let bestResult = null, bestDate = null;
+      for (const [date, weather] of Object.entries(cached.weatherByDay)) {
+        const result = scoreLocation(profile, weather);
+        if (!bestResult || result.total > bestResult.total) {
+          bestResult = result;
+          bestDate = date;
+        }
+      }
+      if (bestResult) {
+        locResults.push({ location: loc, result: { ...bestResult, bestDate, source: cached.source } });
+      }
+    }
+    allHtml.push(renderProfile(profile, locResults));
+  }
+
+  resultsArea.innerHTML = allHtml.join("");
+  footerEl.style.display = "block";
+
+  if (errors.length > 0) {
+    const warnHtml = `<div style="padding:10px;background:rgba(232,168,56,0.08);border-radius:8px;border:1px solid rgba(232,168,56,0.2);margin-bottom:12px;font-size:11px;color:var(--t2)">
+      ⚠ Some locations failed: ${errors.map(e => e.name).join(", ")}
+    </div>`;
+    resultsArea.innerHTML = warnHtml + resultsArea.innerHTML;
+  }
+
+  document.getElementById("lastRun").textContent = new Date().toLocaleTimeString();
+  btn.disabled = false;
+  btn.textContent = "↻ Refresh";
+  isRunning = false;
+}
+
+// Auto-run on load
+runScout();
+</script>
+</body>
+</html>
