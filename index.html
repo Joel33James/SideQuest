@@ -70,9 +70,52 @@
   .fade-up { animation: fadeUp .4s ease-out; }
 
   svg.ring text { fill: var(--t1); }
+
+  /* ── 5-day table view (Corn Harvest) ───────────────── */
+  .ct-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; margin-top: 4px; }
+  .ct { width: 100%; border-collapse: separate; border-spacing: 0; }
+  .ct thead th { padding-bottom: 8px; }
+  .ct-loc-head { font: 9px 'JetBrains Mono', monospace; color: var(--t3); text-align: left; letter-spacing: 1px; padding-right: 10px; }
+  .ct-day-head { font: 9px 'JetBrains Mono', monospace; color: var(--t2); text-align: center; letter-spacing: .5px; min-width: 76px; line-height: 1.5; }
+  .ct-loc-cell { font-size: 12px; font-weight: 600; color: var(--t1); padding: 3px 10px 3px 0; white-space: nowrap; max-width: 140px; overflow: hidden; text-overflow: ellipsis; vertical-align: middle; }
+  .ct-score-cell { text-align: center; padding: 3px 3px; vertical-align: middle; }
+  .ct-pill {
+    display: inline-flex; align-items: center; justify-content: center;
+    border-radius: 7px; padding: 5px 4px; min-width: 68px; height: 30px;
+    font: 600 11px 'JetBrains Mono', monospace;
+    cursor: pointer; transition: filter .15s; white-space: nowrap; border: 1px solid transparent;
+  }
+  .ct-pill:hover { filter: brightness(1.3); }
+  .ct-pill.grade-EXCEPTIONAL { background: rgba(240,180,41,0.18); color: #f0b429; border-color: rgba(240,180,41,0.25); }
+  .ct-pill.grade-GOOD        { background: rgba(56,183,100,0.18); color: #38b764; border-color: rgba(56,183,100,0.25); }
+  .ct-pill.grade-MARGINAL    { background: rgba(232,168,56,0.15); color: #e8a838; border-color: rgba(232,168,56,0.2); }
+  .ct-pill.grade-FAIL        { background: rgba(255,255,255,0.03); color: #555; border-color: rgba(255,255,255,0.05); }
+  .ct-pill.grade-NONE        { background: transparent; color: var(--t3); }
+
+  /* ── Day detail modal ───────────────────────────────── */
+  .modal-bg {
+    position: fixed; inset: 0; background: rgba(0,0,0,.65); z-index: 200;
+    display: flex; align-items: center; justify-content: center;
+    animation: fadeIn .15s ease-out;
+  }
+  @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+  .modal-box {
+    background: #1c2128; border-radius: 14px; padding: 18px 16px;
+    max-width: 360px; width: calc(100% - 32px);
+    border: 1px solid rgba(255,255,255,0.1);
+    animation: slideUp .2s ease-out;
+  }
+  @keyframes slideUp { from { transform:translateY(10px); opacity:0; } to { transform:translateY(0); opacity:1; } }
+  .modal-head { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+  .modal-info { flex: 1; min-width: 0; }
+  .modal-loc  { font: 700 13px 'Space Mono', monospace; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .modal-date { font-size: 11px; color: var(--t2); margin-top: 3px; }
+  .modal-close { background: none; border: none; color: var(--t2); font-size: 22px; cursor: pointer; line-height: 1; padding: 0 0 0 6px; flex-shrink: 0; }
+  .modal-close:hover { color: var(--t1); }
 </style>
 </head>
 <body>
+<div id="modalArea"></div>
 <div class="wrap">
   <header>
     <h1>🏔 Adventure Scout</h1>
@@ -111,7 +154,7 @@ const PROFILES = [
     scoring: { pass: 60, highlight: 85 },
   },
   {
-    name: "Corn Harvest", emoji: "🌽", accent: "#e8a838",
+    name: "Corn Harvest", emoji: "🌽", accent: "#e8a838", tableView: true,
     description: "Backcountry corn snow — freeze-thaw perfection on WA ski tours over 7k ft",
     locations: [
       // Coordinates placed in the actual ski zone (~7,000–9,000 ft) for accurate
@@ -129,7 +172,7 @@ const PROFILES = [
       { name: "Mt. St. Helens",                 lat: 46.1840, lon: -122.1970, elevation: 8365  },  // Monitor Ridge ~6,500 ft
     ],
     criteria: [
-      { field: "overnight_low_f",            label: "Hard overnight freeze",          op: "<=", threshold: 28, required: true,  weight: 30, ideal: 20, curve: "linear", failLabel: "No overnight freeze" },
+      { field: "overnight_low_f",            label: "Overnight freeze",               op: "<=", threshold: 40, required: true,  weight: 30, ideal: 20, curve: "linear", failLabel: "Too warm overnight" },
       { field: "temperature_f",              label: "Warm enough to soften",          op: ">=", threshold: 36, required: true,  weight: 25, ideal: 45, curve: "linear", failLabel: "Too cold to soften" },
       { field: "cloud_cover_pct",            label: "Sunny (solar heat drives corn)", op: "<=", threshold: 25, required: true,  weight: 25, ideal: 5,  curve: "linear", failLabel: "Too cloudy" },
       { field: "wind_speed_mph",             label: "Low wind",                       op: "<=", threshold: 15, required: false, weight: 10, ideal: 3,  curve: "linear" },
@@ -498,7 +541,135 @@ function renderLocationCard(loc, result, rank, accent) {
   </div>`;
 }
 
+// ── Day detail modal ─────────────────────────────────────────────────────────
+// Cell results are stored here by ID during renderProfileTable so onclick can
+// look them up without embedding JSON in HTML attributes.
+const _cellData = {};
+
+function showDayModal(cellId) {
+  const { locName, date, result } = _cellData[cellId];
+  const colors = { EXCEPTIONAL: "#f0b429", GOOD: "#38b764", MARGINAL: "#e8a838", FAIL: "#e85d4a" };
+  const gc = colors[result.grade] || colors.FAIL;
+  const metaHtml = result.failReason
+    ? `<span style="color:#e85d4a">${result.failReason}</span>`
+    : `<span style="color:${gc}">${result.grade} · ${Math.round(result.total)}</span>`;
+  const dt = new Date(date + "T12:00:00");
+  const dateStr = dt.toLocaleDateString("en-US", { weekday: "long", month: "short", day: "numeric" });
+  document.getElementById("modalArea").innerHTML = `
+    <div class="modal-bg" onclick="if(event.target===this)closeDayModal()">
+      <div class="modal-box">
+        <div class="modal-head">
+          ${ringSVG(result.total, result.grade, 44)}
+          <div class="modal-info">
+            <div class="modal-loc">${locName}</div>
+            <div class="modal-date">${dateStr} · ${metaHtml}</div>
+          </div>
+          <button class="modal-close" onclick="closeDayModal()">×</button>
+        </div>
+        ${renderCriteria(result.criteria)}
+      </div>
+    </div>`;
+}
+
+function closeDayModal() {
+  document.getElementById("modalArea").innerHTML = "";
+}
+
+// Close modal on Escape key
+document.addEventListener("keydown", e => { if (e.key === "Escape") closeDayModal(); });
+
+// ── Table renderer (used when profile.tableView === true) ─────────────────────
+function renderProfileTable(profile, locResults) {
+  const today = new Date().toISOString().slice(0, 10);
+
+  // Collect the first 5 future dates that appear in any location's data
+  const dateSet = new Set();
+  for (const r of locResults) {
+    for (const d of Object.keys(r.dailyResults)) {
+      if (d >= today) dateSet.add(d);
+    }
+  }
+  const dates = [...dateSet].sort().slice(0, 6);
+
+  // Sort rows: location whose best single day scores highest goes first
+  const sorted = [...locResults].sort((a, b) => {
+    const bestA = Math.max(0, ...Object.values(a.dailyResults).map(r => r.total));
+    const bestB = Math.max(0, ...Object.values(b.dailyResults).map(r => r.total));
+    return bestB - bestA;
+  });
+
+  // Best score across all locations and days (for the header ring)
+  let overallBest = null;
+  for (const r of locResults) {
+    for (const res of Object.values(r.dailyResults)) {
+      if (!overallBest || res.total > overallBest.total) overallBest = res;
+    }
+  }
+
+  // Day column headers
+  const dayHeads = dates.map(d => {
+    const dt = new Date(d + "T12:00:00");
+    const wd = dt.toLocaleDateString("en-US", { weekday: "short" }).toUpperCase();
+    const md = dt.toLocaleDateString("en-US", { month: "numeric", day: "numeric" });
+    return `<th class="ct-day-head">${wd}<br>${md}</th>`;
+  }).join("");
+
+  // Data rows
+  const rows = sorted.map(r => {
+    const cells = dates.map(date => {
+      const res = r.dailyResults[date];
+      if (!res) return `<td class="ct-score-cell"><div class="ct-pill grade-NONE">—</div></td>`;
+
+      // Label: score number for passing grades, short fail reason for FAIL
+      let label;
+      if (res.grade === "FAIL") {
+        const reason = res.failReason || "";
+        // First segment before " · ", then truncate to 2 words
+        label = reason.split(" · ")[0].split(" ").slice(0, 2).join(" ") || "—";
+      } else {
+        label = Math.round(res.total).toString();
+      }
+
+      const cellId = `c-${r.location.name.replace(/[^a-z0-9]/gi, "")}-${date}`;
+      _cellData[cellId] = { locName: r.location.name, date, result: res };
+
+      return `<td class="ct-score-cell">
+        <div class="ct-pill grade-${res.grade}" onclick="showDayModal('${cellId}')">${label}</div>
+      </td>`;
+    }).join("");
+
+    return `<tr>
+      <td class="ct-loc-cell" title="${r.location.name}">${r.location.name}</td>
+      ${cells}
+    </tr>`;
+  }).join("");
+
+  const hasAlerts = locResults.some(r =>
+    Object.values(r.dailyResults).some(res => res.grade === "GOOD" || res.grade === "EXCEPTIONAL")
+  );
+
+  return `<div class="profile fade-up ${hasAlerts ? "has-alerts" : ""}" style="--profile-accent:${profile.accent}">
+    <div class="profile-header">
+      <div class="profile-emoji">${profile.emoji}</div>
+      <div class="profile-info">
+        <h2>${profile.name}</h2>
+        <p>${profile.description}</p>
+      </div>
+      ${overallBest ? `<div class="profile-best">${ringSVG(overallBest.total, overallBest.grade, 62)}<div class="label">BEST</div></div>` : ""}
+    </div>
+    <div class="ct-wrap">
+      <table class="ct">
+        <thead><tr><th class="ct-loc-head">LOCATION</th>${dayHeads}</tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>
+  </div>`;
+}
+
+// ── Profile renderer — dispatches to table or card view ──────────────────────
 function renderProfile(profile, locResults) {
+  if (profile.tableView) return renderProfileTable(profile, locResults);
+
   const sorted = [...locResults].sort((a, b) => b.result.total - a.result.total);
   const best = sorted[0];
   const hasAlerts = sorted.some(r => r.result.grade === "GOOD" || r.result.grade === "EXCEPTIONAL");
@@ -507,7 +678,7 @@ function renderProfile(profile, locResults) {
     renderLocationCard(r.location, r.result, i + 1, profile.accent)
   ).join("");
 
-  return `<div class="profile fade-up ${hasAlerts ? 'has-alerts' : ''}" style="--profile-accent:${profile.accent}">
+  return `<div class="profile fade-up ${hasAlerts ? "has-alerts" : ""}" style="--profile-accent:${profile.accent}">
     <div class="profile-header">
       <div class="profile-emoji">${profile.emoji}</div>
       <div class="profile-info">
@@ -597,16 +768,18 @@ async function runScout() {
       const cached = weatherCache[`${loc.lat},${loc.lon}`];
       if (!cached) continue;
 
+      const dailyResults = {};
       let bestResult = null, bestDate = null;
       for (const [date, weather] of Object.entries(cached.weatherByDay)) {
         const result = scoreLocation(profile, weather);
+        dailyResults[date] = result;
         if (!bestResult || result.total > bestResult.total) {
           bestResult = result;
           bestDate = date;
         }
       }
       if (bestResult) {
-        locResults.push({ location: loc, result: { ...bestResult, bestDate, source: cached.source } });
+        locResults.push({ location: loc, dailyResults, result: { ...bestResult, bestDate, source: cached.source } });
       }
     }
     allHtml.push(renderProfile(profile, locResults));
