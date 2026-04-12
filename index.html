@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Adventure Scout — Live Conditions</title>
+<title>Side Quest</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -71,13 +71,35 @@
 
   svg.ring text { fill: var(--t1); }
 
+  /* ── Scoring criteria popover ──────────────────────── */
+  .si-wrap { position: relative; margin-top: 5px; text-align: center; }
+  .si-btn { font-size: 10px; color: var(--t2); cursor: pointer; text-decoration: underline dotted; text-underline-offset: 2px; white-space: nowrap; background: none; border: none; padding: 0; font-family: inherit; }
+  .si-btn:hover { color: var(--t1); }
+  .si-pop {
+    display: none; position: absolute; right: 0; top: calc(100% + 6px);
+    background: #1c2128; border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 10px; padding: 13px 14px; width: 290px; z-index: 150;
+    box-shadow: 0 8px 28px rgba(0,0,0,.5); text-align: left;
+  }
+  .si-wrap:hover .si-pop, .si-wrap.open .si-pop { display: block; }
+  .si-head { font: 700 9px 'JetBrains Mono', monospace; color: var(--t3); letter-spacing: 1.2px; margin-bottom: 9px; }
+  .si-row { display: flex; align-items: baseline; gap: 6px; margin-bottom: 6px; }
+  .si-dot { font-size: 9px; flex-shrink: 0; margin-top: 1px; }
+  .si-info { flex: 1; min-width: 0; }
+  .si-label { font-size: 12px; font-weight: 600; color: var(--t1); }
+  .si-rationale { font-size: 10px; color: var(--t2); line-height: 1.45; margin-top: 2px; }
+  .si-meta { font-size: 10px; font-family: 'JetBrains Mono', monospace; color: var(--t3); margin-top: 2px; }
+  .si-divider { height: 1px; background: var(--border); margin: 9px 0; }
+  .si-footer { font-size: 10px; color: var(--t3); }
+
   /* ── 5-day table view (Corn Harvest) ───────────────── */
   .ct-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; margin-top: 4px; }
   .ct { width: 100%; border-collapse: separate; border-spacing: 0; }
   .ct thead th { padding-bottom: 8px; }
   .ct-loc-head { font: 9px 'JetBrains Mono', monospace; color: var(--t3); text-align: left; letter-spacing: 1px; padding-right: 10px; }
   .ct-day-head { font: 9px 'JetBrains Mono', monospace; color: var(--t2); text-align: center; letter-spacing: .5px; min-width: 76px; line-height: 1.5; }
-  .ct-loc-cell { font-size: 12px; font-weight: 600; color: var(--t1); padding: 3px 10px 3px 0; white-space: nowrap; max-width: 140px; overflow: hidden; text-overflow: ellipsis; vertical-align: middle; }
+  .ct-loc-cell { font-size: 12px; font-weight: 600; color: var(--t1); padding: 3px 10px 3px 0; white-space: nowrap; vertical-align: middle; position: relative; }
+  .ct-loc-name { display: inline-block; max-width: 130px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; vertical-align: middle; }
   .ct-score-cell { text-align: center; padding: 3px 3px; vertical-align: middle; }
   .ct-pill {
     display: inline-flex; align-items: center; justify-content: center;
@@ -118,8 +140,8 @@
 <div id="modalArea"></div>
 <div class="wrap">
   <header>
-    <h1>🏔 Adventure Scout</h1>
-    <p>Live NOAA/NWS condition scoring · Washington adventures</p>
+    <h1>🏔 Side Quest</h1>
+    <p>Your adventure scout that finds the ideal conditions, and rates them for you so you can stay focused on the rest of life.</p>
     <div class="controls">
       <button class="btn" id="refreshBtn" onclick="runScout()">↻ Refresh</button>
       <span class="timestamp" id="lastRun"></span>
@@ -128,94 +150,119 @@
   <div id="statusArea"></div>
   <div id="resultsArea"></div>
   <footer id="footerEl" style="display:none">
-    Data from NOAA/NWS api.weather.gov · Top 3 get forecast links · Click rows to expand criteria
+    Data from NOAA/NWS api.weather.gov · Moon math via SunCalc · Click rows to expand criteria
   </footer>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/suncalc@1.9.0/suncalc.js"></script>
 <script>
 // ── Profile Definitions ──────────────────────────────────────────────────────
 const PROFILES = [
   {
-    name: "Bluebird Powder Day", emoji: "🏔", accent: "#4da8da",
-    description: "Fresh powder + clear skies on WA ski mountains",
-    locations: [
-      { name: "Crystal Mountain", lat: 46.9354, lon: -121.5045, elevation: 6872 },
-      { name: "Stevens Pass", lat: 47.7448, lon: -121.0890, elevation: 4061 },
-      { name: "Mt. Baker", lat: 48.8566, lon: -121.6644, elevation: 5089 },
-      { name: "Snoqualmie Pass", lat: 47.4281, lon: -121.4138, elevation: 3022 },
-    ],
-    criteria: [
-      { field: "cloud_cover_pct",           label: "Clear skies",         op: "<=", threshold: 20, required: true,  weight: 20, ideal: 0,  curve: "linear", failLabel: "Too cloudy" },
-      { field: "temperature_f",             label: "Cold for powder",     op: "<=", threshold: 32, required: true,  weight: 15, ideal: 22, curve: "linear", failLabel: "Too warm for powder" },
-      { field: "overnight_snowfall_in",     label: "Fresh snow",          op: ">=", threshold: 8,  required: true,  weight: 40, ideal: 18, curve: "linear", failLabel: "No fresh snow" },
-      { field: "overnight_low_f",           label: "Overnight freeze",    op: "<=", threshold: 26, required: true,  weight: 15, ideal: 15, curve: "linear", failLabel: "Didn't freeze overnight" },
-      { field: "wind_speed_mph",            label: "Manageable wind",     op: "<=", threshold: 25, required: false, weight: 10, ideal: 5,  curve: "linear" },
-    ],
-    scoring: { pass: 60, highlight: 85 },
-  },
-  {
     name: "Corn Harvest", emoji: "🌽", accent: "#e8a838", tableView: true,
     description: "Backcountry corn snow — freeze-thaw perfection on WA ski tours over 7k ft",
     locations: [
-      // Coordinates placed in the actual ski zone (~7,000–9,000 ft) for accurate
-      // freeze-thaw temperature scoring. Extreme summits (Adams, Rainier) use
-      // upper-mountain points below the NWS gridpoint ceiling.
-      { name: "Mt. Adams (SW Chutes)",          lat: 46.1860, lon: -121.4920, elevation: 12281 },  // SW Chutes ski zone ~8,000 ft
-      { name: "Mt. Rainier (Muir Snowfield)",   lat: 46.8030, lon: -121.7370, elevation: 14411 },  // Muir Snowfield ~8,500 ft
-      { name: "Mt. Baker (Park Glacier)",       lat: 48.7520, lon: -121.8135, elevation: 10781 },  // Upper Coleman/Park Glacier ~7,500 ft
-      { name: "Black Peak",                     lat: 48.5175, lon: -120.6790, elevation: 8970  },  // South face ~8,500 ft
-      { name: "Mt. Shuksan (Sulphide Glacier)", lat: 48.8210, lon: -121.6010, elevation: 9131  },  // Sulphide Glacier ~7,500 ft
-      { name: "Sahale Peak",                    lat: 48.4980, lon: -121.0640, elevation: 8680  },  // Upper Sahale Arm ~7,200 ft
-      { name: "Glacier Peak",                   lat: 48.1270, lon: -121.1790, elevation: 10525 },  // Kennedy Glacier ~7,500 ft
-      { name: "Mt. Stuart",                     lat: 47.4600, lon: -120.8940, elevation: 9415  },  // Upper Cascadian Couloir ~8,000 ft
-      { name: "Mt. Daniel",                     lat: 47.4274, lon: -121.0269, elevation: 7960  },  // Summit plateau ~7,800 ft
-      { name: "Mt. St. Helens",                 lat: 46.1840, lon: -122.1970, elevation: 8365  },  // Monitor Ridge ~6,500 ft
+      { name: "Mt. Ruth (Hannegan Pass)",        lat: 48.9162, lon: -121.6080, elevation: 7106  },
+      { name: "Mt. Shuksan (Sulphide Glacier)",  lat: 48.8210, lon: -121.6010, elevation: 9131  },
+      { name: "Mt. Baker (Squak Glacier)",       lat: 48.7200, lon: -121.8150, elevation: 8800  },
+      { name: "Isolation Traverse",              lat: 48.6890, lon: -121.1390, elevation: 8720  },
+      { name: "Black Peak",                      lat: 48.5175, lon: -120.6790, elevation: 8970  },
+      { name: "Sahale Peak",                     lat: 48.4980, lon: -121.0640, elevation: 8680  },
+      { name: "Bonanza Peak",                    lat: 48.1570, lon: -120.9070, elevation: 9511  },
+      { name: "Glacier Peak",                    lat: 48.1270, lon: -121.1790, elevation: 10525 },
+      { name: "Chiwawa Mountain",                lat: 48.1250, lon: -120.8760, elevation: 8459  },
+      { name: "Spider Gap",                      lat: 48.0530, lon: -120.9210, elevation: 7100  },
+      { name: "Royal Basin (Olympic)",           lat: 47.8810, lon: -123.1270, elevation: 5800  },
+      { name: "Mt. Stuart",                      lat: 47.4600, lon: -120.8940, elevation: 9415  },
+      { name: "Mt. Daniel",                      lat: 47.4274, lon: -121.0269, elevation: 7960  },
+      { name: "Steamboat Prow (Inter Glacier)",  lat: 46.9300, lon: -121.6570, elevation: 9700  },
+      { name: "Mt. Rainier (Muir Snowfield)",    lat: 46.8030, lon: -121.7370, elevation: 14411 },
+      { name: "Mt. Adams (SW Chutes)",           lat: 46.1860, lon: -121.4920, elevation: 12281 },
+      { name: "Mt. St. Helens",                  lat: 46.1840, lon: -122.1970, elevation: 8365  },
     ],
     criteria: [
-      { field: "overnight_low_f",            label: "Overnight freeze",               op: "<=", threshold: 40, required: true,  weight: 30, ideal: 20, curve: "linear", failLabel: "Too warm overnight" },
-      { field: "temperature_f",              label: "Warm enough to soften",          op: ">=", threshold: 36, required: true,  weight: 25, ideal: 45, curve: "linear", failLabel: "Too cold to soften" },
-      { field: "cloud_cover_pct",            label: "Sunny (solar heat drives corn)", op: "<=", threshold: 25, required: true,  weight: 25, ideal: 5,  curve: "linear", failLabel: "Too cloudy" },
-      { field: "wind_speed_mph",             label: "Low wind",                       op: "<=", threshold: 15, required: false, weight: 10, ideal: 3,  curve: "linear" },
-      { field: "precipitation_probability_pct", label: "No new precipitation",        op: "<=", threshold: 10, required: false, weight: 10, ideal: 0,  curve: "step" },
+      { field: "overnight_low_f",            label: "Overnight freeze",               op: "<=", threshold: 40, required: true,  weight: 30, ideal: 20, curve: "linear", failLabel: "Too warm overnight",  rationale: "Any overnight low below 40°F counts — but colder is much better. Below 28°F locks in a hard corn layer; 40°F gives just a surface skin. Above 40°F the snowpack won't refreeze." },
+      { field: "temperature_f",              label: "Warm enough to soften",          op: ">=", threshold: 36, required: true,  weight: 25, ideal: 45, curve: "linear", failLabel: "Too cold to soften",  rationale: "The daily high needs to climb above 36°F to start softening the frozen surface. 45°F is the sweet spot — warm enough for smooth corn without turning it to slush." },
+      { field: "cloud_cover_pct",            label: "Sunny (solar heat drives corn)", op: "<=", threshold: 25, required: true,  weight: 25, ideal: 5,  curve: "linear", failLabel: "Too cloudy",           rationale: "Direct solar radiation is what actually softens the top layer — air temperature alone isn't enough. Clear skies (≤25%) are required; full sun (≤5%) is ideal." },
+      { field: "wind_speed_mph",             label: "Low wind",                       op: "<=", threshold: 15, required: false, weight: 10, ideal: 3,  curve: "linear",                                   rationale: "Wind can crust over or destroy the delicate corn surface. Not a hard requirement — sheltered terrain exists — but calm conditions score much higher." },
+      { field: "precipitation_probability_pct", label: "No new precipitation",        op: "<=", threshold: 10, required: false, weight: 10, ideal: 0,  curve: "step",                                    rationale: "New snow or rain ruins the corn cycle. Fresh snow covers the layer; rain makes ice. Must be dry — step scoring means either it's dry or it isn't." },
     ],
     scoring: { pass: 60, highlight: 85 },
   },
   {
-    name: "Nightsky Backpacking", emoji: "🌌", accent: "#7b68ee",
+    name: "Nightsky Backpacking", emoji: "🌌", accent: "#7b68ee", tableView: true,
     description: "Clear dark skies for stargazing overnights",
     locations: [
-      { name: "Enchantments", lat: 47.5282, lon: -120.8253, elevation: 4400 },
-      { name: "Goat Rocks", lat: 46.4675, lon: -121.5025, elevation: 5600 },
-      { name: "Mt. Rainier Sunrise", lat: 46.9145, lon: -121.6415, elevation: 6400 },
-      { name: "North Cascades", lat: 48.4748, lon: -121.0750, elevation: 5400 },
+      { name: "Chain Lakes (Mt. Baker)",        lat: 48.8280, lon: -121.6890, elevation: 4300 },
+      { name: "North Cascades",                 lat: 48.4748, lon: -121.0750, elevation: 5400 },
+      { name: "Seven Lakes Basin (Olympic)",    lat: 47.9420, lon: -123.6990, elevation: 4200 },
+      { name: "Enchantments",                   lat: 47.5282, lon: -120.8253, elevation: 4400 },
+      { name: "Mt. Rainier Sunrise",            lat: 46.9145, lon: -121.6415, elevation: 6400 },
+      { name: "Goat Rocks",                     lat: 46.4675, lon: -121.5025, elevation: 5600 },
     ],
     criteria: [
-      { field: "cloud_cover_pct",            label: "Clear sky for stargazing",       op: "<=",      threshold: 15, required: true,  weight: 35, ideal: 0,  curve: "linear", failLabel: "Too cloudy for stars" },
-      { field: "humidity_pct",               label: "Low humidity (transparency)",    op: "<=",      threshold: 55, required: false, weight: 20, ideal: 25, curve: "linear" },
-      { field: "precipitation_probability_pct", label: "Dry conditions",             op: "<=",      threshold: 15, required: true,  weight: 15, ideal: 0,  curve: "linear", failLabel: "Rain expected" },
-      { field: "wind_speed_mph",             label: "Calm wind at camp",              op: "<=",      threshold: 15, required: false, weight: 15, ideal: 3,  curve: "linear" },
-      { field: "overnight_low_f",            label: "Comfortable overnight temp",     op: "between", threshold: 30, upper: 60, required: false, weight: 15, ideal: 42, curve: "bell" },
+      { field: "cloud_cover_pct",               label: "Clear sky for stargazing",    op: "<=",      threshold: 15,            required: true,  weight: 30, ideal: 0,  curve: "linear", failLabel: "Clouds too dense",     rationale: "Even thin cloud layers wash out the Milky Way and dim faint stars. ≤15% is the hard cutoff; perfectly clear (0%) gives the darkest skies." },
+      { field: "moon_light_pct",                label: "Dark moon window",            op: "<=",      threshold: 50,            required: true,  weight: 25, ideal: 0,  curve: "linear", failLabel: "Moon too bright",      rationale: "Samples the moon every 15 minutes through astronomical night (sun ≥18° below horizon) and multiplies three things at each step: (1) moon illumination fraction from SunCalc — 0 at new moon, 1 at full — (2) whether the moon is above the local horizon for your lat/lon, and (3) a time-of-night weight shaped like a bathtub curve — samples right after nightfall and just before sunrise count 2.5× more than deep-midnight samples. That last factor penalizes a 'perfect window' that only happens at 1:30am versus one right after nightfall or close to sunrise. New moon, or moon that sets before dark = 0 (ideal). Full moon up through the prime early-evening hours = fails with 'Moon too bright'. Partial phases, or full moons confined to deep-night hours only, pass with a reduced score." },
+      { field: "humidity_pct",                  label: "Low humidity",                op: "<=",      threshold: 55,            required: false, weight: 15, ideal: 25, curve: "linear",                                    rationale: "High humidity scatters and absorbs light, reducing transparency and contrast. Dry air (≤25%) produces the sharpest, most defined starfields." },
+      { field: "precipitation_probability_pct", label: "Dry conditions",              op: "<=",      threshold: 15,            required: true,  weight: 15, ideal: 0,  curve: "linear", failLabel: "Rain expected",        rationale: "Any chance of rain above 15% is too risky for an overnight trip planned around clear skies." },
+      { field: "wind_speed_mph",                label: "Calm wind at camp",           op: "<=",      threshold: 15,            required: false, weight: 7,  ideal: 3,  curve: "linear",                                    rationale: "Wind doesn't affect sky clarity, but sustained wind makes stargazing miserable and can disturb optics. Calm nights score much higher." },
+      { field: "overnight_low_f",               label: "Comfortable overnight temp",  op: "between", threshold: 30, upper: 60, required: false, weight: 8,  ideal: 42, curve: "bell",                                     rationale: "Too cold and you're huddled in your bag; too warm and bugs ruin the night. 42°F is the sweet spot — cool enough for clear skies, warm enough to stay out." },
     ],
     scoring: { pass: 55, highlight: 80 },
   },
   {
-    name: "Sunset Sunrise Backpacking", emoji: "🌅", accent: "#e85d4a",
+    name: "Sunset Sunrise Backpacking", emoji: "🌅", accent: "#e85d4a", tableView: true,
     description: "Dramatic golden hour light for ridge camps",
     locations: [
-      { name: "Spray Park", lat: 46.9200, lon: -121.8050, elevation: 5800 },
-      { name: "Goat Rocks Old Snowy", lat: 46.4580, lon: -121.4420, elevation: 7000 },
-      { name: "Sahale Arm", lat: 48.4830, lon: -121.0530, elevation: 7600 },
-      { name: "Enchantments Aasgard", lat: 47.5150, lon: -120.8100, elevation: 7800 },
+      { name: "Sahale Arm",            lat: 48.4830, lon: -121.0530, elevation: 7600 },
+      { name: "Enchantments Aasgard",  lat: 47.5150, lon: -120.8100, elevation: 7800 },
+      { name: "Spray Park",            lat: 46.9200, lon: -121.8050, elevation: 5800 },
+      { name: "Goat Rocks Old Snowy",  lat: 46.4580, lon: -121.4420, elevation: 7000 },
     ],
     criteria: [
-      { field: "cloud_cover_pct",            label: "Cloud texture for dramatic light", op: "between", threshold: 15, upper: 65, required: false, weight: 30, ideal: 38, curve: "bell" },
-      { field: "precipitation_probability_pct", label: "Dry conditions",              op: "<=",      threshold: 20,            required: true,  weight: 20, ideal: 5,  curve: "linear", failLabel: "Rain expected" },
-      { field: "visibility_mi",              label: "Long-range visibility",           op: ">=",      threshold: 8,             required: false, weight: 20, ideal: 30, curve: "linear" },
-      { field: "wind_speed_mph",             label: "Calm enough for camp",            op: "<=",      threshold: 20,            required: false, weight: 10, ideal: 5,  curve: "linear" },
-      { field: "temperature_f",              label: "Comfortable temperature",         op: "between", threshold: 40, upper: 75, required: false, weight: 10, ideal: 55, curve: "bell" },
-      { field: "humidity_pct",               label: "Clean light (low humidity)",      op: "<=",      threshold: 65,            required: false, weight: 10, ideal: 35, curve: "linear" },
+      { field: "cloud_cover_pct",               label: "Cloud texture for dramatic light", op: "between", threshold: 15, upper: 65, required: false, weight: 30, ideal: 38, curve: "bell",                                 rationale: "Perfectly clear skies produce bland sunsets. The best alpenglow happens with 20–50% cloud cover — enough texture to light up without blocking the sun entirely. Bell curve peaks at 38%." },
+      { field: "precipitation_probability_pct", label: "Dry conditions",                   op: "<=",      threshold: 20,            required: true,  weight: 20, ideal: 5,  curve: "linear", failLabel: "Rain expected",   rationale: "Rain ruins the camp and often means a solid overcast — no color. ≤20% keeps the risk low; ≤5% is nearly guaranteed dry." },
+      { field: "visibility_mi",                 label: "Long-range visibility",            op: ">=",      threshold: 8,             required: false, weight: 20, ideal: 30, curve: "linear",                               rationale: "Ridge camps are worthless if you can't see the peaks. ≥8 mi is the minimum for a view; ≥30 mi gives that crystal-clear 100-mile panorama." },
+      { field: "wind_speed_mph",                label: "Calm enough for camp",             op: "<=",      threshold: 20,            required: false, weight: 10, ideal: 5,  curve: "linear",                               rationale: "Exposed ridge camps become miserable above 20 mph. Lower wind also means clouds hold their shape longer during golden hour instead of streaking past." },
+      { field: "temperature_f",                 label: "Comfortable temperature",          op: "between", threshold: 40, upper: 75, required: false, weight: 10, ideal: 55, curve: "bell",                                 rationale: "55°F at sunset is perfect — comfortable in a light layer, no condensation issues, and stable air for crisp photos. Below 40°F or above 75°F reduces enjoyment." },
+      { field: "humidity_pct",                  label: "Clean light (low humidity)",       op: "<=",      threshold: 65,            required: false, weight: 10, ideal: 35, curve: "linear",                               rationale: "Low humidity means clean, saturated colors at golden hour. High humidity scatters light into a flat haze that washes out the alpenglow." },
     ],
     scoring: { pass: 50, highlight: 80 },
+  },
+  {
+    name: "Bluebird Powder Day", emoji: "🏔", accent: "#4da8da", tableView: true,
+    description: "Fresh powder + clear skies on WA ski mountains",
+    locations: [
+      { name: "Mt. Baker",        lat: 48.8566, lon: -121.6644, elevation: 5089 },
+      { name: "Stevens Pass",     lat: 47.7448, lon: -121.0890, elevation: 4061 },
+      { name: "Snoqualmie Pass",  lat: 47.4281, lon: -121.4138, elevation: 3022 },
+      { name: "Crystal Mountain", lat: 46.9354, lon: -121.5045, elevation: 6872 },
+    ],
+    criteria: [
+      { field: "overnight_snowfall_in",     label: "Fresh snow overnight",  op: ">=", threshold: 8,  required: true,  weight: 40, ideal: 18, curve: "linear", failLabel: "No fresh snow",         rationale: "This is the whole game — 8\" is the minimum for a powder day worth the drive, 18\"+ is a true dump. The highest weight of any criterion by far." },
+      { field: "cloud_cover_pct",           label: "Clear skies",           op: "<=", threshold: 20, required: true,  weight: 20, ideal: 0,  curve: "linear", failLabel: "Too cloudy",             rationale: "Bluebird means sun on fresh snow. Overcast days with powder exist but don't score here — this profile is specifically for the classic sunny pow day." },
+      { field: "overnight_low_f",           label: "Cold overnight",        op: "<=", threshold: 26, required: true,  weight: 15, ideal: 15, curve: "linear", failLabel: "Didn't freeze overnight", rationale: "Cold nights keep the snow light and dry. Above 26°F the snowpack can consolidate or develop a crust overnight, ruining the morning's powder." },
+      { field: "temperature_f",             label: "Cold for powder",       op: "<=", threshold: 32, required: true,  weight: 15, ideal: 22, curve: "linear", failLabel: "Too warm for powder",    rationale: "Warm daytime temps turn powder into heavy cement quickly. ≤32°F keeps the snow light all day; 22°F or colder means it stays dry for hours." },
+      { field: "wind_speed_mph",            label: "Manageable wind",       op: "<=", threshold: 25, required: false, weight: 10, ideal: 5,  curve: "linear",                                      rationale: "High wind on exposed ridges creates dangerous wind slab and scours powder into gullies. Under 25 mph is workable; under 5 mph is dreamy." },
+    ],
+    scoring: { pass: 60, highlight: 85 },
+  },
+  {
+    name: "Deep Dry Pow Day", emoji: "❄️", accent: "#a0c4ff", tableView: true,
+    description: "Maximum snowfall depth + cold dry snow on WA ski mountains — clouds don't matter",
+    locations: [
+      { name: "Mt. Baker",        lat: 48.8566, lon: -121.6644, elevation: 5089 },
+      { name: "Stevens Pass",     lat: 47.7448, lon: -121.0890, elevation: 4061 },
+      { name: "Snoqualmie Pass",  lat: 47.4281, lon: -121.4138, elevation: 3022 },
+      { name: "Crystal Mountain", lat: 46.9354, lon: -121.5045, elevation: 6872 },
+    ],
+    criteria: [
+      { field: "overnight_snowfall_in", label: "Deep overnight snowfall",   op: ">=", threshold: 8,  required: true,  weight: 40, ideal: 30, curve: "linear", failLabel: "Not enough snow",       rationale: "More snow is always better here — 8\" is the floor, 30\"+ is a legendary dump. Unlike bluebird days there's no ceiling; the deeper the better, full linear scoring all the way up." },
+      { field: "overnight_low_f",       label: "Cold enough for dry snow",  op: "<=", threshold: 28, required: true,  weight: 25, ideal: 10, curve: "linear", failLabel: "Too warm — heavy snow", rationale: "Snow crystal structure depends heavily on temperature. Below 25°F produces ultralight 'champagne' powder with low water content — the kind that floats. 28°F is the cutoff; above that the flakes bond into heavier, wetter snow that skis like concrete. 10°F or colder is the dream." },
+      { field: "wind_speed_mph",        label: "Low wind (ski day)",        op: "<=", threshold: 25, required: false, weight: 20, ideal: 3,  curve: "linear",                                    rationale: "High wind on powder days scours the snow off exposed terrain into gullies and builds dangerous wind slabs on leeward aspects. Under 25 mph is manageable; under 3 mph means pristine untracked snow everywhere on the mountain." },
+      { field: "wind_gust_mph",         label: "Low gusts (storm quality)", op: "<=", threshold: 40, required: false, weight: 15, ideal: 5,  curve: "linear",                                    rationale: "High gusts during the storm itself create wind-deposited slab instead of cohesionless dry pow. Even if the morning looks calm, a high-gust storm overnight means the snowpack is layered and uneven rather than uniform deep powder." },
+    ],
+    scoring: { pass: 55, highlight: 85 },
   },
 ];
 
@@ -345,6 +392,64 @@ function mmToInches(mm) { return mm != null ? mm / 25.4 : null; }
 function mphFromKmh(kmh) { return kmh != null ? kmh * 0.621371 : null; }
 function metersToMiles(m) { return m != null ? m / 1609.34 : null; }
 
+// ── Moon light pollution for night photography ───────────────────────────────
+// Returns a 0–100 score of how much moonlight pollutes the astronomical night,
+// weighted by *when* within the night the pollution falls.
+//   0  = new moon, or moon fully below horizon, during any prime hours
+//   100 = full moon above the horizon through the whole astronomical night
+//
+// Time-of-night convenience weighting (bathtub curve):
+//   w(p) = 0.4 + 0.6 * (1 - sin(π*p))   where p ∈ [0,1] is fraction of the night
+// This makes samples right after nightfall (p≈0) and just before sunrise (p≈1)
+// count 2.5× more than samples in the deep middle of the night (p≈0.5).
+// Rationale: a dark, moon-free window right after nightfall or close to sunrise
+// is more valuable than the same window at 1:30am when you'd be asleep. So a
+// full moon that dominates 10pm–1am hurts the score more than a full moon that
+// dominates 1am–3am.
+//
+// Uses SunCalc: samples moon position every 15 min through the astronomical
+// dark window (sun 18° below horizon), summing illum × above-horizon × w(p).
+function computeMoonLightPollution(dateStr, lat, lon) {
+  if (typeof SunCalc === "undefined") return null;
+  const [y, m, d] = dateStr.split("-").map(Number);
+  // Anchor at local noon of the target date (timezone-safe via longitude offset)
+  const utcNoonHour = 12 - lon / 15;
+  const todayNoon = new Date(Date.UTC(y, m - 1, d, utcNoonHour, 0, 0));
+  const tomorrowNoon = new Date(todayNoon.getTime() + 24 * 3600 * 1000);
+
+  const todayTimes = SunCalc.getTimes(todayNoon, lat, lon);
+  const tomorrowTimes = SunCalc.getTimes(tomorrowNoon, lat, lon);
+
+  // Astronomical night: tonight's "night" start → tomorrow's "nightEnd"
+  let nightStart = todayTimes.night;
+  let nightEnd = tomorrowTimes.nightEnd;
+  // Fallback to nautical twilight at high latitudes where astro night is absent
+  if (!nightStart || isNaN(nightStart.getTime())) nightStart = todayTimes.nauticalDusk;
+  if (!nightEnd   || isNaN(nightEnd.getTime()))   nightEnd   = tomorrowTimes.nauticalDawn;
+  if (!nightStart || !nightEnd || nightEnd <= nightStart) return null;
+
+  const startMs = nightStart.getTime();
+  const durMs = nightEnd.getTime() - startMs;
+  const stepMs = 15 * 60 * 1000;
+
+  let pollutionSum = 0, weightSum = 0;
+  for (let t = startMs; t < startMs + durMs; t += stepMs) {
+    const when = new Date(t);
+    const p = (t - startMs) / durMs;                     // 0 at dusk, 1 at dawn
+    const w = 0.4 + 0.6 * (1 - Math.sin(Math.PI * p));    // bathtub: 1.0→0.4→1.0
+    let sample = 0;
+    const pos = SunCalc.getMoonPosition(when, lat, lon);
+    if (pos.altitude > 0) {
+      const illum = SunCalc.getMoonIllumination(when);
+      sample = illum.fraction;                            // 0 new → 1 full
+    }
+    pollutionSum += sample * w;
+    weightSum += w;
+  }
+  if (weightSum === 0) return null;
+  return Math.round((pollutionSum / weightSum) * 100);
+}
+
 async function fetchNWSWeather(lat, lon) {
   // Step 1: Grid lookup
   const grid = await getGridInfo(lat, lon);
@@ -469,12 +574,18 @@ async function fetchOpenMeteoWeather(lat, lon) {
 }
 
 async function fetchLocationWeather(lat, lon) {
+  let result;
   try {
-    return await fetchNWSWeather(lat, lon);
+    result = await fetchNWSWeather(lat, lon);
   } catch (nwsErr) {
     console.warn(`[NWS] (${lat},${lon}) failed: ${nwsErr.message} — trying Open-Meteo fallback`);
-    return await fetchOpenMeteoWeather(lat, lon);
+    result = await fetchOpenMeteoWeather(lat, lon);
   }
+  // Enrich every day with moon light pollution for the night that *begins* that date
+  for (const date of Object.keys(result.weatherByDay)) {
+    result.weatherByDay[date].moon_light_pct = computeMoonLightPollution(date, lat, lon);
+  }
+  return result;
 }
 
 // ── Rendering ────────────────────────────────────────────────────────────────
@@ -541,10 +652,67 @@ function renderLocationCard(loc, result, rank, accent) {
   </div>`;
 }
 
+// ── Scoring criteria popover ─────────────────────────────────────────────────
+function fieldUnit(field) {
+  if (field.endsWith("_f"))   return "°F";
+  if (field.endsWith("_pct")) return "%";
+  if (field.endsWith("_mph")) return " mph";
+  if (field.endsWith("_in"))  return "\"";
+  if (field.endsWith("_mi"))  return " mi";
+  return "";
+}
+
+function renderScoringPopover(profile) {
+  const id = `si-${profile.name.replace(/\W/g, "")}`;
+  const rows = profile.criteria.map(c => {
+    const u = fieldUnit(c.field);
+    const thresh = c.op === "between"
+      ? `${c.threshold}–${c.upper}${u}`
+      : `${c.op === "<=" ? "≤" : "≥"}${c.threshold}${u}`;
+    const idealStr = c.ideal != null ? ` · ideal ${c.ideal}${u}` : "";
+    const dot = c.required
+      ? `<span style="color:#e85d4a">●</span>`
+      : `<span style="color:var(--t3)">○</span>`;
+    const reqTag = c.required
+      ? `<span style="color:#e85d4a;font-size:9px;letter-spacing:.5px"> REQUIRED</span>`
+      : "";
+    return `<div class="si-row">
+      <div class="si-dot">${dot}</div>
+      <div class="si-info">
+        <div class="si-label">${c.label}${reqTag}</div>
+        ${c.rationale ? `<div class="si-rationale">${c.rationale}</div>` : ""}
+        <div class="si-meta">${thresh}${idealStr} · weight ${c.weight}%</div>
+      </div>
+    </div>`;
+  }).join("");
+
+  return `<div class="si-wrap" id="${id}">
+    <button class="si-btn" onclick="toggleScoringInfo(event,'${id}')">How is this scored? ℹ</button>
+    <div class="si-pop" onclick="event.stopPropagation()">
+      <div class="si-head">SCORING CRITERIA</div>
+      ${rows}
+      <div class="si-divider"></div>
+      <div class="si-footer">● required &nbsp;○ optional &nbsp;·&nbsp; Pass ≥${profile.scoring.pass} &nbsp;·&nbsp; Exceptional ≥${profile.scoring.highlight}</div>
+    </div>
+  </div>`;
+}
+
+function toggleScoringInfo(event, id) {
+  event.stopPropagation();
+  const el = document.getElementById(id);
+  const isOpen = el.classList.contains("open");
+  document.querySelectorAll(".si-wrap.open").forEach(e => e.classList.remove("open"));
+  if (!isOpen) el.classList.add("open");
+}
+document.addEventListener("click", () => {
+  document.querySelectorAll(".si-wrap.open").forEach(e => e.classList.remove("open"));
+});
+
 // ── Day detail modal ─────────────────────────────────────────────────────────
 // Cell results are stored here by ID during renderProfileTable so onclick can
 // look them up without embedding JSON in HTML attributes.
 const _cellData = {};
+
 
 function showDayModal(cellId) {
   const { locName, date, result } = _cellData[cellId];
@@ -638,8 +806,9 @@ function renderProfileTable(profile, locResults) {
       </td>`;
     }).join("");
 
+    const loc = r.location;
     return `<tr>
-      <td class="ct-loc-cell" title="${r.location.name}">${r.location.name}</td>
+      <td class="ct-loc-cell" title="${loc.name}"><span class="ct-loc-name">${loc.name}</span></td>
       ${cells}
     </tr>`;
   }).join("");
@@ -655,7 +824,11 @@ function renderProfileTable(profile, locResults) {
         <h2>${profile.name}</h2>
         <p>${profile.description}</p>
       </div>
-      ${overallBest ? `<div class="profile-best">${ringSVG(overallBest.total, overallBest.grade, 62)}<div class="label">BEST</div></div>` : ""}
+      <div class="profile-best">
+        ${overallBest ? ringSVG(overallBest.total, overallBest.grade, 62) : ""}
+        ${overallBest ? '<div class="label">BEST</div>' : ""}
+        ${renderScoringPopover(profile)}
+      </div>
     </div>
     <div class="ct-wrap">
       <table class="ct">
@@ -685,7 +858,11 @@ function renderProfile(profile, locResults) {
         <h2>${profile.name}</h2>
         <p>${profile.description}</p>
       </div>
-      ${best ? `<div class="profile-best">${ringSVG(best.result.total, best.result.grade, 62)}<div class="label">BEST</div></div>` : ""}
+      <div class="profile-best">
+        ${best ? ringSVG(best.result.total, best.result.grade, 62) : ""}
+        ${best ? '<div class="label">BEST</div>' : ""}
+        ${renderScoringPopover(profile)}
+      </div>
     </div>
     ${cardsHtml}
   </div>`;
