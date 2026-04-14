@@ -1,0 +1,121 @@
+# ╔══════════════════════════════════════════════════════════════════════════════╗
+# ║  BLUEBIRD POWDER DAY                                                       ║
+# ║  Adventure Scout Search Profile                                            ║
+# ╚══════════════════════════════════════════════════════════════════════════════╝
+#
+# What it looks for:
+#   Fresh overnight snowfall with clear morning skies on Washington ski mountains.
+#   The dream combo — deep powder under a blue sky, cold enough to keep it dry.
+#
+# How to tune:
+#   - Raise overnight_snowfall_in threshold for deeper powder standards
+#   - Lower cloud_cover_pct threshold for stricter "bluebird" definition
+#   - Add wind criteria weight if lift wind-holds are a dealbreaker for you
+#   - Adjust time_window to check afternoons if you're not a first-chair person
+
+name: "Bluebird Powder Day"
+description: >
+  Fresh powder with clear skies — the dream morning on a Washington ski mountain.
+  Checks for overnight snowfall, cold temps to keep it light, and minimal cloud
+  cover at dawn. The kind of day you call in sick for.
+
+time_window:
+  start_hour: 6         # 6 AM — first chair conditions
+  end_hour: 11          # Through 11 AM — morning window before sun crust
+  days_ahead: 3         # Look 3 days into the forecast
+
+locations:
+  - name: "Mt. Baker"
+    lat: 48.8566
+    lon: -121.6644
+    elevation_ft: 5089
+    notes: "World record snowfall holder, often socked in with clouds"
+
+  - name: "Stevens Pass"
+    lat: 47.7448
+    lon: -121.0890
+    elevation_ft: 4061
+    notes: "Gets hammered with Cascade concrete — needs cold temps for dry snow"
+
+  - name: "Snoqualmie Pass"
+    lat: 47.4281
+    lon: -121.4138
+    elevation_ft: 3022
+    notes: "Closest to Seattle but lowest elevation — rain risk above 32°F"
+
+  - name: "Crystal Mountain"
+    lat: 46.9354
+    lon: -121.5045
+    elevation_ft: 6872
+    notes: "Highest base area in WA, tends to hold snow well"
+
+criteria:
+  - field: overnight_snowfall_in
+    label: "Fresh overnight snow"
+    operator: ">="
+    threshold: 8
+    required: true
+    weight: 40
+    ideal: 18
+    scoring_curve: linear
+    fail_label: "No fresh snow"
+    rationale: >
+      8 inches is the minimum for a proper powder day. 18+ inches
+      is dream territory. This carries the most weight because
+      no powder = no powder day, period.
+
+  - field: cloud_cover_pct
+    label: "Clear skies"
+    operator: "<="
+    threshold: 20
+    required: true
+    weight: 20
+    ideal: 0
+    scoring_curve: linear
+    fail_label: "Too cloudy"
+    rationale: >
+      Bluebird means blue sky. 20% is the gate — a few wisps are OK.
+      Full points at 0% cloud cover.
+
+  - field: overnight_low_f
+    label: "Cold overnight"
+    operator: "<="
+    threshold: 26
+    required: true
+    weight: 15
+    ideal: 15
+    scoring_curve: linear
+    fail_label: "Didn't freeze overnight"
+    rationale: >
+      Cold overnight temps mean the snow stays light and doesn't
+      develop a crust. Below 15°F is champagne powder territory.
+
+  - field: temperature_f
+    label: "Cold for powder"
+    operator: "<="
+    threshold: 32
+    required: true
+    weight: 15
+    ideal: 22
+    scoring_curve: linear
+    fail_label: "Too warm for powder"
+    rationale: >
+      Above 32°F the snow gets heavy and sticky. Ideal around 22°F
+      keeps it light and dry without being brutally cold.
+
+  - field: wind_speed_mph
+    label: "Manageable wind"
+    operator: "<="
+    threshold: 25
+    required: false
+    weight: 10
+    ideal: 5
+    scoring_curve: linear
+    rationale: >
+      Not required — you can still have a great day in wind — but
+      calm conditions are much better. Above 25 mph risks lift holds.
+
+scoring:
+  method: weighted_sum
+  pass_threshold: 60         # "Looks good — consider going"
+  highlight_threshold: 85    # "Drop everything, this is it"

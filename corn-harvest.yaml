@@ -1,0 +1,164 @@
+# ╔══════════════════════════════════════════════════════════════════════════════╗
+# ║  CORN HARVEST                                                              ║
+# ║  Adventure Scout Search Profile                                            ║
+# ╚══════════════════════════════════════════════════════════════════════════════╝
+#
+# What it looks for:
+#   Perfect spring corn snow conditions. The overnight freeze-thaw cycle that
+#   turns the snowpack into smooth, carveable corn kernels by mid-morning.
+#   Needs a hard overnight freeze followed by a warm sunny morning to soften
+#   just the top layer.
+#
+# How to tune:
+#   - Shift time_window later (10 AM–1 PM) for higher-elevation zones that
+#     take longer to soften
+#   - Adjust overnight_low_f threshold based on snowpack depth — deeper pack
+#     needs a harder freeze
+#   - Lower cloud_cover if you also want it for tanning, not just corn
+
+name: "Corn Harvest"
+description: >
+  Spring corn snow perfection — hard overnight freeze followed by sunny morning
+  warmth that softens just the top layer into smooth, carveable corn kernels.
+  The window is narrow: too early and it's still ice, too late and it's slush.
+
+time_window:
+  start_hour: 9          # 9 AM — corn starts softening
+  end_hour: 13           # 1 PM — after that it's usually too soft / slushy
+  days_ahead: 4          # Spring weather is more predictable, check 4 days
+
+# Coordinates are placed in the actual ski zone (~7,000–9,000 ft) for accurate
+# freeze-thaw temperature scoring. Extreme summits (Adams, Rainier) use upper-
+# mountain points representative of the corn harvest zone. The standard lapse rate
+# (~3.5°F/1,000 ft) makes trailhead temps useless for overnight_low_f / temperature_f.
+locations:
+  - name: "Mt. Shuksan (Sulphide Glacier)"
+    lat: 48.8210
+    lon: -121.6010
+    elevation_ft: 9131
+    notes: "Scoring point: Sulphide Glacier (~7,500 ft). Summit at 9,131 ft. SE-facing glacier, late May sweet spot for corn at altitude."
+
+  - name: "Mt. Baker (Squak Glacier)"
+    lat: 48.7200
+    lon: -121.8150
+    elevation_ft: 8800
+    notes: "Scoring point: mid Squak Glacier (~8,800 ft). South-side route accessed via Schreibers Meadow / Railroad Grade. South aspect ripens corn reliably in late spring."
+
+  - name: "Black Peak"
+    lat: 48.5175
+    lon: -120.6790
+    elevation_ft: 8970
+    notes: "Scoring point: south face (~8,500 ft). Summit at 8,970 ft. Washington Pass classic; south face is textbook corn once Hwy 20 opens late April/May."
+
+  - name: "Sahale Peak"
+    lat: 48.4980
+    lon: -121.0640
+    elevation_ft: 8680
+    notes: "Scoring point: upper Sahale Arm (~7,200 ft). Summit at 8,680 ft. Open south-aspect bowl above Cascade Pass, reliable freeze-thaw terrain."
+
+  - name: "Glacier Peak"
+    lat: 48.1270
+    lon: -121.1790
+    elevation_ft: 10525
+    notes: "Scoring point: Kennedy Glacier zone (~7,500 ft). Summit at 10,525 ft. Remote approach via White Chuck or Suiattle drainages. South glacier for corn."
+
+  - name: "Mt. Stuart (Cascadian Couloir)"
+    lat: 47.4600
+    lon: -120.8940
+    elevation_ft: 9415
+    notes: "Scoring point: upper Cascadian Couloir (~8,000 ft). Summit at 9,415 ft. Highest non-volcanic Cascade peak; south couloir and upper basin."
+
+  - name: "Mt. Daniel"
+    lat: 47.4274
+    lon: -121.0269
+    elevation_ft: 7960
+    notes: "Scoring point: summit plateau (~7,800 ft). Summit at 7,960 ft. Highest point in King County; south-facing plateau accessible from Cle Elum drainage."
+
+  - name: "Mt. Rainier (Muir Snowfield)"
+    lat: 46.8030
+    lon: -121.7370
+    elevation_ft: 14411
+    notes: "Scoring point: Muir Snowfield (~8,500 ft). Ski objective: Camp Muir at 10,080 ft. South-facing snowfield with reliable overnight freeze."
+
+  - name: "Mt. Adams (SW Chutes)"
+    lat: 46.1860
+    lon: -121.4920
+    elevation_ft: 12281
+    notes: "Scoring point: SW Chutes ski zone (~8,000 ft). Ski objective: summit at 12,281 ft. Classic WA corn, SW exposure, hard freeze-thaw at altitude."
+
+  - name: "Mt. St. Helens (Monitor Ridge)"
+    lat: 46.1840
+    lon: -122.1970
+    elevation_ft: 8365
+    notes: "Scoring point: Monitor Ridge (~6,500 ft). Summit at 8,365 ft. Open treeless volcanic slopes ripen corn early; permit required May–Oct."
+
+criteria:
+  - field: overnight_low_f
+    label: "Overnight freeze"
+    operator: "<="
+    threshold: 40
+    required: true
+    weight: 30
+    ideal: 20
+    scoring_curve: linear
+    rationale: >
+      The freeze half of the freeze-thaw cycle. Any overnight low below 40°F
+      counts as a pass, but score degrades linearly as it warms — 20°F is
+      ideal (hard freeze, defined corn layer), 40°F is borderline (light
+      refreeze only). Above 40°F the surface won't refreeze at all.
+
+  - field: temperature_f
+    label: "Daily high warm enough to soften"
+    operator: ">="
+    threshold: 36
+    required: true
+    weight: 25
+    ideal: 45
+    scoring_curve: linear
+    rationale: >
+      The thaw half. Daily HIGH needs to climb above freezing to soften the
+      top inch or two. Uses the daily maximum so the overnight freeze doesn't
+      dilute the softening check. 45°F is the sweet spot.
+
+  - field: cloud_cover_pct
+    label: "Sunny (solar heating drives the corn)"
+    operator: "<="
+    threshold: 25
+    required: true
+    weight: 25
+    ideal: 5
+    scoring_curve: linear
+    rationale: >
+      Direct sun is what actually softens the surface — air temp alone
+      isn't enough. Clouds block solar radiation and delay or prevent
+      the corn cycle. Required because overcast = no corn.
+
+  - field: wind_speed_mph
+    label: "Low wind (preserves the corn surface)"
+    operator: "<="
+    threshold: 15
+    required: false
+    weight: 10
+    ideal: 3
+    scoring_curve: linear
+    rationale: >
+      Wind can crust over or destroy the delicate corn surface. Not a
+      hard requirement since sheltered runs exist, but calm is much better.
+
+  - field: precipitation_probability_pct
+    label: "No new precipitation"
+    operator: "<="
+    threshold: 10
+    required: false
+    weight: 10
+    ideal: 0
+    scoring_curve: step
+    rationale: >
+      New snow or rain ruins the corn cycle. Fresh snow covers the corn
+      layer; rain makes ice. Must be dry. Step scoring — either it's
+      dry or it isn't.
+
+scoring:
+  method: weighted_sum
+  pass_threshold: 60
+  highlight_threshold: 85

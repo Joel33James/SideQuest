@@ -1,0 +1,173 @@
+# ╔══════════════════════════════════════════════════════════════════════════════╗
+# ║  NIGHTSKY BACKPACKING                                                      ║
+# ║  Adventure Scout Search Profile                                            ║
+# ╚══════════════════════════════════════════════════════════════════════════════╝
+#
+# What it looks for:
+#   Multi-condition window for an overnight backpacking trip optimized for
+#   astrophotography and stargazing. Clear skies and low humidity for
+#   transparency, dark moon windows (new moon or moon below horizon), calm
+#   wind for comfort and stable tripod shots, dry forecast for the approach,
+#   and comfortable overnight temps.
+#
+# How to tune:
+#   - Tighten cloud_cover_pct to <= 5 for strict astrophotography
+#   - Lower moon_light_pct threshold (e.g. 30) if you only want new-moon windows
+#   - Adjust temperature range if you run hot or cold
+#   - Widen humidity threshold at higher elevations — alpine air is naturally drier
+#
+# Moon scoring note:
+#   moon_light_pct is a derived field computed from SunCalc. It samples the
+#   moon position and illumination every 15 minutes through astronomical night
+#   (sun >= 18° below horizon) and averages illumination × above-horizon,
+#   weighted by time-of-night: samples just after nightfall and just before
+#   sunrise count 2.5× more than deep-midnight samples. New moon = 0, full
+#   moon above horizon all night = 100.
+
+name: "Nightsky Backpacking"
+description: >
+  Overnight backpacking trip optimized for astrophotography and stargazing.
+  Scores clear skies, dark moon windows, low humidity for atmospheric
+  transparency, calm wind for camp comfort and stable tripod shots, dry
+  conditions for the approach, and overnight temps that let you enjoy the
+  sky without freezing.
+
+time_window:
+  start_hour: 20         # 8 PM — evaluate evening/night conditions
+  end_hour: 5            # 5 AM — through the prime stargazing hours
+  days_ahead: 5          # Plan a few days out for backpacking logistics
+
+locations:
+  - name: "Chain Lakes (Mt. Baker)"
+    lat: 48.8280
+    lon: -121.6890
+    elevation_ft: 4300
+    notes: "Wide-open ridgeline camp below Baker with expansive sky views south and east. Far from Bellingham light dome."
+
+  - name: "North Cascades (Cascade Pass)"
+    lat: 48.4748
+    lon: -121.0750
+    elevation_ft: 5400
+    notes: "Remote and dark — minimal light pollution from any direction."
+
+  - name: "Seven Lakes Basin (Olympic NP)"
+    lat: 47.9420
+    lon: -123.6990
+    elevation_ft: 4200
+    notes: "One of the darkest corners of western WA — shielded from Seattle/Tacoma glow by the full Olympic Range. Maritime weather makes this a high-reward, high-variance location."
+
+  - name: "Enchantments (Stuart Lake TH)"
+    lat: 47.5282
+    lon: -120.8253
+    elevation_ft: 4400
+    notes: "Permit required. Core zone has incredible alpine starscapes."
+
+  - name: "Mt. Rainier (Sunrise)"
+    lat: 46.9145
+    lon: -121.6415
+    elevation_ft: 6400
+    notes: "Highest vehicle-accessible point in WA, great horizon visibility."
+
+  - name: "Goat Rocks Wilderness (Snowgrass TH)"
+    lat: 46.4675
+    lon: -121.5025
+    elevation_ft: 5600
+    notes: "High alpine meadows with panoramic sky views, dark skies."
+
+criteria:
+  - field: cloud_cover_pct
+    label: "Clear sky for stargazing"
+    operator: "<="
+    threshold: 15
+    required: true
+    weight: 30
+    ideal: 0
+    scoring_curve: linear
+    fail_label: "Clouds too dense"
+    rationale: >
+      Stargazing needs clear sky — it's the whole point. Even thin cloud
+      layers wash out the Milky Way and dim faint stars. 15% is the hard
+      cutoff; 0% gives the darkest possible skies. Required gate.
+
+  - field: moon_light_pct
+    label: "Dark moon window"
+    operator: "<="
+    threshold: 50
+    required: true
+    weight: 25
+    ideal: 0
+    scoring_curve: linear
+    fail_label: "Moon too bright"
+    rationale: >
+      Derived field computed from SunCalc. Samples moon position every
+      15 minutes through astronomical night and multiplies three factors:
+      (1) moon illumination fraction — 0 at new moon, 1 at full moon;
+      (2) whether the moon is above the local horizon at that moment;
+      (3) a time-of-night weight shaped as a bathtub curve — samples
+      right after nightfall and just before sunrise count 2.5× more than
+      deep-midnight samples. This means a full moon that only pollutes
+      the 1:30am hour is a smaller penalty than one that dominates the
+      prime post-dusk viewing window. New moon or moon fully below
+      horizon all night = 0 (ideal). Full moon above horizon through
+      prime evening hours = fail. Partial phases or moons confined to
+      deep-night hours pass with a reduced score.
+
+  - field: humidity_pct
+    label: "Low humidity (atmospheric transparency)"
+    operator: "<="
+    threshold: 55
+    required: false
+    weight: 15
+    ideal: 25
+    scoring_curve: linear
+    rationale: >
+      High humidity scatters light and reduces star contrast. Below 55%
+      is acceptable; below 25% gives razor-sharp seeing conditions.
+      Not required because high-altitude sites compensate.
+
+  - field: precipitation_probability_pct
+    label: "Dry conditions"
+    operator: "<="
+    threshold: 15
+    required: true
+    weight: 15
+    ideal: 0
+    scoring_curve: linear
+    fail_label: "Rain expected"
+    rationale: >
+      Rain on a backpacking trip is miserable, and storm clouds kill
+      the stargazing. Required gate at 15% — some uncertainty is OK,
+      but it should look solidly dry.
+
+  - field: wind_speed_mph
+    label: "Calm wind at camp"
+    operator: "<="
+    threshold: 15
+    required: false
+    weight: 7
+    ideal: 3
+    scoring_curve: linear
+    rationale: >
+      Sustained wind makes lying under the stars miserable and shakes
+      a tripod during long astrophotography exposures. Not required
+      because sheltered campsites exist, but calm nights score much higher.
+
+  - field: overnight_low_f
+    label: "Comfortable overnight temperature"
+    operator: "between"
+    threshold: 30
+    threshold_upper: 60
+    required: false
+    weight: 8
+    ideal: 42
+    scoring_curve: bell
+    rationale: >
+      Too cold and you're in the bag, not watching stars. Too warm and
+      the bugs are out. 42°F is the sweet spot — comfortable in a puffy
+      jacket, no bugs, not shivering. Bell curve because both extremes
+      are equally bad.
+
+scoring:
+  method: weighted_sum
+  pass_threshold: 55         # Backpacking has more flexibility
+  highlight_threshold: 80    # Outstanding night — worth the drive

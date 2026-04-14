@@ -1,0 +1,135 @@
+# ╔══════════════════════════════════════════════════════════════════════════════╗
+# ║  DEEP DRY POW DAY                                                          ║
+# ║  Adventure Scout Search Profile                                            ║
+# ╚══════════════════════════════════════════════════════════════════════════════╝
+#
+# What it looks for:
+#   Maximum snowfall depth combined with ultralight, low-density snow — the kind
+#   that requires no sun whatsoever. Overcast storm days score just as well as
+#   bluebird days here. The key variables are snow depth (more is always better),
+#   overnight temperature (below 25°F produces champagne-density crystals), and
+#   wind (ruins the snow surface and creates dangerous wind slab).
+#
+# How to tune:
+#   - Raise overnight_snowfall_in threshold for higher personal powder standards
+#   - Lower overnight_low_f ideal further (e.g. 5°F) if you chase purely cold
+#     smoke pow and don't care about warmer big-dump days
+#   - Tighten wind_gust_mph if you're skiing exposed ridgelines
+#   - Loosen wind_speed_mph if you'll stay in the trees where wind doesn't matter
+#
+# Difference from Bluebird Powder Day:
+#   - No cloud cover criterion — sun doesn't matter
+#   - Snowfall ideal raised from 18" to 30" — depth over everything
+#   - overnight_low_f threshold tightened to 28°F (requires genuinely cold snow)
+#   - overnight_low_f ideal lowered to 10°F (champagne powder territory)
+#   - Added wind_gust_mph to capture storm wind quality in addition to daytime wind
+#   - No temperature_f (daytime high) criterion — cold days help but aren't gated
+
+name: "Deep Dry Pow Day"
+description: >
+  Maximum snowfall depth plus ultralight snow density — clouds don't matter.
+  Scores for overnight accumulation (more is always better), cold overnight
+  temps that produce low-density champagne powder below 25°F, and calm wind
+  on both the ski day and during the storm itself. Overcast dumps score
+  equally with bluebird days.
+
+time_window:
+  start_hour: 6         # 6 AM — first chair conditions
+  end_hour: 11          # Through 11 AM — morning window before snow settles
+  days_ahead: 3         # Storm forecasts are most reliable 1–3 days out
+
+locations:
+  - name: "Mt. Baker"
+    lat: 48.8566
+    lon: -121.6644
+    elevation_ft: 5089
+    notes: "World record snowfall holder — often socked in with clouds, which is fine here"
+
+  - name: "Stevens Pass"
+    lat: 47.7448
+    lon: -121.0890
+    elevation_ft: 4061
+    notes: "Gets hammered in storms — needs cold temps to avoid Cascade concrete"
+
+  - name: "Snoqualmie Pass"
+    lat: 47.4281
+    lon: -121.4138
+    elevation_ft: 3022
+    notes: "Lowest elevation — most vulnerable to warm storms, but big cold dumps are epic"
+
+  - name: "Crystal Mountain"
+    lat: 46.9354
+    lon: -121.5045
+    elevation_ft: 6872
+    notes: "Highest base area in WA, tends to hold cold dry snow at elevation"
+
+criteria:
+  - field: overnight_snowfall_in
+    label: "Deep overnight snowfall"
+    operator: ">="
+    threshold: 8
+    required: true
+    weight: 40
+    ideal: 30
+    scoring_curve: linear
+    fail_label: "Not enough snow"
+    rationale: >
+      More snow is always better — this is the whole game. 8 inches is
+      the minimum for a powder day worth the drive. Unlike Bluebird Powder
+      Day the ideal is set at 30 inches (not 18), because this profile
+      celebrates maximum depth. Full linear scoring all the way up — a
+      36-inch storm scores higher than an 18-inch storm, no ceiling.
+
+  - field: overnight_low_f
+    label: "Cold enough for dry snow"
+    operator: "<="
+    threshold: 28
+    required: true
+    weight: 25
+    ideal: 10
+    scoring_curve: linear
+    fail_label: "Too warm — heavy snow"
+    rationale: >
+      Snow crystal structure is temperature-dependent. Below 25°F the
+      flakes are dry, branchy dendrites with very low water content —
+      the ultralight "champagne" powder that floats and sprays. Above
+      28°F they become wet and heavy, bonding into the infamous Cascade
+      concrete. 10°F or colder is dream territory. Required threshold
+      at 28°F because warm snow fundamentally changes the experience
+      this profile is optimizing for.
+
+  - field: wind_speed_mph
+    label: "Low wind (ski day)"
+    operator: "<="
+    threshold: 25
+    required: false
+    weight: 20
+    ideal: 3
+    scoring_curve: linear
+    rationale: >
+      High wind on powder days scours snow off exposed terrain, deposits
+      it as wind slab on leeward aspects, and creates dangerous loading
+      above terrain features. Under 25 mph is manageable; under 3 mph
+      means pristine untracked snow is everywhere on the mountain,
+      not just in sheltered trees.
+
+  - field: wind_gust_mph
+    label: "Low gusts (storm snow quality)"
+    operator: "<="
+    threshold: 40
+    required: false
+    weight: 15
+    ideal: 5
+    scoring_curve: linear
+    rationale: >
+      High gusts during the storm itself produce wind-deposited slab
+      instead of cohesionless dry powder. Even if the ski day looks
+      calm, a high-gust storm overnight means the snowpack has
+      cross-loaded layers and uneven distribution rather than the
+      uniform deep powder this profile is chasing. Under 5 mph during
+      the storm means truly untracked champagne from top to bottom.
+
+scoring:
+  method: weighted_sum
+  pass_threshold: 55         # "Deep enough to be worth it"
+  highlight_threshold: 85    # "Legendary — cancel everything"

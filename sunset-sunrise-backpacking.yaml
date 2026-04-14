@@ -1,0 +1,142 @@
+# ╔══════════════════════════════════════════════════════════════════════════════╗
+# ║  SUNSET / SUNRISE BACKPACKING                                             ║
+# ║  Adventure Scout Search Profile                                            ║
+# ╚══════════════════════════════════════════════════════════════════════════════╝
+#
+# What it looks for:
+#   The perfect overnight backpacking trip for golden hour and alpenglow —
+#   not a fully clear sky (boring sunsets), but a sky with enough cloud
+#   texture to paint. Dry enough to be comfortable, but the magic is in
+#   the partial cloud cover that catches fire at golden hour.
+#
+# How to tune:
+#   - The cloud_cover "between" range is the key knob. 20-60% is the
+#     sweet spot where you get cloud texture without total overcast.
+#   - Tighten humidity for crisper light; loosen it for more diffusion
+#   - Adjust locations to whichever direction you want your views facing
+#
+# Design note: This profile uses the "bell" scoring curve on cloud cover
+# to peak around 35-40% — the golden ratio of cloud texture.
+
+name: "Sunset / Sunrise Backpacking"
+description: >
+  Overnight backpacking trip optimized for spectacular golden hour and alpenglow.
+  The best sunsets aren't fully clear — they need cloud texture to catch the
+  light. This profile looks for that sweet 20-60% cloud cover band, dry
+  conditions for the hike, comfortable temps, and good visibility to the horizon.
+
+time_window:
+  start_hour: 5          # 5 AM — catch pre-dawn light and sunrise
+  end_hour: 21           # 9 PM — through sunset and afterglow
+  days_ahead: 5          # Plan a few days out
+
+locations:
+  - name: "North Cascades (Sahale Arm)"
+    lat: 48.4830
+    lon: -121.0530
+    elevation_ft: 7600
+    notes: "Glacier camp with unobstructed western horizon for sunset"
+
+  - name: "Enchantments (Aasgard Pass)"
+    lat: 47.5150
+    lon: -120.8100
+    elevation_ft: 7800
+    notes: "Alpine lakes reflect sunset light — sunrise over Stuart is iconic"
+
+  - name: "Mt. Rainier (Spray Park)"
+    lat: 46.9200
+    lon: -121.8050
+    elevation_ft: 5800
+    notes: "West-facing meadows with Rainier backdrop — incredible sunset views"
+
+  - name: "Goat Rocks (Old Snowy)"
+    lat: 46.4580
+    lon: -121.4420
+    elevation_ft: 7000
+    notes: "360° views from the ridge, Rainier and Adams both visible"
+
+criteria:
+  - field: cloud_cover_pct
+    label: "Cloud texture for dramatic light"
+    operator: "between"
+    threshold: 15
+    threshold_upper: 65
+    required: false
+    weight: 30
+    ideal: 38
+    scoring_curve: bell
+    rationale: >
+      The secret sauce. Totally clear skies make for boring sunsets —
+      you need cloud structure to catch and scatter the light. Too much
+      and the sun just disappears. 35-40% is the sweet spot for dramatic
+      color. Bell curve peaks at 38%. NOT required — a clear sunset
+      with alpenglow on peaks is still great.
+
+  - field: precipitation_probability_pct
+    label: "Dry conditions"
+    operator: "<="
+    threshold: 20
+    required: true
+    weight: 20
+    ideal: 5
+    scoring_curve: linear
+    rationale: >
+      Rain ruins the hike and the photography gear. Light precip
+      probability is OK (afternoon showers can actually add drama
+      to evening light), but needs to be solidly dry overall.
+
+  - field: visibility_mi
+    label: "Long-range visibility"
+    operator: ">="
+    threshold: 8
+    required: false
+    weight: 20
+    ideal: 30
+    scoring_curve: linear
+    rationale: >
+      You want to see layered ridgelines and distant volcanoes at
+      sunset. Haze kills the depth. 8 miles is minimum for decent
+      views; 30+ miles means you can see the Olympics from the Cascades.
+
+  - field: wind_speed_mph
+    label: "Calm enough for camp comfort"
+    operator: "<="
+    threshold: 20
+    required: false
+    weight: 10
+    ideal: 5
+    scoring_curve: linear
+    rationale: >
+      Ridge camps are exposed. You want to sit outside and watch
+      the show, not huddle in a wind-battered tent.
+
+  - field: temperature_f
+    label: "Comfortable temperature"
+    operator: "between"
+    threshold: 40
+    threshold_upper: 75
+    required: false
+    weight: 10
+    ideal: 55
+    scoring_curve: bell
+    rationale: >
+      Comfortable enough to sit outside at sunset without a full
+      parka, not so warm the hike in is miserable. 55°F is goldilocks.
+
+  - field: humidity_pct
+    label: "Moderate humidity (clean light)"
+    operator: "<="
+    threshold: 65
+    required: false
+    weight: 10
+    ideal: 35
+    scoring_curve: linear
+    rationale: >
+      Lower humidity means crisper light and more vivid sunset colors.
+      High humidity creates hazy, washed-out light. Not required —
+      humid air can sometimes scatter light in interesting ways.
+
+scoring:
+  method: weighted_sum
+  pass_threshold: 50         # Sunsets are somewhat forgiving
+  highlight_threshold: 80    # A truly legendary light show

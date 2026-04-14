@@ -18,6 +18,9 @@
   header p { font-size: 13px; color: var(--t2); margin-top: 4px; }
   .controls { margin-top: 12px; display: flex; justify-content: center; align-items: center; gap: 10px; }
   .btn { padding: 7px 18px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.04); color: var(--t1); font: 600 13px 'IBM Plex Sans', sans-serif; cursor: pointer; transition: .2s; }
+  .btn:disabled { opacity: 0.7; cursor: wait; }
+  .spin { display: inline-block; animation: spin 1s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
   .btn:hover { background: rgba(255,255,255,0.08); }
   .btn:disabled { color: #555; cursor: not-allowed; }
   .timestamp { font: 11px 'JetBrains Mono', monospace; color: var(--t3); }
@@ -143,7 +146,7 @@
     <h1>🏔 Side Quest</h1>
     <p>Your adventure scout that finds the ideal conditions, and rates them for you so you can stay focused on the rest of life.</p>
     <div class="controls">
-      <button class="btn" id="refreshBtn" onclick="runScout()">↻ Refresh</button>
+      <button class="btn" id="refreshBtn" onclick="runScout({force:true})">↻ Force refresh</button>
       <span class="timestamp" id="lastRun"></span>
     </div>
   </header>
@@ -581,11 +584,51 @@ async function fetchLocationWeather(lat, lon) {
     console.warn(`[NWS] (${lat},${lon}) failed: ${nwsErr.message} — trying Open-Meteo fallback`);
     result = await fetchOpenMeteoWeather(lat, lon);
   }
-  // Enrich every day with moon light pollution for the night that *begins* that date
-  for (const date of Object.keys(result.weatherByDay)) {
-    result.weatherByDay[date].moon_light_pct = computeMoonLightPollution(date, lat, lon);
-  }
+  enrichWithMoon(result, lat, lon);
   return result;
+}
+
+// Moon enrichment is done client-side (not in the background Python fetcher)
+// so the astronomy math stays in one place with the SunCalc library.
+function enrichWithMoon(weatherResult, lat, lon) {
+  for (const date of Object.keys(weatherResult.weatherByDay)) {
+    weatherResult.weatherByDay[date].moon_light_pct =
+      computeMoonLightPollution(date, lat, lon);
+  }
+}
+
+// ── Cached conditions loader ─────────────────────────────────────────────────
+// The background GitHub Action writes data/conditions.json hourly. Loading it
+// gives instant results on page view; force-refresh bypasses it.
+async function hydrateFromCache() {
+  try {
+    const res = await fetch(`./data/conditions.json?t=${Date.now()}`, { cache: "no-store" });
+    if (!res.ok) return null;
+    const data = await res.json();
+    if (!data.weatherCache || Object.keys(data.weatherCache).length === 0) return null;
+    // Apply moon enrichment to each cached location
+    for (const [key, wx] of Object.entries(data.weatherCache)) {
+      const [lat, lon] = key.split(",").map(Number);
+      enrichWithMoon(wx, lat, lon);
+    }
+    return data;   // { lastUpdated, weatherCache, errors }
+  } catch (e) {
+    console.warn("[cache] hydrate failed:", e);
+    return null;
+  }
+}
+
+function formatTimeAgo(isoString) {
+  if (!isoString) return "never";
+  const then = new Date(isoString).getTime();
+  const diffSec = Math.round((Date.now() - then) / 1000);
+  if (diffSec < 30) return "just now";
+  if (diffSec < 60) return `${diffSec}s ago`;
+  const diffMin = Math.round(diffSec / 60);
+  if (diffMin < 60) return `${diffMin}m ago`;
+  const diffHr = Math.round(diffMin / 60);
+  if (diffHr < 24) return `${diffHr}h ago`;
+  return new Date(isoString).toLocaleString();
 }
 
 // ── Rendering ────────────────────────────────────────────────────────────────
@@ -878,73 +921,18 @@ function toggleCriteria(id) {
 // ── Orchestrator ─────────────────────────────────────────────────────────────
 
 let isRunning = false;
+let lastUpdatedIso = null;   // timestamp of the data currently displayed
 
-async function runScout() {
-  if (isRunning) return;
-  isRunning = true;
-
-  const btn = document.getElementById("refreshBtn");
-  const statusArea = document.getElementById("statusArea");
+// Render the results area from an already-populated weatherCache.
+function renderAll(weatherCache) {
   const resultsArea = document.getElementById("resultsArea");
   const footerEl = document.getElementById("footerEl");
-
-  btn.disabled = true;
-  btn.textContent = "Scanning...";
-  resultsArea.innerHTML = "";
-  footerEl.style.display = "none";
-
-  // Deduplicate locations across profiles
-  const locMap = new Map();
-  for (const p of PROFILES) {
-    for (const l of p.locations) {
-      const key = `${l.lat},${l.lon}`;
-      if (!locMap.has(key)) locMap.set(key, l);
-    }
-  }
-  const uniqueLocs = [...locMap.values()];
-
-  statusArea.innerHTML = `<div class="status-box"><div class="icon pulse">📡</div>
-    <div class="msg">Fetching forecasts (NWS → Open-Meteo fallback)...</div>
-    <div class="sub">0 / ${uniqueLocs.length} locations</div></div>`;
-
-  // Fetch weather for each unique location
-  const weatherCache = {};
-  let fetched = 0;
-  let errors = [];
-
-  for (const loc of uniqueLocs) {
-    try {
-      const data = await fetchLocationWeather(loc.lat, loc.lon);
-      weatherCache[`${loc.lat},${loc.lon}`] = data;
-    } catch (err) {
-      errors.push({ name: loc.name, error: err.message });
-    }
-    fetched++;
-    statusArea.querySelector(".sub").textContent = `${fetched} / ${uniqueLocs.length} locations`;
-  }
-
-  if (fetched === 0 || Object.keys(weatherCache).length === 0) {
-    statusArea.innerHTML = `<div class="error-box">
-      <h3>Failed to fetch weather data</h3>
-      <p>${errors.map(e => `${e.name}: ${e.error}`).join("<br>")}</p>
-      <button onclick="runScout()">Try Again</button>
-    </div>`;
-    btn.disabled = false;
-    btn.textContent = "↻ Refresh";
-    isRunning = false;
-    return;
-  }
-
-  statusArea.innerHTML = "";
-
-  // Score each profile
   const allHtml = [];
   for (const profile of PROFILES) {
     const locResults = [];
     for (const loc of profile.locations) {
       const cached = weatherCache[`${loc.lat},${loc.lon}`];
       if (!cached) continue;
-
       const dailyResults = {};
       let bestResult = null, bestDate = null;
       for (const [date, weather] of Object.entries(cached.weatherByDay)) {
@@ -961,9 +949,103 @@ async function runScout() {
     }
     allHtml.push(renderProfile(profile, locResults));
   }
-
   resultsArea.innerHTML = allHtml.join("");
   footerEl.style.display = "block";
+}
+
+function setButtonState(state) {
+  const btn = document.getElementById("refreshBtn");
+  if (state === "loading") {
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spin">↻</span> Refreshing…';
+  } else {
+    btn.disabled = false;
+    btn.innerHTML = "↻ Force refresh";
+  }
+}
+
+function updateTimestamp() {
+  document.getElementById("lastRun").textContent = lastUpdatedIso
+    ? `Updated ${formatTimeAgo(lastUpdatedIso)}`
+    : "";
+}
+// Refresh the "Xm ago" label every 30s without touching the data
+setInterval(updateTimestamp, 30 * 1000);
+
+// Force refresh: live fetch for every unique location, in parallel,
+// no 5-second gap — user is waiting, speed is the priority.
+async function runScout({ force = false } = {}) {
+  if (isRunning) return;
+  isRunning = true;
+
+  const statusArea = document.getElementById("statusArea");
+  const resultsArea = document.getElementById("resultsArea");
+
+  // First load: try the scheduled snapshot. Instant render, no NWS calls.
+  if (!force) {
+    const cached = await hydrateFromCache();
+    if (cached) {
+      renderAll(cached.weatherCache);
+      lastUpdatedIso = cached.lastUpdated;
+      updateTimestamp();
+      setButtonState("idle");
+      isRunning = false;
+      return;
+    }
+    // No cache yet (first deploy) — fall through to a live fetch
+    console.info("[cache] empty, falling back to live fetch");
+  }
+
+  setButtonState("loading");
+
+  // Only show the full-page status if we have no existing results to keep visible
+  const hasExistingResults = resultsArea.childElementCount > 0;
+  if (!hasExistingResults) {
+    const locCount = new Set(PROFILES.flatMap(p => p.locations.map(l => `${l.lat},${l.lon}`))).size;
+    statusArea.innerHTML = `<div class="status-box"><div class="icon pulse">📡</div>
+      <div class="msg">Fetching forecasts (NWS → Open-Meteo fallback)...</div>
+      <div class="sub">0 / ${locCount} locations</div></div>`;
+  }
+
+  // Deduplicate locations across profiles
+  const locMap = new Map();
+  for (const p of PROFILES) {
+    for (const l of p.locations) {
+      const key = `${l.lat},${l.lon}`;
+      if (!locMap.has(key)) locMap.set(key, l);
+    }
+  }
+  const uniqueLocs = [...locMap.values()];
+
+  // Parallel fetches — no 5-second gap; force refresh prioritizes speed.
+  const results = await Promise.allSettled(
+    uniqueLocs.map(loc => fetchLocationWeather(loc.lat, loc.lon))
+  );
+
+  const weatherCache = {};
+  const errors = [];
+  results.forEach((r, i) => {
+    const loc = uniqueLocs[i];
+    if (r.status === "fulfilled") {
+      weatherCache[`${loc.lat},${loc.lon}`] = r.value;
+    } else {
+      errors.push({ name: loc.name, error: r.reason?.message || String(r.reason) });
+    }
+  });
+
+  if (Object.keys(weatherCache).length === 0) {
+    statusArea.innerHTML = `<div class="error-box">
+      <h3>Failed to fetch weather data</h3>
+      <p>${errors.map(e => `${e.name}: ${e.error}`).join("<br>")}</p>
+      <button onclick="runScout({force:true})">Try again</button>
+    </div>`;
+    setButtonState("idle");
+    isRunning = false;
+    return;
+  }
+
+  statusArea.innerHTML = "";
+  renderAll(weatherCache);
 
   if (errors.length > 0) {
     const warnHtml = `<div style="padding:10px;background:rgba(232,168,56,0.08);border-radius:8px;border:1px solid rgba(232,168,56,0.2);margin-bottom:12px;font-size:11px;color:var(--t2)">
@@ -972,14 +1054,16 @@ async function runScout() {
     resultsArea.innerHTML = warnHtml + resultsArea.innerHTML;
   }
 
-  document.getElementById("lastRun").textContent = new Date().toLocaleTimeString();
-  btn.disabled = false;
-  btn.textContent = "↻ Refresh";
+  lastUpdatedIso = new Date().toISOString();
+  updateTimestamp();
+  setButtonState("idle");
   isRunning = false;
 }
 
 // Auto-run on load
-runScout();
+// On page load, try the cached hourly snapshot first (instant).
+// If it's missing/empty (first deploy), runScout falls through to a live fetch.
+runScout({ force: false });
 </script>
 </body>
 </html>
