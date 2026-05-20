@@ -1,22 +1,16 @@
 {
-  "lastUpdated": "2026-05-19T23:04:22.562293+00:00",
-  "locationCount": 31,
-  "errors": [],
+  "lastUpdated": "2026-05-20T03:37:47.187027+00:00",
+  "locationCount": 30,
+  "errors": [
+    {
+      "lat": 48.5175,
+      "lon": -120.679,
+      "error": "The read operation timed out"
+    }
+  ],
   "weatherCache": {
     "48.9162,-121.608": {
       "weatherByDay": {
-        "2026-05-19": {
-          "temperature_f": 48.0,
-          "cloud_cover_pct": 80.0,
-          "wind_speed_mph": 5.75389546,
-          "wind_gust_mph": 14.960128196000001,
-          "overnight_snowfall_in": 0.0,
-          "overnight_low_f": 38.0,
-          "humidity_pct": 87.45454545454545,
-          "precipitation_in": 0.0,
-          "visibility_mi": null,
-          "precipitation_probability_pct": 25
-        },
         "2026-05-20": {
           "temperature_f": 58.0,
           "cloud_cover_pct": 48.583333333333336,
@@ -88,6 +82,18 @@
           "precipitation_in": 0.679999999701973,
           "visibility_mi": null,
           "precipitation_probability_pct": 68
+        },
+        "2026-05-26": {
+          "temperature_f": 50.0,
+          "cloud_cover_pct": 57.75,
+          "wind_speed_mph": 8.63084319,
+          "wind_gust_mph": 17.26168638,
+          "overnight_snowfall_in": 0.0,
+          "overnight_low_f": 34.0,
+          "humidity_pct": 81.10526315789474,
+          "precipitation_in": 0.129999998956919,
+          "visibility_mi": null,
+          "precipitation_probability_pct": 34
         }
       },
       "forecastUrl": "https://api.weather.gov/gridpoints/SEW/160,125/forecast",
@@ -95,18 +101,6 @@
     },
     "48.821,-121.601": {
       "weatherByDay": {
-        "2026-05-19": {
-          "temperature_f": 35.0,
-          "cloud_cover_pct": 79.27272727272727,
-          "wind_speed_mph": 9.206232735999999,
-          "wind_gust_mph": 16.110907288,
-          "overnight_snowfall_in": 0.0,
-          "overnight_low_f": 29.0,
-          "humidity_pct": 86.875,
-          "precipitation_in": 0.0,
-          "visibility_mi": null,
-          "precipitation_probability_pct": 21
-        },
         "2026-05-20": {
           "temperature_f": 42.0,
           "cloud_cover_pct": 48.166666666666664,
@@ -178,6 +172,18 @@
           "precipitation_in": 0.6299999915063351,
           "visibility_mi": null,
           "precipitation_probability_pct": 67
+        },
+        "2026-05-26": {
+          "temperature_f": 47.0,
+          "cloud_cover_pct": 55.5,
+          "wind_speed_mph": 7.096471067333334,
+          "wind_gust_mph": 19.563244564,
+          "overnight_snowfall_in": 0.70000001788139,
+          "overnight_low_f": 28.0,
+          "humidity_pct": 83.25,
+          "precipitation_in": 0.10999999754130801,
+          "visibility_mi": null,
+          "precipitation_probability_pct": 36
         }
       },
       "forecastUrl": "https://api.weather.gov/gridpoints/SEW/159,121/forecast",
@@ -185,18 +191,6 @@
     },
     "48.72,-121.815": {
       "weatherByDay": {
-        "2026-05-19": {
-          "temperature_f": 45.0,
-          "cloud_cover_pct": 79.33333333333333,
-          "wind_speed_mph": 4.411319852666667,
-          "wind_gust_mph": 11.50779092,
-          "overnight_snowfall_in": 0.0,
-          "overnight_low_f": 37.0,
-          "humidity_pct": 88.81818181818181,
-          "precipitation_in": 0.0,
-          "visibility_mi": null,
-          "precipitation_probability_pct": 25
-        },
         "2026-05-20": {
           "temperature_f": 52.0,
           "cloud_cover_pct": 44.625,
@@ -268,6 +262,18 @@
           "precipitation_in": 0.7099999971687851,
           "visibility_mi": null,
           "precipitation_probability_pct": 68
+        },
+        "2026-05-26": {
+          "temperature_f": 46.0,
+          "cloud_cover_pct": 51.25,
+          "wind_speed_mph": 5.370302429333334,
+          "wind_gust_mph": 12.658570012,
+          "overnight_snowfall_in": 0.0,
+          "overnight_low_f": 35.0,
+          "humidity_pct": 81.4375,
+          "precipitation_in": 0.10999999754130801,
+          "visibility_mi": null,
+          "precipitation_probability_pct": 39
         }
       },
       "forecastUrl": "https://api.weather.gov/gridpoints/SEW/151,117/forecast",
@@ -275,18 +281,6 @@
     },
     "48.689,-121.139": {
       "weatherByDay": {
-        "2026-05-19": {
-          "temperature_f": 46.0,
-          "cloud_cover_pct": 66.66666666666667,
-          "wind_speed_mph": 8.877438709714285,
-          "wind_gust_mph": 20.714023656,
-          "overnight_snowfall_in": 0.0,
-          "overnight_low_f": 37.0,
-          "humidity_pct": 78.2,
-          "precipitation_in": 0.0,
-          "visibility_mi": null,
-          "precipitation_probability_pct": 4
-        },
         "2026-05-20": {
           "temperature_f": 56.0,
           "cloud_cover_pct": 43.208333333333336,
@@ -358,115 +352,25 @@
           "precipitation_in": 0.19999999552965264,
           "visibility_mi": null,
           "precipitation_probability_pct": 58
+        },
+        "2026-05-26": {
+          "temperature_f": 48.0,
+          "cloud_cover_pct": 45.5,
+          "wind_speed_mph": 7.891056630857143,
+          "wind_gust_mph": 20.714023656,
+          "overnight_snowfall_in": 0.0,
+          "overnight_low_f": 36.0,
+          "humidity_pct": 76.19047619047619,
+          "precipitation_in": 0.0399999991059306,
+          "visibility_mi": null,
+          "precipitation_probability_pct": 30
         }
       },
       "forecastUrl": "https://api.weather.gov/gridpoints/SEW/172,111/forecast",
       "source": "NWS"
     },
-    "48.5175,-120.679": {
-      "weatherByDay": {
-        "2026-05-19": {
-          "temperature_f": 46.0,
-          "cloud_cover_pct": 65.75,
-          "wind_speed_mph": 10.932401374000001,
-          "wind_gust_mph": 21.864802748000002,
-          "overnight_snowfall_in": 0.0,
-          "overnight_low_f": 30.0,
-          "humidity_pct": 72.83333333333333,
-          "precipitation_in": 0.0,
-          "visibility_mi": null,
-          "precipitation_probability_pct": 5
-        },
-        "2026-05-20": {
-          "temperature_f": 55.0,
-          "cloud_cover_pct": 39.54545454545455,
-          "wind_speed_mph": 9.461961423111111,
-          "wind_gust_mph": 20.714023656,
-          "overnight_snowfall_in": 0.0,
-          "overnight_low_f": 34.0,
-          "humidity_pct": 70.75,
-          "precipitation_in": 0.0,
-          "visibility_mi": null,
-          "precipitation_probability_pct": 1
-        },
-        "2026-05-21": {
-          "temperature_f": 58.0,
-          "cloud_cover_pct": 30.125,
-          "wind_speed_mph": 6.411483512571428,
-          "wind_gust_mph": 19.563244564,
-          "overnight_snowfall_in": 0.0,
-          "overnight_low_f": 34.0,
-          "humidity_pct": 56.43478260869565,
-          "precipitation_in": 0.0,
-          "visibility_mi": null,
-          "precipitation_probability_pct": 0
-        },
-        "2026-05-22": {
-          "temperature_f": 59.0,
-          "cloud_cover_pct": 18.375,
-          "wind_speed_mph": 6.904674552,
-          "wind_gust_mph": 17.26168638,
-          "overnight_snowfall_in": 0.0,
-          "overnight_low_f": 37.0,
-          "humidity_pct": 61.476190476190474,
-          "precipitation_in": 0.0,
-          "visibility_mi": null,
-          "precipitation_probability_pct": null
-        },
-        "2026-05-23": {
-          "temperature_f": 57.0,
-          "cloud_cover_pct": 30.75,
-          "wind_speed_mph": 8.877438709714285,
-          "wind_gust_mph": 20.714023656,
-          "overnight_snowfall_in": 0.0,
-          "overnight_low_f": 39.0,
-          "humidity_pct": 65.83333333333333,
-          "precipitation_in": 0.0,
-          "visibility_mi": null,
-          "precipitation_probability_pct": 1
-        },
-        "2026-05-24": {
-          "temperature_f": 53.0,
-          "cloud_cover_pct": 40.25,
-          "wind_speed_mph": 10.932401374000001,
-          "wind_gust_mph": 23.01558184,
-          "overnight_snowfall_in": 0.0,
-          "overnight_low_f": 37.0,
-          "humidity_pct": 61.11764705882353,
-          "precipitation_in": 0.0,
-          "visibility_mi": null,
-          "precipitation_probability_pct": 4
-        },
-        "2026-05-25": {
-          "temperature_f": 43.0,
-          "cloud_cover_pct": 62.25,
-          "wind_speed_mph": 11.9681025568,
-          "wind_gust_mph": 25.317140024,
-          "overnight_snowfall_in": 0.0,
-          "overnight_low_f": 35.0,
-          "humidity_pct": 68.25,
-          "precipitation_in": 0.11000000126659859,
-          "visibility_mi": null,
-          "precipitation_probability_pct": 38
-        }
-      },
-      "forecastUrl": "https://api.weather.gov/gridpoints/OTX/45,149/forecast",
-      "source": "NWS"
-    },
     "48.498,-121.064": {
       "weatherByDay": {
-        "2026-05-19": {
-          "temperature_f": 35.0,
-          "cloud_cover_pct": 73.5,
-          "wind_speed_mph": 10.5008592145,
-          "wind_gust_mph": 19.563244564,
-          "overnight_snowfall_in": 0.0,
-          "overnight_low_f": 27.0,
-          "humidity_pct": 87.54545454545455,
-          "precipitation_in": 0.0,
-          "visibility_mi": null,
-          "precipitation_probability_pct": 6
-        },
         "2026-05-20": {
           "temperature_f": 44.0,
           "cloud_cover_pct": 45.714285714285715,
@@ -538,6 +442,18 @@
           "precipitation_in": 0.31999999284744296,
           "visibility_mi": null,
           "precipitation_probability_pct": 60
+        },
+        "2026-05-26": {
+          "temperature_f": 43.0,
+          "cloud_cover_pct": 51.0,
+          "wind_speed_mph": 11.507790920000001,
+          "wind_gust_mph": 24.166360932000003,
+          "overnight_snowfall_in": 0.70000000298023,
+          "overnight_low_f": 27.0,
+          "humidity_pct": 81.58823529411765,
+          "precipitation_in": 0.0899999998509882,
+          "visibility_mi": null,
+          "precipitation_probability_pct": 32
         }
       },
       "forecastUrl": "https://api.weather.gov/gridpoints/SEW/173,102/forecast",
@@ -545,18 +461,6 @@
     },
     "48.157,-120.907": {
       "weatherByDay": {
-        "2026-05-19": {
-          "temperature_f": 44.0,
-          "cloud_cover_pct": 69.85714285714286,
-          "wind_speed_mph": 13.809349104,
-          "wind_gust_mph": 24.166360932000003,
-          "overnight_snowfall_in": 0.0,
-          "overnight_low_f": 29.0,
-          "humidity_pct": 81.0,
-          "precipitation_in": 0.0,
-          "visibility_mi": null,
-          "precipitation_probability_pct": 5
-        },
         "2026-05-20": {
           "temperature_f": 52.0,
           "cloud_cover_pct": 45.10526315789474,
@@ -628,6 +532,18 @@
           "precipitation_in": 0.11000000126659859,
           "visibility_mi": null,
           "precipitation_probability_pct": 49
+        },
+        "2026-05-26": {
+          "temperature_f": 44.0,
+          "cloud_cover_pct": 43.0,
+          "wind_speed_mph": 14.38473865,
+          "wind_gust_mph": 28.7694773,
+          "overnight_snowfall_in": 0.0,
+          "overnight_low_f": 30.0,
+          "humidity_pct": 70.21052631578948,
+          "precipitation_in": 0.0099999997764826,
+          "visibility_mi": null,
+          "precipitation_probability_pct": 23
         }
       },
       "forecastUrl": "https://api.weather.gov/gridpoints/OTX/35,133/forecast",
@@ -635,18 +551,6 @@
     },
     "48.127,-121.179": {
       "weatherByDay": {
-        "2026-05-19": {
-          "temperature_f": 45.0,
-          "cloud_cover_pct": 79.0,
-          "wind_speed_mph": 5.753895460000001,
-          "wind_gust_mph": 17.26168638,
-          "overnight_snowfall_in": 0.0,
-          "overnight_low_f": 34.0,
-          "humidity_pct": 87.45454545454545,
-          "precipitation_in": 0.0,
-          "visibility_mi": null,
-          "precipitation_probability_pct": 10
-        },
         "2026-05-20": {
           "temperature_f": 54.0,
           "cloud_cover_pct": 54.391304347826086,
@@ -718,6 +622,18 @@
           "precipitation_in": 0.48000000417231997,
           "visibility_mi": null,
           "precipitation_probability_pct": 63
+        },
+        "2026-05-26": {
+          "temperature_f": 46.0,
+          "cloud_cover_pct": 55.0,
+          "wind_speed_mph": 6.712878036666668,
+          "wind_gust_mph": 16.110907288,
+          "overnight_snowfall_in": 0.0,
+          "overnight_low_f": 35.0,
+          "humidity_pct": 78.94736842105263,
+          "precipitation_in": 0.200000002980232,
+          "visibility_mi": null,
+          "precipitation_probability_pct": 41
         }
       },
       "forecastUrl": "https://api.weather.gov/gridpoints/SEW/166,85/forecast",
@@ -725,18 +641,6 @@
     },
     "48.125,-120.876": {
       "weatherByDay": {
-        "2026-05-19": {
-          "temperature_f": 56.0,
-          "cloud_cover_pct": 62.285714285714285,
-          "wind_speed_mph": 8.63084319,
-          "wind_gust_mph": 19.563244564,
-          "overnight_snowfall_in": 0.0,
-          "overnight_low_f": 33.0,
-          "humidity_pct": 68.14285714285714,
-          "precipitation_in": 0.0,
-          "visibility_mi": null,
-          "precipitation_probability_pct": 6
-        },
         "2026-05-20": {
           "temperature_f": 64.0,
           "cloud_cover_pct": 34.333333333333336,
@@ -808,6 +712,18 @@
           "precipitation_in": 0.07999999821186,
           "visibility_mi": null,
           "precipitation_probability_pct": 47
+        },
+        "2026-05-26": {
+          "temperature_f": 56.0,
+          "cloud_cover_pct": 38.25,
+          "wind_speed_mph": 12.850366527333334,
+          "wind_gust_mph": 21.864802748000002,
+          "overnight_snowfall_in": 0.0,
+          "overnight_low_f": 30.0,
+          "humidity_pct": 66.47368421052632,
+          "precipitation_in": 0.0099999997764826,
+          "visibility_mi": null,
+          "precipitation_probability_pct": 21
         }
       },
       "forecastUrl": "https://api.weather.gov/gridpoints/OTX/35,131/forecast",
@@ -815,18 +731,6 @@
     },
     "48.053,-120.921": {
       "weatherByDay": {
-        "2026-05-19": {
-          "temperature_f": 43.0,
-          "cloud_cover_pct": 58.285714285714285,
-          "wind_speed_mph": 12.658570012,
-          "wind_gust_mph": 24.166360932000003,
-          "overnight_snowfall_in": 0.0,
-          "overnight_low_f": 30.0,
-          "humidity_pct": 84.28571428571429,
-          "precipitation_in": 0.0,
-          "visibility_mi": null,
-          "precipitation_probability_pct": 6
-        },
         "2026-05-20": {
           "temperature_f": 51.0,
           "cloud_cover_pct": 40.04545454545455,
@@ -898,6 +802,18 @@
           "precipitation_in": 0.11000000126659859,
           "visibility_mi": null,
           "precipitation_probability_pct": 48
+        },
+        "2026-05-26": {
+          "temperature_f": 44.0,
+          "cloud_cover_pct": 35.5,
+          "wind_speed_mph": 11.50779092,
+          "wind_gust_mph": 27.618698208,
+          "overnight_snowfall_in": 0.0,
+          "overnight_low_f": 29.0,
+          "humidity_pct": 70.625,
+          "precipitation_in": 0.0099999997764826,
+          "visibility_mi": null,
+          "precipitation_probability_pct": 23
         }
       },
       "forecastUrl": "https://api.weather.gov/gridpoints/OTX/33,128/forecast",
@@ -905,18 +821,6 @@
     },
     "47.881,-123.127": {
       "weatherByDay": {
-        "2026-05-19": {
-          "temperature_f": 54.0,
-          "cloud_cover_pct": 76.9,
-          "wind_speed_mph": 2.87694773,
-          "wind_gust_mph": 8.055453644,
-          "overnight_snowfall_in": 0.0,
-          "overnight_low_f": 40.0,
-          "humidity_pct": 77.1,
-          "precipitation_in": 0.029999999329448003,
-          "visibility_mi": null,
-          "precipitation_probability_pct": 46
-        },
         "2026-05-20": {
           "temperature_f": 60.0,
           "cloud_cover_pct": 47.69565217391305,
@@ -988,6 +892,18 @@
           "precipitation_in": 0.6399999856948799,
           "visibility_mi": null,
           "precipitation_probability_pct": 61
+        },
+        "2026-05-26": {
+          "temperature_f": 55.0,
+          "cloud_cover_pct": 38.5,
+          "wind_speed_mph": 4.8332721864,
+          "wind_gust_mph": 12.658570012,
+          "overnight_snowfall_in": 0.0,
+          "overnight_low_f": 36.0,
+          "humidity_pct": 67.45,
+          "precipitation_in": 0.05999999865889501,
+          "visibility_mi": null,
+          "precipitation_probability_pct": 24
         }
       },
       "forecastUrl": "https://api.weather.gov/gridpoints/SEW/102,86/forecast",
@@ -995,18 +911,6 @@
     },
     "47.46,-120.894": {
       "weatherByDay": {
-        "2026-05-19": {
-          "temperature_f": 49.0,
-          "cloud_cover_pct": 46.666666666666664,
-          "wind_speed_mph": 12.083180465999998,
-          "wind_gust_mph": 26.467919115999997,
-          "overnight_snowfall_in": 0.0,
-          "overnight_low_f": 32.0,
-          "humidity_pct": 75.57142857142857,
-          "precipitation_in": 0.0,
-          "visibility_mi": null,
-          "precipitation_probability_pct": 4
-        },
         "2026-05-20": {
           "temperature_f": 56.0,
           "cloud_cover_pct": 41.08695652173913,
@@ -1078,6 +982,18 @@
           "precipitation_in": 0.089999999850988,
           "visibility_mi": null,
           "precipitation_probability_pct": 36
+        },
+        "2026-05-26": {
+          "temperature_f": 48.0,
+          "cloud_cover_pct": 32.75,
+          "wind_speed_mph": 11.01459988057143,
+          "wind_gust_mph": 31.071035484,
+          "overnight_snowfall_in": 0.0,
+          "overnight_low_f": 31.0,
+          "humidity_pct": 67.61111111111111,
+          "precipitation_in": 0.0,
+          "visibility_mi": null,
+          "precipitation_probability_pct": 16
         }
       },
       "forecastUrl": "https://api.weather.gov/gridpoints/OTX/29,100/forecast",
@@ -1085,18 +1001,6 @@
     },
     "47.4274,-121.0269": {
       "weatherByDay": {
-        "2026-05-19": {
-          "temperature_f": 57.0,
-          "cloud_cover_pct": 60.666666666666664,
-          "wind_speed_mph": 9.781622282,
-          "wind_gust_mph": 20.714023656,
-          "overnight_snowfall_in": 0.0,
-          "overnight_low_f": 37.0,
-          "humidity_pct": 66.71428571428571,
-          "precipitation_in": 0.0,
-          "visibility_mi": null,
-          "precipitation_probability_pct": 2
-        },
         "2026-05-20": {
           "temperature_f": 66.0,
           "cloud_cover_pct": 44.04347826086956,
@@ -1168,6 +1072,18 @@
           "precipitation_in": 0.1299999970942726,
           "visibility_mi": null,
           "precipitation_probability_pct": 43
+        },
+        "2026-05-26": {
+          "temperature_f": 58.0,
+          "cloud_cover_pct": 40.0,
+          "wind_speed_mph": 8.343148417,
+          "wind_gust_mph": 19.563244564,
+          "overnight_snowfall_in": 0.0,
+          "overnight_low_f": 36.0,
+          "humidity_pct": 65.88235294117646,
+          "precipitation_in": 0.0199999995529652,
+          "visibility_mi": null,
+          "precipitation_probability_pct": 26
         }
       },
       "forecastUrl": "https://api.weather.gov/gridpoints/PDT/75,195/forecast",
@@ -1175,18 +1091,6 @@
     },
     "46.93,-121.657": {
       "weatherByDay": {
-        "2026-05-19": {
-          "temperature_f": 41.0,
-          "cloud_cover_pct": 65.66666666666667,
-          "wind_speed_mph": 9.4363885544,
-          "wind_gust_mph": 24.166360932000003,
-          "overnight_snowfall_in": 0.0,
-          "overnight_low_f": 31.0,
-          "humidity_pct": 78.22222222222223,
-          "precipitation_in": 0.0,
-          "visibility_mi": null,
-          "precipitation_probability_pct": 6
-        },
         "2026-05-20": {
           "temperature_f": 47.0,
           "cloud_cover_pct": 49.59090909090909,
@@ -1258,6 +1162,18 @@
           "precipitation_in": 0.2800000011921006,
           "visibility_mi": null,
           "precipitation_probability_pct": 51
+        },
+        "2026-05-26": {
+          "temperature_f": 42.0,
+          "cloud_cover_pct": 45.0,
+          "wind_speed_mph": 10.028217801714284,
+          "wind_gust_mph": 33.372593668,
+          "overnight_snowfall_in": 0.70000000298024,
+          "overnight_low_f": 29.0,
+          "humidity_pct": 76.8,
+          "precipitation_in": 0.09999999962747119,
+          "visibility_mi": null,
+          "precipitation_probability_pct": 35
         }
       },
       "forecastUrl": "https://api.weather.gov/gridpoints/SEW/140,32/forecast",
@@ -1265,18 +1181,6 @@
     },
     "46.803,-121.737": {
       "weatherByDay": {
-        "2026-05-19": {
-          "temperature_f": 41.0,
-          "cloud_cover_pct": 65.0,
-          "wind_speed_mph": 7.032538895555556,
-          "wind_gust_mph": 20.714023656,
-          "overnight_snowfall_in": 0.0,
-          "overnight_low_f": 30.0,
-          "humidity_pct": 77.81818181818181,
-          "precipitation_in": 0.0,
-          "visibility_mi": null,
-          "precipitation_probability_pct": 4
-        },
         "2026-05-20": {
           "temperature_f": 46.0,
           "cloud_cover_pct": 46.608695652173914,
@@ -1348,6 +1252,18 @@
           "precipitation_in": 0.47000001184643064,
           "visibility_mi": null,
           "precipitation_probability_pct": 55
+        },
+        "2026-05-26": {
+          "temperature_f": 40.0,
+          "cloud_cover_pct": 43.5,
+          "wind_speed_mph": 14.097043877,
+          "wind_gust_mph": 28.7694773,
+          "overnight_snowfall_in": 1.8000000119209199,
+          "overnight_low_f": 27.0,
+          "humidity_pct": 62.095238095238095,
+          "precipitation_in": 0.21000000089407303,
+          "visibility_mi": null,
+          "precipitation_probability_pct": 42
         }
       },
       "forecastUrl": "https://api.weather.gov/gridpoints/SEW/136,27/forecast",
@@ -1355,18 +1271,6 @@
     },
     "46.186,-121.492": {
       "weatherByDay": {
-        "2026-05-19": {
-          "temperature_f": 31.0,
-          "cloud_cover_pct": 34.625,
-          "wind_speed_mph": 22.851184826857143,
-          "wind_gust_mph": 34.52337276,
-          "overnight_snowfall_in": 0.0,
-          "overnight_low_f": 20.0,
-          "humidity_pct": 75.375,
-          "precipitation_in": 0.0,
-          "visibility_mi": null,
-          "precipitation_probability_pct": 1
-        },
         "2026-05-20": {
           "temperature_f": 35.0,
           "cloud_cover_pct": 47.13636363636363,
@@ -1438,6 +1342,18 @@
           "precipitation_in": 0.150000002235178,
           "visibility_mi": null,
           "precipitation_probability_pct": 34
+        },
+        "2026-05-26": {
+          "temperature_f": 30.0,
+          "cloud_cover_pct": 43.75,
+          "wind_speed_mph": 26.796713142285714,
+          "wind_gust_mph": 44.880384588,
+          "overnight_snowfall_in": 0.50000000745058,
+          "overnight_low_f": 19.0,
+          "humidity_pct": 56.904761904761905,
+          "precipitation_in": 0.059999998658895604,
+          "visibility_mi": null,
+          "precipitation_probability_pct": 20
         }
       },
       "forecastUrl": "https://api.weather.gov/gridpoints/PDT/49,140/forecast",
@@ -1445,18 +1361,6 @@
     },
     "46.184,-122.197": {
       "weatherByDay": {
-        "2026-05-19": {
-          "temperature_f": 41.0,
-          "cloud_cover_pct": 61.0,
-          "wind_speed_mph": 11.50779092,
-          "wind_gust_mph": 23.01558184,
-          "overnight_snowfall_in": 0.0,
-          "overnight_low_f": 32.0,
-          "humidity_pct": 82.85714285714286,
-          "precipitation_in": 0.0,
-          "visibility_mi": 9.667524047557261,
-          "precipitation_probability_pct": 5
-        },
         "2026-05-20": {
           "temperature_f": 47.0,
           "cloud_cover_pct": 53.17391304347826,
@@ -1528,6 +1432,18 @@
           "precipitation_in": 0.48999999649823267,
           "visibility_mi": null,
           "precipitation_probability_pct": 56
+        },
+        "2026-05-26": {
+          "temperature_f": 49.0,
+          "cloud_cover_pct": 50.75,
+          "wind_speed_mph": 11.635655263555556,
+          "wind_gust_mph": 26.467919115999997,
+          "overnight_snowfall_in": 0.50000000745058,
+          "overnight_low_f": 33.0,
+          "humidity_pct": 72.375,
+          "precipitation_in": 0.17000000178814004,
+          "visibility_mi": null,
+          "precipitation_probability_pct": 35
         }
       },
       "forecastUrl": "https://api.weather.gov/gridpoints/PQR/134,131/forecast",
@@ -1535,18 +1451,6 @@
     },
     "48.828,-121.689": {
       "weatherByDay": {
-        "2026-05-19": {
-          "temperature_f": 49.0,
-          "cloud_cover_pct": 82.0,
-          "wind_speed_mph": 3.9126489128,
-          "wind_gust_mph": 11.50779092,
-          "overnight_snowfall_in": 0.0,
-          "overnight_low_f": 38.0,
-          "humidity_pct": 89.08333333333333,
-          "precipitation_in": 0.0,
-          "visibility_mi": null,
-          "precipitation_probability_pct": 24
-        },
         "2026-05-20": {
           "temperature_f": 57.0,
           "cloud_cover_pct": 46.34782608695652,
@@ -1618,6 +1522,18 @@
           "precipitation_in": 0.6899999976158131,
           "visibility_mi": null,
           "precipitation_probability_pct": 68
+        },
+        "2026-05-26": {
+          "temperature_f": 50.0,
+          "cloud_cover_pct": 56.5,
+          "wind_speed_mph": 5.466200687000001,
+          "wind_gust_mph": 12.658570012,
+          "overnight_snowfall_in": 0.0,
+          "overnight_low_f": 36.0,
+          "humidity_pct": 81.08333333333333,
+          "precipitation_in": 0.10999999754130801,
+          "visibility_mi": null,
+          "precipitation_probability_pct": 36
         }
       },
       "forecastUrl": "https://api.weather.gov/gridpoints/SEW/156,121/forecast",
@@ -1625,18 +1541,6 @@
     },
     "48.4748,-121.075": {
       "weatherByDay": {
-        "2026-05-19": {
-          "temperature_f": 46.0,
-          "cloud_cover_pct": 73.81818181818181,
-          "wind_speed_mph": 6.712878036666666,
-          "wind_gust_mph": 16.110907288,
-          "overnight_snowfall_in": 0.0,
-          "overnight_low_f": 33.0,
-          "humidity_pct": 87.1,
-          "precipitation_in": 0.0,
-          "visibility_mi": null,
-          "precipitation_probability_pct": 6
-        },
         "2026-05-20": {
           "temperature_f": 55.0,
           "cloud_cover_pct": 49.142857142857146,
@@ -1708,6 +1612,18 @@
           "precipitation_in": 0.2999999951571206,
           "visibility_mi": null,
           "precipitation_probability_pct": 61
+        },
+        "2026-05-26": {
+          "temperature_f": 49.0,
+          "cloud_cover_pct": 51.75,
+          "wind_speed_mph": 8.247250159333333,
+          "wind_gust_mph": 20.714023656,
+          "overnight_snowfall_in": 0.0,
+          "overnight_low_f": 34.0,
+          "humidity_pct": 82.15789473684211,
+          "precipitation_in": 0.0899999998509882,
+          "visibility_mi": null,
+          "precipitation_probability_pct": 34
         }
       },
       "forecastUrl": "https://api.weather.gov/gridpoints/SEW/172,101/forecast",
@@ -1715,18 +1631,6 @@
     },
     "47.942,-123.699": {
       "weatherByDay": {
-        "2026-05-19": {
-          "temperature_f": 45.0,
-          "cloud_cover_pct": 76.33333333333333,
-          "wind_speed_mph": 7.192369325,
-          "wind_gust_mph": 17.26168638,
-          "overnight_snowfall_in": 0.0,
-          "overnight_low_f": 38.0,
-          "humidity_pct": 90.33333333333333,
-          "precipitation_in": 0.0,
-          "visibility_mi": null,
-          "precipitation_probability_pct": 13
-        },
         "2026-05-20": {
           "temperature_f": 51.0,
           "cloud_cover_pct": 41.583333333333336,
@@ -1798,6 +1702,18 @@
           "precipitation_in": 0.25999999791384104,
           "visibility_mi": null,
           "precipitation_probability_pct": 55
+        },
+        "2026-05-26": {
+          "temperature_f": 49.0,
+          "cloud_cover_pct": 38.0,
+          "wind_speed_mph": 7.3362167115,
+          "wind_gust_mph": 25.317140024,
+          "overnight_snowfall_in": 0.0,
+          "overnight_low_f": 35.0,
+          "humidity_pct": 78.14285714285714,
+          "precipitation_in": 0.0199999995529652,
+          "visibility_mi": null,
+          "precipitation_probability_pct": 20
         }
       },
       "forecastUrl": "https://api.weather.gov/gridpoints/SEW/85,93/forecast",
@@ -1805,18 +1721,6 @@
     },
     "47.5282,-120.8253": {
       "weatherByDay": {
-        "2026-05-19": {
-          "temperature_f": 47.0,
-          "cloud_cover_pct": 46.857142857142854,
-          "wind_speed_mph": 11.50779092,
-          "wind_gust_mph": 27.618698208,
-          "overnight_snowfall_in": 0.0,
-          "overnight_low_f": 33.0,
-          "humidity_pct": 70.57142857142857,
-          "precipitation_in": 0.0,
-          "visibility_mi": null,
-          "precipitation_probability_pct": 5
-        },
         "2026-05-20": {
           "temperature_f": 55.0,
           "cloud_cover_pct": 41.791666666666664,
@@ -1888,6 +1792,18 @@
           "precipitation_in": 0.069999998435378,
           "visibility_mi": null,
           "precipitation_probability_pct": 35
+        },
+        "2026-05-26": {
+          "temperature_f": 47.0,
+          "cloud_cover_pct": 32.25,
+          "wind_speed_mph": 16.110907288,
+          "wind_gust_mph": 33.372593668,
+          "overnight_snowfall_in": 0.0,
+          "overnight_low_f": 31.0,
+          "humidity_pct": 62.57142857142857,
+          "precipitation_in": 0.0,
+          "visibility_mi": null,
+          "precipitation_probability_pct": 16
         }
       },
       "forecastUrl": "https://api.weather.gov/gridpoints/OTX/31,103/forecast",
@@ -1895,18 +1811,6 @@
     },
     "46.9145,-121.6415": {
       "weatherByDay": {
-        "2026-05-19": {
-          "temperature_f": 50.0,
-          "cloud_cover_pct": 64.54545454545455,
-          "wind_speed_mph": 6.904674552,
-          "wind_gust_mph": 21.864802748000002,
-          "overnight_snowfall_in": 0.0,
-          "overnight_low_f": 32.0,
-          "humidity_pct": 73.5,
-          "precipitation_in": 0.0,
-          "visibility_mi": null,
-          "precipitation_probability_pct": 6
-        },
         "2026-05-20": {
           "temperature_f": 57.0,
           "cloud_cover_pct": 48.26086956521739,
@@ -1978,6 +1882,18 @@
           "precipitation_in": 0.2599999979138396,
           "visibility_mi": null,
           "precipitation_probability_pct": 51
+        },
+        "2026-05-26": {
+          "temperature_f": 51.0,
+          "cloud_cover_pct": 44.5,
+          "wind_speed_mph": 8.548644683428572,
+          "wind_gust_mph": 28.7694773,
+          "overnight_snowfall_in": 0.0,
+          "overnight_low_f": 30.0,
+          "humidity_pct": 70.63157894736842,
+          "precipitation_in": 0.0899999998509886,
+          "visibility_mi": null,
+          "precipitation_probability_pct": 35
         }
       },
       "forecastUrl": "https://api.weather.gov/gridpoints/SEW/140,31/forecast",
@@ -1985,18 +1901,6 @@
     },
     "46.4675,-121.5025": {
       "weatherByDay": {
-        "2026-05-19": {
-          "temperature_f": 46.0,
-          "cloud_cover_pct": 59.18181818181818,
-          "wind_speed_mph": 4.603116368,
-          "wind_gust_mph": 19.563244564,
-          "overnight_snowfall_in": 0.0,
-          "overnight_low_f": 35.0,
-          "humidity_pct": 80.33333333333333,
-          "precipitation_in": 0.0,
-          "visibility_mi": null,
-          "precipitation_probability_pct": 1
-        },
         "2026-05-20": {
           "temperature_f": 52.0,
           "cloud_cover_pct": 52.26086956521739,
@@ -2068,6 +1972,18 @@
           "precipitation_in": 0.300000000745055,
           "visibility_mi": null,
           "precipitation_probability_pct": 45
+        },
+        "2026-05-26": {
+          "temperature_f": 47.0,
+          "cloud_cover_pct": 47.25,
+          "wind_speed_mph": 6.2142070968,
+          "wind_gust_mph": 19.563244564,
+          "overnight_snowfall_in": 0.30000000447035,
+          "overnight_low_f": 33.0,
+          "humidity_pct": 78.94444444444444,
+          "precipitation_in": 0.1399999968707556,
+          "visibility_mi": null,
+          "precipitation_probability_pct": 35
         }
       },
       "forecastUrl": "https://api.weather.gov/gridpoints/SEW/140,10/forecast",
@@ -2075,18 +1991,6 @@
     },
     "48.483,-121.053": {
       "weatherByDay": {
-        "2026-05-19": {
-          "temperature_f": 37.0,
-          "cloud_cover_pct": 72.0909090909091,
-          "wind_speed_mph": 10.357011828,
-          "wind_gust_mph": 19.563244564,
-          "overnight_snowfall_in": 0.0,
-          "overnight_low_f": 29.0,
-          "humidity_pct": 87.91666666666667,
-          "precipitation_in": 0.0,
-          "visibility_mi": null,
-          "precipitation_probability_pct": 6
-        },
         "2026-05-20": {
           "temperature_f": 45.0,
           "cloud_cover_pct": 49.15,
@@ -2158,6 +2062,18 @@
           "precipitation_in": 0.2699999976903226,
           "visibility_mi": null,
           "precipitation_probability_pct": 60
+        },
+        "2026-05-26": {
+          "temperature_f": 45.0,
+          "cloud_cover_pct": 46.333333333333336,
+          "wind_speed_mph": 11.315994404666666,
+          "wind_gust_mph": 24.166360932000003,
+          "overnight_snowfall_in": 0.50000001490116,
+          "overnight_low_f": 29.0,
+          "humidity_pct": 81.75,
+          "precipitation_in": 0.0899999998509882,
+          "visibility_mi": null,
+          "precipitation_probability_pct": 32
         }
       },
       "forecastUrl": "https://api.weather.gov/gridpoints/SEW/173,101/forecast",
@@ -2165,18 +2081,6 @@
     },
     "47.515,-120.81": {
       "weatherByDay": {
-        "2026-05-19": {
-          "temperature_f": 37.0,
-          "cloud_cover_pct": 49.714285714285715,
-          "wind_speed_mph": 24.166360932000003,
-          "wind_gust_mph": 32.221814576,
-          "overnight_snowfall_in": 0.0,
-          "overnight_low_f": 27.0,
-          "humidity_pct": 73.8,
-          "precipitation_in": 0.0,
-          "visibility_mi": null,
-          "precipitation_probability_pct": 5
-        },
         "2026-05-20": {
           "temperature_f": 45.0,
           "cloud_cover_pct": 45.125,
@@ -2248,6 +2152,18 @@
           "precipitation_in": 0.049999998882413,
           "visibility_mi": null,
           "precipitation_probability_pct": 31
+        },
+        "2026-05-26": {
+          "temperature_f": 37.0,
+          "cloud_cover_pct": 33.0,
+          "wind_speed_mph": 24.001963918857143,
+          "wind_gust_mph": 39.126489128,
+          "overnight_snowfall_in": 0.0,
+          "overnight_low_f": 27.0,
+          "humidity_pct": 63.78947368421053,
+          "precipitation_in": 0.0,
+          "visibility_mi": null,
+          "precipitation_probability_pct": 14
         }
       },
       "forecastUrl": "https://api.weather.gov/gridpoints/OTX/32,102/forecast",
@@ -2255,18 +2171,6 @@
     },
     "46.92,-121.805": {
       "weatherByDay": {
-        "2026-05-19": {
-          "temperature_f": 42.0,
-          "cloud_cover_pct": 68.25,
-          "wind_speed_mph": 8.055453644,
-          "wind_gust_mph": 23.01558184,
-          "overnight_snowfall_in": 0.0,
-          "overnight_low_f": 33.0,
-          "humidity_pct": 83.27272727272727,
-          "precipitation_in": 0.0,
-          "visibility_mi": null,
-          "precipitation_probability_pct": 6
-        },
         "2026-05-20": {
           "temperature_f": 46.0,
           "cloud_cover_pct": 55.59090909090909,
@@ -2338,6 +2242,18 @@
           "precipitation_in": 0.34999999590218267,
           "visibility_mi": null,
           "precipitation_probability_pct": 57
+        },
+        "2026-05-26": {
+          "temperature_f": 42.0,
+          "cloud_cover_pct": 48.5,
+          "wind_speed_mph": 10.685805854285714,
+          "wind_gust_mph": 32.221814576,
+          "overnight_snowfall_in": 0.70000001043081,
+          "overnight_low_f": 30.0,
+          "humidity_pct": 73.27777777777777,
+          "precipitation_in": 0.170000001788139,
+          "visibility_mi": null,
+          "precipitation_probability_pct": 46
         }
       },
       "forecastUrl": "https://api.weather.gov/gridpoints/SEW/135,33/forecast",
@@ -2345,18 +2261,6 @@
     },
     "46.458,-121.442": {
       "weatherByDay": {
-        "2026-05-19": {
-          "temperature_f": 47.0,
-          "cloud_cover_pct": 53.416666666666664,
-          "wind_speed_mph": 7.671860613333333,
-          "wind_gust_mph": 23.01558184,
-          "overnight_snowfall_in": 0.0,
-          "overnight_low_f": 32.0,
-          "humidity_pct": 84.6,
-          "precipitation_in": 0.0,
-          "visibility_mi": null,
-          "precipitation_probability_pct": 1
-        },
         "2026-05-20": {
           "temperature_f": 54.0,
           "cloud_cover_pct": 52.59090909090909,
@@ -2428,6 +2332,18 @@
           "precipitation_in": 0.24000000394881163,
           "visibility_mi": null,
           "precipitation_probability_pct": 42
+        },
+        "2026-05-26": {
+          "temperature_f": 47.0,
+          "cloud_cover_pct": 47.0,
+          "wind_speed_mph": 10.357011828,
+          "wind_gust_mph": 25.317140024,
+          "overnight_snowfall_in": 0.40000000596047003,
+          "overnight_low_f": 30.0,
+          "humidity_pct": 82.61904761904762,
+          "precipitation_in": 0.09999999776482561,
+          "visibility_mi": null,
+          "precipitation_probability_pct": 32
         }
       },
       "forecastUrl": "https://api.weather.gov/gridpoints/SEW/142,9/forecast",
@@ -2435,18 +2351,6 @@
     },
     "48.8566,-121.6644": {
       "weatherByDay": {
-        "2026-05-19": {
-          "temperature_f": 46.0,
-          "cloud_cover_pct": 80.0,
-          "wind_speed_mph": 4.986709398666667,
-          "wind_gust_mph": 16.110907288,
-          "overnight_snowfall_in": 0.0,
-          "overnight_low_f": 39.0,
-          "humidity_pct": 77.72727272727273,
-          "precipitation_in": 0.0,
-          "visibility_mi": null,
-          "precipitation_probability_pct": 25
-        },
         "2026-05-20": {
           "temperature_f": 56.0,
           "cloud_cover_pct": 46.8,
@@ -2518,6 +2422,18 @@
           "precipitation_in": 0.719999983906751,
           "visibility_mi": null,
           "precipitation_probability_pct": 68
+        },
+        "2026-05-26": {
+          "temperature_f": 51.0,
+          "cloud_cover_pct": 56.0,
+          "wind_speed_mph": 7.1348303704000005,
+          "wind_gust_mph": 18.412465472,
+          "overnight_snowfall_in": 0.0,
+          "overnight_low_f": 38.0,
+          "humidity_pct": 74.05,
+          "precipitation_in": 0.11999999918043601,
+          "visibility_mi": null,
+          "precipitation_probability_pct": 35
         }
       },
       "forecastUrl": "https://api.weather.gov/gridpoints/SEW/157,123/forecast",
@@ -2525,18 +2441,6 @@
     },
     "47.7448,-121.089": {
       "weatherByDay": {
-        "2026-05-19": {
-          "temperature_f": 50.0,
-          "cloud_cover_pct": 75.0,
-          "wind_speed_mph": 6.329285006,
-          "wind_gust_mph": 21.864802748000002,
-          "overnight_snowfall_in": 0.0,
-          "overnight_low_f": 35.0,
-          "humidity_pct": 78.27272727272727,
-          "precipitation_in": 0.0,
-          "visibility_mi": null,
-          "precipitation_probability_pct": 4
-        },
         "2026-05-20": {
           "temperature_f": 59.0,
           "cloud_cover_pct": 52.26086956521739,
@@ -2608,6 +2512,18 @@
           "precipitation_in": 0.2000000048428816,
           "visibility_mi": null,
           "precipitation_probability_pct": 57
+        },
+        "2026-05-26": {
+          "temperature_f": 53.0,
+          "cloud_cover_pct": 49.75,
+          "wind_speed_mph": 6.329285006,
+          "wind_gust_mph": 23.01558184,
+          "overnight_snowfall_in": 0.0,
+          "overnight_low_f": 35.0,
+          "humidity_pct": 76.57894736842105,
+          "precipitation_in": 0.0499999988824132,
+          "visibility_mi": null,
+          "precipitation_probability_pct": 38
         }
       },
       "forecastUrl": "https://api.weather.gov/gridpoints/SEW/165,67/forecast",
@@ -2615,18 +2531,6 @@
     },
     "47.4281,-121.4138": {
       "weatherByDay": {
-        "2026-05-19": {
-          "temperature_f": 53.0,
-          "cloud_cover_pct": 72.4,
-          "wind_speed_mph": 5.178505914,
-          "wind_gust_mph": 18.412465472,
-          "overnight_snowfall_in": 0.0,
-          "overnight_low_f": 36.0,
-          "humidity_pct": 84.54545454545455,
-          "precipitation_in": 0.0,
-          "visibility_mi": null,
-          "precipitation_probability_pct": 3
-        },
         "2026-05-20": {
           "temperature_f": 59.0,
           "cloud_cover_pct": 51.30434782608695,
@@ -2698,6 +2602,18 @@
           "precipitation_in": 0.40999999828636263,
           "visibility_mi": null,
           "precipitation_probability_pct": 59
+        },
+        "2026-05-26": {
+          "temperature_f": 54.0,
+          "cloud_cover_pct": 51.25,
+          "wind_speed_mph": 6.137488490666668,
+          "wind_gust_mph": 23.01558184,
+          "overnight_snowfall_in": 0.0,
+          "overnight_low_f": 36.0,
+          "humidity_pct": 79.5909090909091,
+          "precipitation_in": 0.17999999970198002,
+          "visibility_mi": null,
+          "precipitation_probability_pct": 51
         }
       },
       "forecastUrl": "https://api.weather.gov/gridpoints/SEW/152,54/forecast",
@@ -2705,18 +2621,6 @@
     },
     "46.9354,-121.5045": {
       "weatherByDay": {
-        "2026-05-19": {
-          "temperature_f": 48.0,
-          "cloud_cover_pct": 65.44444444444444,
-          "wind_speed_mph": 10.587167646400001,
-          "wind_gust_mph": 28.7694773,
-          "overnight_snowfall_in": 0.0,
-          "overnight_low_f": 33.0,
-          "humidity_pct": 77.36363636363636,
-          "precipitation_in": 0.0,
-          "visibility_mi": null,
-          "precipitation_probability_pct": 7
-        },
         "2026-05-20": {
           "temperature_f": 53.0,
           "cloud_cover_pct": 52.52173913043478,
@@ -2788,6 +2692,18 @@
           "precipitation_in": 0.2399999946355816,
           "visibility_mi": null,
           "precipitation_probability_pct": 45
+        },
+        "2026-05-26": {
+          "temperature_f": 47.0,
+          "cloud_cover_pct": 44.5,
+          "wind_speed_mph": 11.363943533499999,
+          "wind_gust_mph": 33.372593668,
+          "overnight_snowfall_in": 0.0,
+          "overnight_low_f": 31.0,
+          "humidity_pct": 74.85714285714286,
+          "precipitation_in": 0.049999998882412605,
+          "visibility_mi": null,
+          "precipitation_probability_pct": 26
         }
       },
       "forecastUrl": "https://api.weather.gov/gridpoints/SEW/145,31/forecast",
