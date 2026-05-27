@@ -807,12 +807,8 @@ function renderProfileTable(profile, locResults) {
   }
   const dates = [...dateSet].sort().slice(0, 6);
 
-  // Sort rows: location whose best single day scores highest goes first
-  const sorted = [...locResults].sort((a, b) => {
-    const bestA = Math.max(0, ...Object.values(a.dailyResults).map(r => r.total));
-    const bestB = Math.max(0, ...Object.values(b.dailyResults).map(r => r.total));
-    return bestB - bestA;
-  });
+  // Keep N→S order from PROFILES array (no score-based resorting)
+  const sorted = locResults;
 
   // Best score across all locations and days (for the header ring)
   let overallBest = null;
