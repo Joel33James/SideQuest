@@ -1,273 +1,189 @@
 {
-  "lastUpdated": "2026-10-27T07:24:29.769772+00:00",
-  "locationCount": 36,
-  "errors": [],
+  "lastUpdated": "2026-10-27T14:03:48.431184+00:00",
+  "locationCount": 35,
+  "errors": [
+    {
+      "lat": 50.07,
+      "lon": -122.95,
+      "error": "<urlopen error _ssl.c:993: The handshake operation timed out>"
+    }
+  ],
   "weatherCache": {
     "50.375,-122.49": {
       "weatherByDay": {
         "2026-10-27": {
-          "temperature_f": 34.0,
-          "overnight_low_f": 27.8,
-          "cloud_cover_pct": 91,
-          "wind_speed_mph": 8.3,
-          "wind_gust_mph": 17.4,
-          "overnight_snowfall_in": 0.0,
-          "precipitation_in": 0.4,
-          "precipitation_probability_pct": 41,
-          "humidity_pct": 99,
-          "visibility_mi": 7.389159531236408
-        },
-        "2026-10-28": {
-          "temperature_f": 31.2,
-          "overnight_low_f": 17.0,
-          "cloud_cover_pct": 99,
-          "wind_speed_mph": 7.6,
-          "wind_gust_mph": 8.7,
-          "overnight_snowfall_in": 1.5354330708661417,
-          "precipitation_in": 5.58,
-          "precipitation_probability_pct": 48,
-          "humidity_pct": 97,
-          "visibility_mi": 6.314830924478358
-        },
-        "2026-10-29": {
-          "temperature_f": 31.2,
-          "overnight_low_f": 12.8,
-          "cloud_cover_pct": 91,
-          "wind_speed_mph": 7.7,
-          "wind_gust_mph": 7.8,
+          "temperature_f": 33.9,
+          "overnight_low_f": 24.6,
+          "cloud_cover_pct": 95,
+          "wind_speed_mph": 8.5,
+          "wind_gust_mph": 18.1,
           "overnight_snowfall_in": 0.0,
           "precipitation_in": 0.0,
-          "precipitation_probability_pct": 6,
+          "precipitation_probability_pct": 44,
           "humidity_pct": 98,
-          "visibility_mi": 13.713180558489816
+          "visibility_mi": 5.64413361999329
+        },
+        "2026-10-28": {
+          "temperature_f": 31.4,
+          "overnight_low_f": 15.4,
+          "cloud_cover_pct": 98,
+          "wind_speed_mph": 6.7,
+          "wind_gust_mph": 6.3,
+          "overnight_snowfall_in": 1.3503937007874016,
+          "precipitation_in": 4.9,
+          "precipitation_probability_pct": 44,
+          "humidity_pct": 98,
+          "visibility_mi": 6.531018927013558
+        },
+        "2026-10-29": {
+          "temperature_f": 31.1,
+          "overnight_low_f": 11.9,
+          "cloud_cover_pct": 64,
+          "wind_speed_mph": 7.7,
+          "wind_gust_mph": 7.4,
+          "overnight_snowfall_in": 0.0,
+          "precipitation_in": 0.0,
+          "precipitation_probability_pct": 5,
+          "humidity_pct": 97,
+          "visibility_mi": 14.63540333304336
         },
         "2026-10-30": {
-          "temperature_f": 30.2,
-          "overnight_low_f": 13.0,
-          "cloud_cover_pct": 72,
-          "wind_speed_mph": 7.7,
-          "wind_gust_mph": 7.6,
-          "overnight_snowfall_in": 0.9645669291338583,
-          "precipitation_in": 3.5,
-          "precipitation_probability_pct": 3,
-          "humidity_pct": 99,
-          "visibility_mi": 6.962997253532504
+          "temperature_f": 31.9,
+          "overnight_low_f": 12.7,
+          "cloud_cover_pct": 60,
+          "wind_speed_mph": 8.0,
+          "wind_gust_mph": 7.4,
+          "overnight_snowfall_in": 0.7716535433070866,
+          "precipitation_in": 2.8,
+          "precipitation_probability_pct": 13,
+          "humidity_pct": 100,
+          "visibility_mi": 7.843277368362186
         },
         "2026-10-31": {
-          "temperature_f": 31.4,
-          "overnight_low_f": 16.4,
-          "cloud_cover_pct": 98,
-          "wind_speed_mph": 6.1,
-          "wind_gust_mph": 7.2,
-          "overnight_snowfall_in": 0.44094488188976383,
-          "precipitation_in": 1.6,
-          "precipitation_probability_pct": 3,
+          "temperature_f": 32.8,
+          "overnight_low_f": 18.4,
+          "cloud_cover_pct": 97,
+          "wind_speed_mph": 5.3,
+          "wind_gust_mph": 6.0,
+          "overnight_snowfall_in": 0.13779527559055116,
+          "precipitation_in": 0.8,
+          "precipitation_probability_pct": 7,
           "humidity_pct": 100,
-          "visibility_mi": 4.3547851914449405
+          "visibility_mi": 3.693545180011682
         },
         "2026-11-01": {
           "temperature_f": 32.3,
-          "overnight_low_f": 20.3,
-          "cloud_cover_pct": 89,
-          "wind_speed_mph": 5.4,
-          "wind_gust_mph": 6.9,
-          "overnight_snowfall_in": 0.1653543307086614,
-          "precipitation_in": 0.6,
-          "precipitation_probability_pct": 4,
-          "humidity_pct": 99,
-          "visibility_mi": 6.160910683882834
+          "overnight_low_f": 17.9,
+          "cloud_cover_pct": 94,
+          "wind_speed_mph": 5.0,
+          "wind_gust_mph": 5.4,
+          "overnight_snowfall_in": 0.24803149606299213,
+          "precipitation_in": 0.9,
+          "precipitation_probability_pct": 5,
+          "humidity_pct": 100,
+          "visibility_mi": 9.136770353063989
         },
         "2026-11-02": {
-          "temperature_f": 34.1,
-          "overnight_low_f": 15.7,
-          "cloud_cover_pct": 96,
-          "wind_speed_mph": 5.5,
-          "wind_gust_mph": 5.1,
+          "temperature_f": 35.6,
+          "overnight_low_f": 17.8,
+          "cloud_cover_pct": 63,
+          "wind_speed_mph": 5.6,
+          "wind_gust_mph": 3.4,
           "overnight_snowfall_in": 0.0,
           "precipitation_in": 0.0,
-          "precipitation_probability_pct": 16,
-          "humidity_pct": 98,
-          "visibility_mi": 12.916270023736438
+          "precipitation_probability_pct": 9,
+          "humidity_pct": 100,
+          "visibility_mi": 12.829793579976885
         }
       },
       "forecastUrl": "https://forecast.weather.gov/MapClick.php?lat=50.375&lon=-122.49",
       "source": "Open-Meteo"
     },
-    "50.07,-122.95": {
-      "weatherByDay": {
-        "2026-10-27": {
-          "temperature_f": 28.3,
-          "overnight_low_f": 23.3,
-          "cloud_cover_pct": 88,
-          "wind_speed_mph": 10.3,
-          "wind_gust_mph": 18.3,
-          "overnight_snowfall_in": 3.0039370078740157,
-          "precipitation_in": 10.9,
-          "precipitation_probability_pct": 50,
-          "humidity_pct": 99,
-          "visibility_mi": 4.300415076988083
-        },
-        "2026-10-28": {
-          "temperature_f": 26.3,
-          "overnight_low_f": 13.2,
-          "cloud_cover_pct": 100,
-          "wind_speed_mph": 5.9,
-          "wind_gust_mph": 12.5,
-          "overnight_snowfall_in": 1.9094488188976377,
-          "precipitation_in": 7.02,
-          "precipitation_probability_pct": 66,
-          "humidity_pct": 98,
-          "visibility_mi": 4.101967266084234
-        },
-        "2026-10-29": {
-          "temperature_f": 25.8,
-          "overnight_low_f": 9.6,
-          "cloud_cover_pct": 58,
-          "wind_speed_mph": 5.9,
-          "wind_gust_mph": 6.3,
-          "overnight_snowfall_in": 0.0,
-          "precipitation_in": 0.0,
-          "precipitation_probability_pct": 6,
-          "humidity_pct": 97,
-          "visibility_mi": 14.655597946984479
-        },
-        "2026-10-30": {
-          "temperature_f": 26.1,
-          "overnight_low_f": 9.3,
-          "cloud_cover_pct": 81,
-          "wind_speed_mph": 6.4,
-          "wind_gust_mph": 8.1,
-          "overnight_snowfall_in": 0.6062992125984252,
-          "precipitation_in": 2.2,
-          "precipitation_probability_pct": 3,
-          "humidity_pct": 99,
-          "visibility_mi": 9.925913728609244
-        },
-        "2026-10-31": {
-          "temperature_f": 26.8,
-          "overnight_low_f": 14.0,
-          "cloud_cover_pct": 90,
-          "wind_speed_mph": 4.8,
-          "wind_gust_mph": 4.5,
-          "overnight_snowfall_in": 1.295275590551181,
-          "precipitation_in": 4.8,
-          "precipitation_probability_pct": 6,
-          "humidity_pct": 100,
-          "visibility_mi": 6.766233362744977
-        },
-        "2026-11-01": {
-          "temperature_f": 27.0,
-          "overnight_low_f": 12.4,
-          "cloud_cover_pct": 96,
-          "wind_speed_mph": 4.0,
-          "wind_gust_mph": 4.5,
-          "overnight_snowfall_in": 0.0,
-          "precipitation_in": 0.0,
-          "precipitation_probability_pct": 11,
-          "humidity_pct": 100,
-          "visibility_mi": 7.155107062522525
-        },
-        "2026-11-02": {
-          "temperature_f": 30.9,
-          "overnight_low_f": 11.6,
-          "cloud_cover_pct": 83,
-          "wind_speed_mph": 5.7,
-          "wind_gust_mph": 4.0,
-          "overnight_snowfall_in": 0.0,
-          "precipitation_in": 0.0,
-          "precipitation_probability_pct": 22,
-          "humidity_pct": 100,
-          "visibility_mi": 12.44920277877888
-        }
-      },
-      "forecastUrl": "https://forecast.weather.gov/MapClick.php?lat=50.07&lon=-122.95",
-      "source": "Open-Meteo"
-    },
     "49.92,-122.99": {
       "weatherByDay": {
         "2026-10-27": {
-          "temperature_f": 30.5,
-          "overnight_low_f": 25.1,
-          "cloud_cover_pct": 98,
-          "wind_speed_mph": 13.5,
-          "wind_gust_mph": 17.2,
-          "overnight_snowfall_in": 3.0039370078740157,
-          "precipitation_in": 10.9,
-          "precipitation_probability_pct": 59,
+          "temperature_f": 30.6,
+          "overnight_low_f": 24.9,
+          "cloud_cover_pct": 93,
+          "wind_speed_mph": 14.3,
+          "wind_gust_mph": 18.3,
+          "overnight_snowfall_in": 1.6811023622047243,
+          "precipitation_in": 6.1,
+          "precipitation_probability_pct": 53,
           "humidity_pct": 99,
-          "visibility_mi": 1.4446916127108007
+          "visibility_mi": 4.121770415201262
         },
         "2026-10-28": {
-          "temperature_f": 27.6,
-          "overnight_low_f": 21.0,
+          "temperature_f": 26.7,
+          "overnight_low_f": 18.6,
           "cloud_cover_pct": 100,
-          "wind_speed_mph": 8.0,
-          "wind_gust_mph": 9.6,
-          "overnight_snowfall_in": 3.5078740157480315,
-          "precipitation_in": 12.73,
-          "precipitation_probability_pct": 66,
-          "humidity_pct": 98,
-          "visibility_mi": 4.514919159406962
+          "wind_speed_mph": 10.3,
+          "wind_gust_mph": 12.6,
+          "overnight_snowfall_in": 1.515748031496063,
+          "precipitation_in": 5.5,
+          "precipitation_probability_pct": 52,
+          "humidity_pct": 96,
+          "visibility_mi": 6.643767010078666
         },
         "2026-10-29": {
-          "temperature_f": 27.9,
-          "overnight_low_f": 12.8,
-          "cloud_cover_pct": 60,
-          "wind_speed_mph": 6.3,
-          "wind_gust_mph": 6.3,
+          "temperature_f": 27.3,
+          "overnight_low_f": 11.4,
+          "cloud_cover_pct": 68,
+          "wind_speed_mph": 6.8,
+          "wind_gust_mph": 6.9,
           "overnight_snowfall_in": 0.0,
           "precipitation_in": 0.0,
-          "precipitation_probability_pct": 8,
-          "humidity_pct": 97,
-          "visibility_mi": 14.655597946984479
+          "precipitation_probability_pct": 9,
+          "humidity_pct": 96,
+          "visibility_mi": 14.960070587942884
         },
         "2026-10-30": {
-          "temperature_f": 27.7,
-          "overnight_low_f": 12.3,
-          "cloud_cover_pct": 89,
-          "wind_speed_mph": 6.8,
-          "wind_gust_mph": 8.1,
-          "overnight_snowfall_in": 0.7165354330708662,
-          "precipitation_in": 2.6,
-          "precipitation_probability_pct": 4,
+          "temperature_f": 28.0,
+          "overnight_low_f": 10.6,
+          "cloud_cover_pct": 77,
+          "wind_speed_mph": 6.9,
+          "wind_gust_mph": 7.6,
+          "overnight_snowfall_in": 0.3858267716535433,
+          "precipitation_in": 1.4,
+          "precipitation_probability_pct": 8,
           "humidity_pct": 99,
-          "visibility_mi": 9.925913728609244
+          "visibility_mi": 10.336535474169535
         },
         "2026-10-31": {
-          "temperature_f": 28.6,
-          "overnight_low_f": 14.6,
+          "temperature_f": 28.8,
+          "overnight_low_f": 16.1,
           "cloud_cover_pct": 99,
-          "wind_speed_mph": 5.1,
-          "wind_gust_mph": 4.5,
-          "overnight_snowfall_in": 1.5708661417322836,
-          "precipitation_in": 5.7,
-          "precipitation_probability_pct": 9,
-          "humidity_pct": 99,
-          "visibility_mi": 6.766233362744977
+          "wind_speed_mph": 4.3,
+          "wind_gust_mph": 4.3,
+          "overnight_snowfall_in": 3.830708661417323,
+          "precipitation_in": 13.9,
+          "precipitation_probability_pct": 23,
+          "humidity_pct": 100,
+          "visibility_mi": 1.4446916127108007
         },
         "2026-11-01": {
-          "temperature_f": 28.1,
-          "overnight_low_f": 20.3,
-          "cloud_cover_pct": 99,
-          "wind_speed_mph": 3.5,
-          "wind_gust_mph": 4.5,
-          "overnight_snowfall_in": 0.1653543307086614,
-          "precipitation_in": 0.6,
-          "precipitation_probability_pct": 11,
-          "humidity_pct": 98,
-          "visibility_mi": 7.155107062522525
+          "temperature_f": 29.2,
+          "overnight_low_f": 14.2,
+          "cloud_cover_pct": 80,
+          "wind_speed_mph": 4.6,
+          "wind_gust_mph": 3.1,
+          "overnight_snowfall_in": 0.0,
+          "precipitation_in": 0.3,
+          "precipitation_probability_pct": 9,
+          "humidity_pct": 100,
+          "visibility_mi": 8.388016205400973
         },
         "2026-11-02": {
-          "temperature_f": 33.1,
-          "overnight_low_f": 12.5,
-          "cloud_cover_pct": 87,
-          "wind_speed_mph": 6.2,
-          "wind_gust_mph": 4.0,
+          "temperature_f": 31.6,
+          "overnight_low_f": 14.3,
+          "cloud_cover_pct": 78,
+          "wind_speed_mph": 5.8,
+          "wind_gust_mph": 4.3,
           "overnight_snowfall_in": 0.0,
           "precipitation_in": 0.0,
-          "precipitation_probability_pct": 21,
-          "humidity_pct": 96,
-          "visibility_mi": 12.44920277877888
+          "precipitation_probability_pct": 12,
+          "humidity_pct": 99,
+          "visibility_mi": 12.644935190823569
         }
       },
       "forecastUrl": "https://forecast.weather.gov/MapClick.php?lat=49.92&lon=-122.99",
@@ -276,86 +192,86 @@
     "49.85,-122.99": {
       "weatherByDay": {
         "2026-10-27": {
-          "temperature_f": 24.4,
-          "overnight_low_f": 18.1,
-          "cloud_cover_pct": 98,
-          "wind_speed_mph": 14.2,
-          "wind_gust_mph": 20.4,
-          "overnight_snowfall_in": 4.078740157480315,
-          "precipitation_in": 14.8,
-          "precipitation_probability_pct": 59,
-          "humidity_pct": 98,
-          "visibility_mi": 0.3598804478854686
+          "temperature_f": 24.6,
+          "overnight_low_f": 13.6,
+          "cloud_cover_pct": 96,
+          "wind_speed_mph": 14.4,
+          "wind_gust_mph": 20.8,
+          "overnight_snowfall_in": 0.8267716535433071,
+          "precipitation_in": 3.0,
+          "precipitation_probability_pct": 53,
+          "humidity_pct": 97,
+          "visibility_mi": 1.667348105434526
         },
         "2026-10-28": {
-          "temperature_f": 22.2,
-          "overnight_low_f": 13.8,
-          "cloud_cover_pct": 99,
-          "wind_speed_mph": 7.9,
-          "wind_gust_mph": 10.7,
-          "overnight_snowfall_in": 5.6299212598425195,
-          "precipitation_in": 20.42,
-          "precipitation_probability_pct": 58,
-          "humidity_pct": 99,
-          "visibility_mi": 2.8443337020144908
+          "temperature_f": 18.6,
+          "overnight_low_f": 12.6,
+          "cloud_cover_pct": 100,
+          "wind_speed_mph": 9.9,
+          "wind_gust_mph": 13.0,
+          "overnight_snowfall_in": 1.9015748031496063,
+          "precipitation_in": 6.9,
+          "precipitation_probability_pct": 54,
+          "humidity_pct": 95,
+          "visibility_mi": 2.649247517615917
         },
         "2026-10-29": {
-          "temperature_f": 22.4,
-          "overnight_low_f": 8.6,
-          "cloud_cover_pct": 59,
-          "wind_speed_mph": 6.7,
+          "temperature_f": 21.7,
+          "overnight_low_f": 6.5,
+          "cloud_cover_pct": 68,
+          "wind_speed_mph": 7.0,
           "wind_gust_mph": 5.4,
-          "overnight_snowfall_in": 0.02755905511811024,
-          "precipitation_in": 0.1,
-          "precipitation_probability_pct": 8,
-          "humidity_pct": 98,
-          "visibility_mi": 12.435737631575678
+          "overnight_snowfall_in": 0.0,
+          "precipitation_in": 0.0,
+          "precipitation_probability_pct": 10,
+          "humidity_pct": 97,
+          "visibility_mi": 14.702200902233214
         },
         "2026-10-30": {
-          "temperature_f": 21.4,
-          "overnight_low_f": 8.1,
-          "cloud_cover_pct": 91,
-          "wind_speed_mph": 6.9,
-          "wind_gust_mph": 6.0,
-          "overnight_snowfall_in": 0.7716535433070866,
-          "precipitation_in": 2.9,
-          "precipitation_probability_pct": 4,
+          "temperature_f": 22.0,
+          "overnight_low_f": 6.0,
+          "cloud_cover_pct": 78,
+          "wind_speed_mph": 7.2,
+          "wind_gust_mph": 5.4,
+          "overnight_snowfall_in": 0.3858267716535433,
+          "precipitation_in": 1.4,
+          "precipitation_probability_pct": 8,
           "humidity_pct": 99,
-          "visibility_mi": 10.61356208135012
+          "visibility_mi": 12.235344924006116
         },
         "2026-10-31": {
-          "temperature_f": 22.3,
-          "overnight_low_f": 9.6,
-          "cloud_cover_pct": 99,
-          "wind_speed_mph": 5.1,
-          "wind_gust_mph": 6.3,
-          "overnight_snowfall_in": 3.5826771653543306,
-          "precipitation_in": 13.0,
-          "precipitation_probability_pct": 8,
+          "temperature_f": 23.4,
+          "overnight_low_f": 9.7,
+          "cloud_cover_pct": 97,
+          "wind_speed_mph": 5.0,
+          "wind_gust_mph": 4.3,
+          "overnight_snowfall_in": 2.976377952755905,
+          "precipitation_in": 11.1,
+          "precipitation_probability_pct": 24,
           "humidity_pct": 100,
-          "visibility_mi": 3.3310736078143837
+          "visibility_mi": 1.5125268743708602
         },
         "2026-11-01": {
-          "temperature_f": 22.0,
-          "overnight_low_f": 9.3,
-          "cloud_cover_pct": 96,
-          "wind_speed_mph": 5.2,
+          "temperature_f": 23.1,
+          "overnight_low_f": 9.2,
+          "cloud_cover_pct": 78,
+          "wind_speed_mph": 5.1,
           "wind_gust_mph": 3.1,
-          "overnight_snowfall_in": 0.24803149606299213,
-          "precipitation_in": 0.9,
+          "overnight_snowfall_in": 0.0826771653543307,
+          "precipitation_in": 0.6,
           "precipitation_probability_pct": 9,
           "humidity_pct": 100,
-          "visibility_mi": 6.286222923683001
+          "visibility_mi": 13.938943914896791
         },
         "2026-11-02": {
           "temperature_f": 24.9,
-          "overnight_low_f": 8.8,
-          "cloud_cover_pct": 84,
-          "wind_speed_mph": 7.5,
-          "wind_gust_mph": 4.3,
+          "overnight_low_f": 10.5,
+          "cloud_cover_pct": 79,
+          "wind_speed_mph": 6.9,
+          "wind_gust_mph": 3.8,
           "overnight_snowfall_in": 0.0,
           "precipitation_in": 0.0,
-          "precipitation_probability_pct": 20,
+          "precipitation_probability_pct": 12,
           "humidity_pct": 100,
           "visibility_mi": 14.061665030385127
         }
@@ -366,88 +282,88 @@
     "49.67,-123.14": {
       "weatherByDay": {
         "2026-10-27": {
-          "temperature_f": 42.4,
-          "overnight_low_f": 37.0,
-          "cloud_cover_pct": 91,
-          "wind_speed_mph": 10.3,
-          "wind_gust_mph": 17.7,
+          "temperature_f": 43.8,
+          "overnight_low_f": 35.9,
+          "cloud_cover_pct": 89,
+          "wind_speed_mph": 10.0,
+          "wind_gust_mph": 17.4,
           "overnight_snowfall_in": 0.0,
-          "precipitation_in": 4.0,
-          "precipitation_probability_pct": 40,
-          "humidity_pct": 95,
-          "visibility_mi": 11.327109249754557
+          "precipitation_in": 1.5,
+          "precipitation_probability_pct": 47,
+          "humidity_pct": 94,
+          "visibility_mi": 10.723855742105462
         },
         "2026-10-28": {
-          "temperature_f": 39.8,
-          "overnight_low_f": 33.6,
+          "temperature_f": 38.9,
+          "overnight_low_f": 33.9,
           "cloud_cover_pct": 99,
-          "wind_speed_mph": 8.4,
-          "wind_gust_mph": 14.1,
+          "wind_speed_mph": 5.8,
+          "wind_gust_mph": 9.2,
           "overnight_snowfall_in": 0.0,
-          "precipitation_in": 8.9,
-          "precipitation_probability_pct": 54,
-          "humidity_pct": 99,
-          "visibility_mi": 8.271117352455045
+          "precipitation_in": 2.9,
+          "precipitation_probability_pct": 55,
+          "humidity_pct": 100,
+          "visibility_mi": 9.798271341046641
         },
         "2026-10-29": {
-          "temperature_f": 42.1,
-          "overnight_low_f": 28.0,
-          "cloud_cover_pct": 58,
-          "wind_speed_mph": 5.9,
-          "wind_gust_mph": 8.9,
-          "overnight_snowfall_in": 0.0,
-          "precipitation_in": 0.3,
-          "precipitation_probability_pct": 25,
-          "humidity_pct": 99,
-          "visibility_mi": 12.427970472367557
-        },
-        "2026-10-30": {
-          "temperature_f": 36.7,
-          "overnight_low_f": 27.8,
-          "cloud_cover_pct": 88,
-          "wind_speed_mph": 7.1,
-          "wind_gust_mph": 10.5,
-          "overnight_snowfall_in": 0.0,
-          "precipitation_in": 0.9,
-          "precipitation_probability_pct": 3,
-          "humidity_pct": 99,
-          "visibility_mi": 10.115432413287435
-        },
-        "2026-10-31": {
-          "temperature_f": 40.1,
-          "overnight_low_f": 32.5,
-          "cloud_cover_pct": 85,
-          "wind_speed_mph": 3.8,
-          "wind_gust_mph": 5.6,
-          "overnight_snowfall_in": 0.0,
-          "precipitation_in": 8.6,
-          "precipitation_probability_pct": 8,
-          "humidity_pct": 99,
-          "visibility_mi": 6.025762113661501
-        },
-        "2026-11-01": {
-          "temperature_f": 38.5,
+          "temperature_f": 42.2,
           "overnight_low_f": 27.5,
-          "cloud_cover_pct": 91,
-          "wind_speed_mph": 4.2,
-          "wind_gust_mph": 3.1,
-          "overnight_snowfall_in": 0.0,
-          "precipitation_in": 1.8,
-          "precipitation_probability_pct": 7,
-          "humidity_pct": 100,
-          "visibility_mi": 10.089539811351237
-        },
-        "2026-11-02": {
-          "temperature_f": 43.3,
-          "overnight_low_f": 25.8,
-          "cloud_cover_pct": 82,
+          "cloud_cover_pct": 67,
           "wind_speed_mph": 6.3,
-          "wind_gust_mph": 7.2,
+          "wind_gust_mph": 9.4,
           "overnight_snowfall_in": 0.0,
           "precipitation_in": 0.0,
-          "precipitation_probability_pct": 18,
+          "precipitation_probability_pct": 22,
+          "humidity_pct": 92,
+          "visibility_mi": 14.99838443088471
+        },
+        "2026-10-30": {
+          "temperature_f": 39.4,
+          "overnight_low_f": 27.3,
+          "cloud_cover_pct": 71,
+          "wind_speed_mph": 6.9,
+          "wind_gust_mph": 10.3,
+          "overnight_snowfall_in": 0.0,
+          "precipitation_in": 0.4,
+          "precipitation_probability_pct": 7,
+          "humidity_pct": 98,
+          "visibility_mi": 12.270042377620639
+        },
+        "2026-10-31": {
+          "temperature_f": 39.1,
+          "overnight_low_f": 30.9,
+          "cloud_cover_pct": 96,
+          "wind_speed_mph": 4.0,
+          "wind_gust_mph": 4.7,
+          "overnight_snowfall_in": 0.0,
+          "precipitation_in": 9.3,
+          "precipitation_probability_pct": 24,
+          "humidity_pct": 100,
+          "visibility_mi": 2.4984341407036426
+        },
+        "2026-11-01": {
+          "temperature_f": 42.6,
+          "overnight_low_f": 27.4,
+          "cloud_cover_pct": 54,
+          "wind_speed_mph": 4.2,
+          "wind_gust_mph": 5.6,
+          "overnight_snowfall_in": 0.0,
+          "precipitation_in": 0.0,
+          "precipitation_probability_pct": 9,
+          "humidity_pct": 98,
+          "visibility_mi": 14.462450445524253
+        },
+        "2026-11-02": {
+          "temperature_f": 45.6,
+          "overnight_low_f": 27.6,
+          "cloud_cover_pct": 80,
+          "wind_speed_mph": 6.0,
+          "wind_gust_mph": 8.1,
+          "overnight_snowfall_in": 0.0,
+          "precipitation_in": 0.0,
+          "precipitation_probability_pct": 12,
           "humidity_pct": 96,
-          "visibility_mi": 14.989063839834964
+          "visibility_mi": 14.999937862726336
         }
       },
       "forecastUrl": "https://forecast.weather.gov/MapClick.php?lat=49.67&lon=-123.14",
@@ -547,87 +463,87 @@
       "weatherByDay": {
         "2026-10-27": {
           "temperature_f": 32.0,
-          "cloud_cover_pct": 91.0,
-          "wind_speed_mph": 5.75389546,
-          "wind_gust_mph": 12.658570012,
-          "overnight_snowfall_in": 2.4000000000000004,
-          "overnight_low_f": 24.0,
-          "humidity_pct": 87.8,
-          "precipitation_in": 0.2,
-          "visibility_mi": 1.600592213541686,
-          "precipitation_probability_pct": 89
+          "cloud_cover_pct": 87.91304347826087,
+          "wind_speed_mph": 6.5210815213333335,
+          "wind_gust_mph": 13.809349104,
+          "overnight_snowfall_in": 2.2,
+          "overnight_low_f": 25.0,
+          "humidity_pct": 88.46666666666667,
+          "precipitation_in": 0.18000000000000002,
+          "visibility_mi": 3.8831914697950713,
+          "precipitation_probability_pct": 96
         },
         "2026-10-28": {
-          "temperature_f": 25.0,
-          "cloud_cover_pct": 88.4,
-          "wind_speed_mph": 8.055453644,
-          "wind_gust_mph": 19.563244564,
-          "overnight_snowfall_in": 12.100000000000001,
+          "temperature_f": 26.0,
+          "cloud_cover_pct": 92.76923076923077,
+          "wind_speed_mph": 10.768004360857143,
+          "wind_gust_mph": 24.166360932000003,
+          "overnight_snowfall_in": 8.6,
           "overnight_low_f": 22.0,
-          "humidity_pct": 85.52631578947368,
-          "precipitation_in": 0.84,
-          "visibility_mi": null,
-          "precipitation_probability_pct": 100
+          "humidity_pct": 85.1875,
+          "precipitation_in": 0.5900000000000001,
+          "visibility_mi": 0.9388912224887221,
+          "precipitation_probability_pct": 98
         },
         "2026-10-29": {
-          "temperature_f": 24.0,
-          "cloud_cover_pct": 79.375,
-          "wind_speed_mph": 5.9182924731428574,
+          "temperature_f": 23.0,
+          "cloud_cover_pct": 74.85714285714286,
+          "wind_speed_mph": 6.904674552,
           "wind_gust_mph": 13.809349104,
           "overnight_snowfall_in": 0.4,
           "overnight_low_f": 20.0,
-          "humidity_pct": 77.44444444444444,
-          "precipitation_in": 0.030000000000000002,
+          "humidity_pct": 77.30434782608695,
+          "precipitation_in": 0.02,
           "visibility_mi": null,
-          "precipitation_probability_pct": 64
+          "precipitation_probability_pct": 57
         },
         "2026-10-30": {
-          "temperature_f": 25.0,
-          "cloud_cover_pct": 55.666666666666664,
-          "wind_speed_mph": 3.6441337913333336,
+          "temperature_f": 23.0,
+          "cloud_cover_pct": 63.42857142857143,
+          "wind_speed_mph": 7.069071565142856,
           "wind_gust_mph": 14.960128196000001,
-          "overnight_snowfall_in": 0.0,
+          "overnight_snowfall_in": 0.2,
           "overnight_low_f": 18.0,
-          "humidity_pct": 74.27272727272727,
+          "humidity_pct": 73.43478260869566,
           "precipitation_in": 0.01,
           "visibility_mi": null,
-          "precipitation_probability_pct": 26
+          "precipitation_probability_pct": 40
         },
         "2026-10-31": {
-          "temperature_f": 27.0,
-          "cloud_cover_pct": 48.25,
-          "wind_speed_mph": 3.164642503,
-          "wind_gust_mph": 13.809349104,
-          "overnight_snowfall_in": 0.0,
-          "overnight_low_f": 18.0,
-          "humidity_pct": 73.23529411764706,
-          "precipitation_in": 0.0,
+          "temperature_f": 26.0,
+          "cloud_cover_pct": 53.5,
+          "wind_speed_mph": 2.7618698208,
+          "wind_gust_mph": 12.658570012,
+          "overnight_snowfall_in": 0.2,
+          "overnight_low_f": 19.0,
+          "humidity_pct": 67.77272727272727,
+          "precipitation_in": 0.01,
           "visibility_mi": null,
-          "precipitation_probability_pct": 14
+          "precipitation_probability_pct": 23
         },
         "2026-11-01": {
-          "temperature_f": 29.0,
-          "cloud_cover_pct": 53.333333333333336,
-          "wind_speed_mph": 2.301558184,
-          "wind_gust_mph": 12.658570012,
+          "temperature_f": 26.0,
+          "cloud_cover_pct": 46.333333333333336,
+          "wind_speed_mph": 1.3425756073333335,
+          "wind_gust_mph": 9.206232736,
           "overnight_snowfall_in": 0.0,
           "overnight_low_f": 20.0,
-          "humidity_pct": 66.4090909090909,
+          "humidity_pct": 62.91304347826087,
           "precipitation_in": 0.0,
           "visibility_mi": null,
-          "precipitation_probability_pct": 10
+          "precipitation_probability_pct": 12
         },
         "2026-11-02": {
           "temperature_f": 32.0,
-          "cloud_cover_pct": 57.25,
-          "wind_speed_mph": 3.164642503,
-          "wind_gust_mph": 12.658570012,
-          "overnight_snowfall_in": 0.2,
-          "overnight_low_f": 22.0,
-          "humidity_pct": 62.81818181818182,
-          "precipitation_in": 0.02,
+          "cloud_cover_pct": 43.0,
+          "wind_speed_mph": 3.2221814576,
+          "wind_gust_mph": 11.50779092,
+          "overnight_snowfall_in": 0.0,
+          "overnight_low_f": 19.0,
+          "humidity_pct": 59.35294117647059,
+          "precipitation_in": 0.0,
           "visibility_mi": null,
-          "precipitation_probability_pct": 18
+          "precipitation_probability_pct": 5
         }
       },
       "forecastUrl": "https://api.weather.gov/gridpoints/SEW/159,121/forecast",
@@ -816,15 +732,15 @@
     "48.5175,-120.679": {
       "weatherByDay": {
         "2026-10-27": {
-          "temperature_f": 39.0,
-          "cloud_cover_pct": 75.05,
-          "wind_speed_mph": 5.75389546,
+          "temperature_f": 33.0,
+          "cloud_cover_pct": 73.52941176470588,
+          "wind_speed_mph": 6.329285006,
           "wind_gust_mph": 11.50779092,
-          "overnight_snowfall_in": 0.30000000000000004,
+          "overnight_snowfall_in": 0.2,
           "overnight_low_f": 30.0,
-          "humidity_pct": 89.07142857142857,
-          "precipitation_in": 0.07,
-          "visibility_mi": 6.105431841624517,
+          "humidity_pct": 87.91666666666667,
+          "precipitation_in": 0.05,
+          "visibility_mi": 5.8212644686641735,
           "precipitation_probability_pct": 58
         },
         "2026-10-28": {
@@ -836,7 +752,7 @@
           "overnight_low_f": 26.0,
           "humidity_pct": 86.1,
           "precipitation_in": 0.44000000000000006,
-          "visibility_mi": 8.718021668510074,
+          "visibility_mi": 2.3633392073769373,
           "precipitation_probability_pct": 99
         },
         "2026-10-29": {
@@ -848,7 +764,7 @@
           "overnight_low_f": 20.0,
           "humidity_pct": 83.21052631578948,
           "precipitation_in": 0.01,
-          "visibility_mi": null,
+          "visibility_mi": 10.000024854909467,
           "precipitation_probability_pct": 35
         },
         "2026-10-30": {
@@ -996,15 +912,15 @@
     "48.157,-120.907": {
       "weatherByDay": {
         "2026-10-27": {
-          "temperature_f": 38.0,
-          "cloud_cover_pct": 79.6875,
-          "wind_speed_mph": 6.329285006,
+          "temperature_f": 34.0,
+          "cloud_cover_pct": 78.46153846153847,
+          "wind_speed_mph": 6.5210815213333335,
           "wind_gust_mph": 12.658570012,
-          "overnight_snowfall_in": 0.7000000000000001,
+          "overnight_snowfall_in": 0.6000000000000001,
           "overnight_low_f": 30.0,
-          "humidity_pct": 88.125,
-          "precipitation_in": 0.1,
-          "visibility_mi": 5.027838583572742,
+          "humidity_pct": 87.4,
+          "precipitation_in": 0.09000000000000001,
+          "visibility_mi": 4.083010148259535,
           "precipitation_probability_pct": 80
         },
         "2026-10-28": {
@@ -1016,7 +932,7 @@
           "overnight_low_f": 27.0,
           "humidity_pct": 85.76923076923077,
           "precipitation_in": 0.61,
-          "visibility_mi": 5.046012541787317,
+          "visibility_mi": 0.9816691065902793,
           "precipitation_probability_pct": 100
         },
         "2026-10-29": {
@@ -1028,7 +944,7 @@
           "overnight_low_f": 21.0,
           "humidity_pct": 85.9,
           "precipitation_in": 0.01,
-          "visibility_mi": null,
+          "visibility_mi": 10.000024854909467,
           "precipitation_probability_pct": 33
         },
         "2026-10-30": {
@@ -1040,7 +956,7 @@
           "overnight_low_f": 23.0,
           "humidity_pct": 85.2,
           "precipitation_in": 0.05,
-          "visibility_mi": null,
+          "visibility_mi": 8.000019883927573,
           "precipitation_probability_pct": 55
         },
         "2026-10-31": {
@@ -1176,15 +1092,15 @@
     "48.125,-120.876": {
       "weatherByDay": {
         "2026-10-27": {
-          "temperature_f": 47.0,
-          "cloud_cover_pct": 71.52941176470588,
-          "wind_speed_mph": 3.452337276,
+          "temperature_f": 43.0,
+          "cloud_cover_pct": 69.35714285714286,
+          "wind_speed_mph": 3.6824930944000003,
           "wind_gust_mph": 10.357011828,
           "overnight_snowfall_in": 0.1,
           "overnight_low_f": 32.0,
-          "humidity_pct": 95.6,
+          "humidity_pct": 96.14285714285714,
           "precipitation_in": 0.08,
-          "visibility_mi": 6.315432363577616,
+          "visibility_mi": 6.387515876073422,
           "precipitation_probability_pct": 79
         },
         "2026-10-28": {
@@ -1196,7 +1112,7 @@
           "overnight_low_f": 29.0,
           "humidity_pct": 96.16666666666667,
           "precipitation_in": 0.63,
-          "visibility_mi": 8.106020147389613,
+          "visibility_mi": 2.549173002597338,
           "precipitation_probability_pct": 100
         },
         "2026-10-29": {
@@ -1208,7 +1124,7 @@
           "overnight_low_f": 22.0,
           "humidity_pct": 95.42857142857143,
           "precipitation_in": 0.01,
-          "visibility_mi": null,
+          "visibility_mi": 10.000024854909467,
           "precipitation_probability_pct": 34
         },
         "2026-10-30": {
@@ -1220,7 +1136,7 @@
           "overnight_low_f": 24.0,
           "humidity_pct": 87.0,
           "precipitation_in": 0.060000000000000005,
-          "visibility_mi": null,
+          "visibility_mi": 8.000019883927573,
           "precipitation_probability_pct": 56
         },
         "2026-10-31": {
@@ -1266,15 +1182,15 @@
     "48.053,-120.921": {
       "weatherByDay": {
         "2026-10-27": {
-          "temperature_f": 38.0,
-          "cloud_cover_pct": 68.36842105263158,
-          "wind_speed_mph": 4.794912883333333,
+          "temperature_f": 35.0,
+          "cloud_cover_pct": 65.8,
+          "wind_speed_mph": 5.0634280047999995,
           "wind_gust_mph": 10.357011828,
           "overnight_snowfall_in": 0.1,
           "overnight_low_f": 30.0,
-          "humidity_pct": 89.4375,
+          "humidity_pct": 88.42857142857143,
           "precipitation_in": 0.08,
-          "visibility_mi": 7.052100861222614,
+          "visibility_mi": 6.9336535971267725,
           "precipitation_probability_pct": 84
         },
         "2026-10-28": {
@@ -1286,7 +1202,7 @@
           "overnight_low_f": 27.0,
           "humidity_pct": 88.46153846153847,
           "precipitation_in": 0.7799999999999999,
-          "visibility_mi": 6.758588226939526,
+          "visibility_mi": 1.7190042725589374,
           "precipitation_probability_pct": 100
         },
         "2026-10-29": {
@@ -1298,7 +1214,7 @@
           "overnight_low_f": 22.0,
           "humidity_pct": 85.73684210526316,
           "precipitation_in": 0.01,
-          "visibility_mi": null,
+          "visibility_mi": 10.000024854909467,
           "precipitation_probability_pct": 32
         },
         "2026-10-30": {
@@ -1310,7 +1226,7 @@
           "overnight_low_f": 23.0,
           "humidity_pct": 86.6,
           "precipitation_in": 0.04,
-          "visibility_mi": null,
+          "visibility_mi": 8.000019883927573,
           "precipitation_probability_pct": 57
         },
         "2026-10-31": {
@@ -1446,15 +1362,15 @@
     "47.46,-120.894": {
       "weatherByDay": {
         "2026-10-27": {
-          "temperature_f": 41.0,
-          "cloud_cover_pct": 69.76190476190476,
-          "wind_speed_mph": 5.881759803555556,
+          "temperature_f": 39.0,
+          "cloud_cover_pct": 70.94117647058823,
+          "wind_speed_mph": 6.712878036666668,
           "wind_gust_mph": 17.26168638,
           "overnight_snowfall_in": 0.1,
           "overnight_low_f": 32.0,
-          "humidity_pct": 91.18181818181819,
+          "humidity_pct": 91.0,
           "precipitation_in": 0.060000000000000005,
-          "visibility_mi": 5.640430685871228,
+          "visibility_mi": 3.0214360811619314,
           "precipitation_probability_pct": 53
         },
         "2026-10-28": {
@@ -1466,7 +1382,7 @@
           "overnight_low_f": 31.0,
           "humidity_pct": 89.64285714285714,
           "precipitation_in": 0.42,
-          "visibility_mi": 4.643344874296296,
+          "visibility_mi": 1.3750034175500516,
           "precipitation_probability_pct": 99
         },
         "2026-10-29": {
@@ -1478,7 +1394,7 @@
           "overnight_low_f": 25.0,
           "humidity_pct": 89.22222222222223,
           "precipitation_in": 0.0,
-          "visibility_mi": null,
+          "visibility_mi": 10.000024854909467,
           "precipitation_probability_pct": 31
         },
         "2026-10-30": {
@@ -1490,7 +1406,7 @@
           "overnight_low_f": 26.0,
           "humidity_pct": 87.15,
           "precipitation_in": 0.11000000000000001,
-          "visibility_mi": null,
+          "visibility_mi": 8.000019883927573,
           "precipitation_probability_pct": 64
         },
         "2026-10-31": {
@@ -1536,15 +1452,15 @@
     "47.4274,-121.0269": {
       "weatherByDay": {
         "2026-10-27": {
-          "temperature_f": 44.0,
-          "cloud_cover_pct": 78.9090909090909,
-          "wind_speed_mph": 4.438719354857143,
+          "temperature_f": 42.0,
+          "cloud_cover_pct": 80.41176470588235,
+          "wind_speed_mph": 4.411319852666667,
           "wind_gust_mph": 13.809349104,
           "overnight_snowfall_in": 0.0,
           "overnight_low_f": 37.0,
-          "humidity_pct": 93.66666666666667,
+          "humidity_pct": 92.0,
           "precipitation_in": 0.030000000000000002,
-          "visibility_mi": 3.7758427181328997,
+          "visibility_mi": 3.0040074664148038,
           "precipitation_probability_pct": 66
         },
         "2026-10-28": {
@@ -1556,7 +1472,7 @@
           "overnight_low_f": 34.0,
           "humidity_pct": 91.625,
           "precipitation_in": 0.42,
-          "visibility_mi": 1.5700039022207861,
+          "visibility_mi": 1.3261571422972247,
           "precipitation_probability_pct": 100
         },
         "2026-10-29": {
@@ -1807,14 +1723,14 @@
       "weatherByDay": {
         "2026-10-27": {
           "temperature_f": 25.0,
-          "cloud_cover_pct": 84.57142857142857,
-          "wind_speed_mph": 7.612846300923077,
+          "cloud_cover_pct": 82.1,
+          "wind_speed_mph": 8.860999008399999,
           "wind_gust_mph": 23.01558184,
-          "overnight_snowfall_in": 2.7,
+          "overnight_snowfall_in": 2.1,
           "overnight_low_f": 22.0,
-          "humidity_pct": 74.71428571428571,
-          "precipitation_in": 0.2,
-          "visibility_mi": 2.9388961934706157,
+          "humidity_pct": 76.33333333333333,
+          "precipitation_in": 0.14,
+          "visibility_mi": 2.7738530482156567,
           "precipitation_probability_pct": 80
         },
         "2026-10-28": {
@@ -1826,7 +1742,7 @@
           "overnight_low_f": 21.0,
           "humidity_pct": 56.476190476190474,
           "precipitation_in": 0.8500000000000001,
-          "visibility_mi": 1.878754669616116,
+          "visibility_mi": 1.8936889172612767,
           "precipitation_probability_pct": 98
         },
         "2026-10-29": {
@@ -1897,14 +1813,14 @@
       "weatherByDay": {
         "2026-10-27": {
           "temperature_f": 37.0,
-          "cloud_cover_pct": 86.52380952380952,
-          "wind_speed_mph": 4.34738768088889,
+          "cloud_cover_pct": 85.8125,
+          "wind_speed_mph": 5.562098944666666,
           "wind_gust_mph": 14.960128196000001,
-          "overnight_snowfall_in": 0.7000000000000001,
+          "overnight_snowfall_in": 0.1,
           "overnight_low_f": 32.0,
-          "humidity_pct": 85.25,
-          "precipitation_in": 0.28,
-          "visibility_mi": 5.010012452309643,
+          "humidity_pct": 84.41666666666667,
+          "precipitation_in": 0.13,
+          "visibility_mi": 2.963340698671505,
           "precipitation_probability_pct": 95
         },
         "2026-10-28": {
@@ -1916,7 +1832,7 @@
           "overnight_low_f": 28.0,
           "humidity_pct": 79.86666666666666,
           "precipitation_in": 1.06,
-          "visibility_mi": 3.980009892253967,
+          "visibility_mi": 3.4888975604906367,
           "precipitation_probability_pct": 99
         },
         "2026-10-29": {
@@ -1928,7 +1844,7 @@
           "overnight_low_f": 27.0,
           "humidity_pct": 77.66666666666667,
           "precipitation_in": 0.30000000000000004,
-          "visibility_mi": 5.067155451480554,
+          "visibility_mi": 6.00001491294568,
           "precipitation_probability_pct": 92
         },
         "2026-10-30": {
@@ -1940,7 +1856,7 @@
           "overnight_low_f": 26.0,
           "humidity_pct": 71.95,
           "precipitation_in": 0.2,
-          "visibility_mi": null,
+          "visibility_mi": 10.000024854909467,
           "precipitation_probability_pct": 77
         },
         "2026-10-31": {
@@ -2256,15 +2172,15 @@
     "47.5282,-120.8253": {
       "weatherByDay": {
         "2026-10-27": {
-          "temperature_f": 38.0,
-          "cloud_cover_pct": 70.4090909090909,
-          "wind_speed_mph": 5.75389546,
+          "temperature_f": 36.0,
+          "cloud_cover_pct": 70.55555555555556,
+          "wind_speed_mph": 6.329285006,
           "wind_gust_mph": 16.110907288,
           "overnight_snowfall_in": 0.1,
           "overnight_low_f": 32.0,
-          "humidity_pct": 90.0,
+          "humidity_pct": 89.25,
           "precipitation_in": 0.05,
-          "visibility_mi": 6.638766500553022,
+          "visibility_mi": 4.838900915903414,
           "precipitation_probability_pct": 52
         },
         "2026-10-28": {
@@ -2276,7 +2192,7 @@
           "overnight_low_f": 29.0,
           "humidity_pct": 86.06666666666666,
           "precipitation_in": 0.32,
-          "visibility_mi": 6.530016230255881,
+          "visibility_mi": 2.84572135871138,
           "precipitation_probability_pct": 97
         },
         "2026-10-29": {
@@ -2288,7 +2204,7 @@
           "overnight_low_f": 24.0,
           "humidity_pct": 87.42105263157895,
           "precipitation_in": 0.0,
-          "visibility_mi": null,
+          "visibility_mi": 10.000024854909467,
           "precipitation_probability_pct": 33
         },
         "2026-10-30": {
@@ -2300,7 +2216,7 @@
           "overnight_low_f": 25.0,
           "humidity_pct": 84.4375,
           "precipitation_in": 0.08,
-          "visibility_mi": null,
+          "visibility_mi": 8.000019883927573,
           "precipitation_probability_pct": 65
         },
         "2026-10-31": {
@@ -2616,15 +2532,15 @@
     "47.515,-120.81": {
       "weatherByDay": {
         "2026-10-27": {
-          "temperature_f": 31.0,
-          "cloud_cover_pct": 67.72727272727273,
-          "wind_speed_mph": 7.288267582666667,
+          "temperature_f": 29.0,
+          "cloud_cover_pct": 67.84210526315789,
+          "wind_speed_mph": 8.63084319,
           "wind_gust_mph": 17.26168638,
           "overnight_snowfall_in": 0.4,
           "overnight_low_f": 26.0,
-          "humidity_pct": 88.92857142857143,
+          "humidity_pct": 87.91666666666667,
           "precipitation_in": 0.02,
-          "visibility_mi": 6.949600606459791,
+          "visibility_mi": 5.5710138466700645,
           "precipitation_probability_pct": 46
         },
         "2026-10-28": {
@@ -2636,7 +2552,7 @@
           "overnight_low_f": 22.0,
           "humidity_pct": 85.83333333333333,
           "precipitation_in": 0.29,
-          "visibility_mi": 5.963348155144345,
+          "visibility_mi": 1.3725034113363244,
           "precipitation_probability_pct": 97
         },
         "2026-10-29": {
@@ -2648,7 +2564,7 @@
           "overnight_low_f": 19.0,
           "humidity_pct": 84.0,
           "precipitation_in": 0.0,
-          "visibility_mi": null,
+          "visibility_mi": 10.000024854909467,
           "precipitation_probability_pct": 32
         },
         "2026-10-30": {
@@ -2660,7 +2576,7 @@
           "overnight_low_f": 20.0,
           "humidity_pct": 85.52173913043478,
           "precipitation_in": 0.07,
-          "visibility_mi": null,
+          "visibility_mi": 8.000019883927573,
           "precipitation_probability_pct": 65
         },
         "2026-10-31": {
